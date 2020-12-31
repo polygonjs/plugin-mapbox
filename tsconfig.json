@@ -1,0 +1,33 @@
+{
+	// https://www.typescriptlang.org/docs/handbook/compiler-options.html
+	"compilerOptions": {
+		// rules
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitReturns": false,
+		"noUnusedLocals": true,
+		"strict": true,
+
+		// decorators
+		"experimentalDecorators": true,
+
+		// output & paths
+		"outDir": "./dist/",
+		"module": "ESNext", // changed from commonjs to ESNext to ensure typescript outputs code that can be split by webpack (with commonjs, the dynamic imports were removed)
+		"target": "ES2019",
+		"removeComments": false, // to be sure comments required by webpack to split are still present
+		"moduleResolution": "node", // https://vuejs.org/v2/guide/typescript.html
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true, // for lodash imports (https://github.com/lodash/lodash/issues/3192)
+		"allowJs": true,
+		"sourceMap": true,
+
+		"declaration": true,
+		// "declarationDir": "./dist/types", // declarationDir cannot be set if declaration is false
+
+		"importHelpers": true,
+		"lib": ["dom", "es2019.array"]
+		// "typeRoots": []
+	},
+	// "include": ["./**/*.ts", "./**/*.vue"],
+	"exclude": ["node_modules", "modules", "dist", "public", "webpack"]
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>
+		<%= htmlWebpackPlugin.options.title %>
+	</title>
+	<style>
+		html,
+		body,
+		#app {
+			margin: 0px;
+			height: 100%;
+			overflow: hidden;
+		}
+
+		canvas {
+			display: block;
+			height: 100%;
+		}
+	</style>
+</head>
+
+<body>
+
+
+	<div style='position:absolute; border: 1px solid lightgray; margin: 10px; padding: 10px;'>
+		<p>
+			<label>Plane Size</label>
+			<input type='range' min=0 max=10 step=1 value=4 oninput='plane.p.size.set([event.target.value, event.target.value])'></input>
+		</p>
+		<p>
+			<input value='Reset' type='button' onclick='scene.setFrame(1);'></input>
+		</p>
+	</div>
+
+
+	<div id="app"></div>
+</body>
+
+</html>

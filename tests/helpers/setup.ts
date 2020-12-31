@@ -1,0 +1,2 @@
+import 'qunit';
+import './assertions';

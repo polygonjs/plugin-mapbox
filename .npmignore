@@ -1,0 +1,13 @@
+.vscode/
+coverage
+node_modules/
+public/
+tests/
+dist/tests
+config/
+.eslintignore
+.eslintrc.js
+.prettierrc.json
+tsconfig.json
+yarn.lock
+yarn-error.log
