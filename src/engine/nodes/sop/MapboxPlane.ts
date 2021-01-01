@@ -98,10 +98,10 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 			const object = this.create_object(geometry, type);
 
 			const core_object = new CoreObject(object, 0);
-			core_object.add_attribute('mapbox_sw', this.pv.southWest);
-			core_object.add_attribute('mapbox_ne', this.pv.northEast);
+			core_object.addAttribute('mapbox_sw', this.pv.southWest);
+			core_object.addAttribute('mapbox_ne', this.pv.northEast);
 
-			this.set_object(object);
+			this.setObject(object);
 		}
 	}
 
@@ -265,8 +265,8 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		core_geo = new CoreGeometry(geometry);
 		const z_scale = [horizontal_scale, 1][0];
 		const scale: Number3 = [horizontal_scale, horizontal_scale, z_scale];
-		core_geo.add_numeric_attrib(SCALE_ATTRIB_NAME, 3, scale);
-		core_geo.add_numeric_attrib(NORMAL_ATTRIB_NAME, 3, [0, 1, 0]); // mostly important for hexagons points
+		core_geo.addNumericAttrib(SCALE_ATTRIB_NAME, 3, scale);
+		core_geo.addNumericAttrib(NORMAL_ATTRIB_NAME, 3, [0, 1, 0]); // mostly important for hexagons points
 
 		//
 		//

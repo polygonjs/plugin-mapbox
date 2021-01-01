@@ -22,10 +22,10 @@ QUnit.test('mapbox_plane simple', async (assert) => {
 
 	await viewer.waitForMapLoaded();
 	// await CoreSleep.sleep(5000);
-	let container = await mapbox_plane1.request_container();
+	let container = await mapbox_plane1.requestContainer();
 	await CoreSleep.sleep(100);
 	let center = container.center().toArray();
-	let bbox = container.bounding_box();
+	let bbox = container.boundingBox();
 	assert.in_delta(center[0], 0, 0.1);
 	console.log(bbox);
 	assert.in_delta(bbox.min.x, -350, 50);

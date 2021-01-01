@@ -96,7 +96,7 @@ export class MapboxListener {
 			this._update_camera_controller();
 		}
 		if (!this._node.camera_node) {
-			this._node.set_objects([]);
+			this._node.setObjects([]);
 			return;
 		}
 
@@ -112,7 +112,7 @@ export class MapboxListener {
 		if (do_post_init_controller) {
 			this._node._post_init_controller();
 		} else {
-			this._node.set_objects([]);
+			this._node.setObjects([]);
 		}
 	}
 

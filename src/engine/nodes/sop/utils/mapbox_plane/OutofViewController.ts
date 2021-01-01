@@ -81,6 +81,6 @@ export class MapboxPlaneFrustumController {
 				kept_points.push(point);
 			}
 		}
-		return CoreGeometry.geometry_from_points(kept_points, ObjectType.MESH);
+		return CoreGeometry.geometryFromPoints(kept_points, ObjectType.MESH);
 	}
 }

@@ -65,9 +65,9 @@ export class CoreMapboxTransform {
 
 	transform_group2(group: Group) {
 		const core_group = new CoreGroup();
-		core_group.set_objects(group.children);
+		core_group.setObjects(group.children);
 		const center = core_group.center();
-		const bbox = core_group.bounding_box();
+		const bbox = core_group.boundingBox();
 		const size = core_group.size();
 
 		const new_center = Utils.fromLLv(center);
@@ -158,12 +158,12 @@ export class CoreMapboxTransform {
 	// 	})
 	// }
 	private transform_geometry3(geometry: BufferGeometry) {
-		const geometry_wrapper = new CoreGeometry(geometry);
-		const points = geometry_wrapper.points();
+		const core_geometry = new CoreGeometry(geometry);
+		const points = core_geometry.points();
 		points.forEach((point) => {
 			const position = point.position();
 			this.transform_position_FINAL(position);
-			point.set_attrib_value(POSITION_ATTRIB_NAME, position);
+			point.setAttribValue(POSITION_ATTRIB_NAME, position);
 		});
 
 		// geometry.applyMatrix(MAT_RX);
@@ -171,12 +171,12 @@ export class CoreMapboxTransform {
 	}
 
 	private transform_geometry_with_max_ratio(geometry: BufferGeometry, max_ratio: number) {
-		const geometry_wrapper = new CoreGeometry(geometry);
-		const points = geometry_wrapper.points();
+		const core_geometry = new CoreGeometry(geometry);
+		const points = core_geometry.points();
 		points.forEach((point) => {
 			const position = point.position();
 			this.transform_position_with_max_ratio(position, max_ratio);
-			point.set_attrib_value(POSITION_ATTRIB_NAME, position);
+			point.setAttribValue(POSITION_ATTRIB_NAME, position);
 		});
 
 		geometry.applyMatrix4(MAT_RX);
@@ -225,8 +225,8 @@ export class CoreMapboxTransform {
 
 	private group_bbox_ratio(group: Group): number {
 		const core_group = new CoreGroup();
-		core_group.set_objects(group.children);
-		const bbox = core_group.bounding_box();
+		core_group.setObjects(group.children);
+		const bbox = core_group.boundingBox();
 		return this.bbox_ratio(bbox);
 	}
 	// private geometry_bbox_ratio(geometry: BufferGeometry): number {

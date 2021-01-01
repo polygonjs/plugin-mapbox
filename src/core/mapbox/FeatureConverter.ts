@@ -27,8 +27,8 @@ export class FeatureConverter {
 		});
 		lines.forEach((line) => {
 			const geometry = line.geometry as BufferGeometry;
-			const geo_wrapper = new CoreGeometry(geometry);
-			geo_wrapper.add_numeric_attrib('perimeter', 1, perimeter);
+			const core_geometry = new CoreGeometry(geometry);
+			core_geometry.addNumericAttrib('perimeter', 1, perimeter);
 		});
 
 		const geometries = lines.map((l) => l.geometry) as BufferGeometry[];
@@ -38,13 +38,13 @@ export class FeatureConverter {
 		}
 
 		// pti
-		const geo_wrapper = new CoreGeometry(merged_geometry);
-		geo_wrapper.add_numeric_attrib('pti', 1, 0);
-		const points = geo_wrapper.points();
+		const core_geometry = new CoreGeometry(merged_geometry);
+		core_geometry.addNumericAttrib('pti', 1, 0);
+		const points = core_geometry.points();
 		const points_count = points.length;
 		points.forEach((point, i) => {
 			const pti = i / (points_count - 1);
-			point.set_attrib_value('pti', pti);
+			point.setAttribValue('pti', pti);
 		});
 
 		const merged_object = this.node.create_object(merged_geometry, ObjectType.LINE_SEGMENTS);
@@ -73,11 +73,11 @@ export class FeatureConverter {
 		geometry.setIndex(indices);
 		const object = this.node.create_object(geometry, ObjectType.LINE_SEGMENTS);
 
-		const geo_wrapper = new CoreGeometry(geometry);
+		const core_geometry = new CoreGeometry(geometry);
 		const id_from_name = CoreString.to_id(this.name) % 10000000;
 		// console.log(this.name, id_from_name)
-		geo_wrapper.add_numeric_attrib('id', 1, this.id);
-		geo_wrapper.add_numeric_attrib('name_id', 1, id_from_name);
+		core_geometry.addNumericAttrib('id', 1, this.id);
+		core_geometry.addNumericAttrib('name_id', 1, id_from_name);
 
 		return object;
 	}

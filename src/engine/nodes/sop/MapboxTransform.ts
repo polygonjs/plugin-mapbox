@@ -63,7 +63,7 @@ export class MapboxTransformSopNode extends MapboxListenerSopNode<MapboxTransfor
 		} else {
 			this.states.error.set('no camera node found');
 		}
-		this.set_core_group(core_group);
+		this.setCoreGroup(core_group);
 	}
 
 	_post_init_controller() {}

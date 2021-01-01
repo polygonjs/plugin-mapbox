@@ -50,7 +50,7 @@ export class MapboxLayerSopNode extends MapboxListenerSopNode<MapboxLayerSopPara
 			this.states.error.set('map not initialized yet');
 			return;
 		}
-		const layer_names = CoreString.attrib_names(this.pv.layers);
+		const layer_names = CoreString.attribNames(this.pv.layers);
 		const existing_layer_names: string[] = [];
 		for (let layer_name of layer_names) {
 			if (first_map.getLayer(layer_name)) {
@@ -78,7 +78,7 @@ export class MapboxLayerSopNode extends MapboxListenerSopNode<MapboxLayerSopPara
 				}
 			});
 		}
-		this.set_objects(objects);
+		this.setObjects(objects);
 	}
 
 	private _features_by_name: Map<string, mapboxgl.MapboxGeoJSONFeature[]> = new Map();
