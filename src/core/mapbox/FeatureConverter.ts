@@ -1,14 +1,14 @@
-import {Vector2} from 'three/src/math/Vector2';
-import {Object3D} from 'three/src/core/Object3D';
-import {LineSegments} from 'three/src/objects/LineSegments';
-import {Float32BufferAttribute} from 'three/src/core/BufferAttribute';
-import {BufferGeometry} from 'three/src/core/BufferGeometry';
-import {CoreGeometry} from '../geometry/Geometry';
-import {ObjectType} from '../geometry/Constant';
-import {CoreString} from '../String';
-import {BaseSopNodeType} from '../../engine/nodes/sop/_Base';
+import {Vector2} from 'polygonjs-engine/node_modules/three/src/math/Vector2';
+import {Object3D} from 'polygonjs-engine/node_modules/three/src/core/Object3D';
+import {LineSegments} from 'polygonjs-engine/node_modules/three/src/objects/LineSegments';
+import {Float32BufferAttribute} from 'polygonjs-engine/node_modules/three/src/core/BufferAttribute';
+import {BufferGeometry} from 'polygonjs-engine/node_modules/three/src/core/BufferGeometry';
+import {CoreGeometry} from 'polygonjs-engine/src/core/geometry/Geometry';
+import {ObjectType} from 'polygonjs-engine/src/core/geometry/Constant';
+import {CoreString} from 'polygonjs-engine/src/core/String';
+import {BaseSopNodeType} from 'polygonjs-engine/src/engine/nodes/sop/_Base';
 import {CoordinatesCollection} from './CoordinatesCollection';
-import { ArrayUtils } from '../ArrayUtils';
+import {ArrayUtils} from 'polygonjs-engine/src/core/ArrayUtils';
 
 const MULTILINESTRING = 'MultiLineString';
 const LINESTRING = 'LineString';
@@ -56,7 +56,7 @@ export class FeatureConverter {
 
 		const positions: number[] = [];
 		const indices: number[] = [];
-		for(let i=0;i<points_count;i++){
+		for (let i = 0; i < points_count; i++) {
 			const coordinates = coordinates_collection.coordinates[i];
 
 			positions.push(coordinates.x);
@@ -94,10 +94,9 @@ export class FeatureConverter {
 					case MULTILINESTRING:
 						const multi_coordinates = feature_geometry['coordinates'];
 						if (multi_coordinates) {
-							for(let i=0; i<multi_coordinates.length; i++){
+							for (let i = 0; i < multi_coordinates.length; i++) {
 								const coordinates = multi_coordinates[i];
 								coordinates_collections.push(this._create_coordinates(coordinates));
-
 							}
 						}
 						break;

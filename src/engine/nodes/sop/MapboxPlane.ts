@@ -4,12 +4,12 @@
  * @remarks
  * Note that you will need a mapbox key to use this node.
  */
-import {Vector3} from 'three/src/math/Vector3';
-import {Vector2} from 'three/src/math/Vector2';
-import {PlaneBufferGeometry} from 'three/src/geometries/PlaneBufferGeometry';
-import {Matrix4} from 'three/src/math/Matrix4';
-import {Box2} from 'three/src/math/Box2';
-import {BufferGeometry} from 'three/src/core/BufferGeometry';
+import {Vector3} from 'polygonjs-engine/node_modules/three/src/math/Vector3';
+import {Vector2} from 'polygonjs-engine/node_modules/three/src/math/Vector2';
+import {PlaneBufferGeometry} from 'polygonjs-engine/node_modules/three/src/geometries/PlaneBufferGeometry';
+import {Matrix4} from 'polygonjs-engine/node_modules/three/src/math/Matrix4';
+import {Box2} from 'polygonjs-engine/node_modules/three/src/math/Box2';
+import {BufferGeometry} from 'polygonjs-engine/node_modules/three/src/core/BufferGeometry';
 import mapboxgl from 'mapbox-gl';
 import {CoreObject} from 'polygonjs-engine/src/core/geometry/Object';
 import {ObjectType} from 'polygonjs-engine/src/core/geometry/Constant';
@@ -51,21 +51,21 @@ class MapboxPlaneSopParamsConfig extends MapboxListenerParamConfig(NodeParamsCon
 		rangeLocked: [true, false],
 	});
 	/** @param multiplies the size of the plane. This can be useful to scale down the plane. While it would cover a smaller part of the view, it would be faster to create  */
-	size_mult = ParamConfig.FLOAT(1, {
+	sizeMult = ParamConfig.FLOAT(1, {
 		range: [0, 1],
 		rangeLocked: [true, false],
 	});
 	/** @param toggle on to make sure the plane will cover the full view */
-	full_view = ParamConfig.BOOLEAN(1);
+	fullView = ParamConfig.BOOLEAN(1);
 	// delete_out_of_view = ParamConfig.BOOLEAN(1);
 	/** @param do not create polygons, only points */
-	as_points = ParamConfig.BOOLEAN(0, {
+	asPoints = ParamConfig.BOOLEAN(0, {
 		visibleIf: {
 			type: MAPBOX_PLANE_TYPES.indexOf(MapboxPlaneType.PLANE),
 		},
 	});
 	/** @param creates within mapbox camera space */
-	mapbox_transform = ParamConfig.BOOLEAN(1);
+	mapboxTransform = ParamConfig.BOOLEAN(1);
 }
 const ParamsConfig = new MapboxPlaneSopParamsConfig();
 
@@ -98,8 +98,8 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 			const object = this.create_object(geometry, type);
 
 			const core_object = new CoreObject(object, 0);
-			core_object.add_attribute('mapbox_sw', this.pv.south_west);
-			core_object.add_attribute('mapbox_ne', this.pv.north_east);
+			core_object.add_attribute('mapbox_sw', this.pv.southWest);
+			core_object.add_attribute('mapbox_ne', this.pv.northEast);
 
 			this.set_object(object);
 		}
@@ -121,7 +121,7 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 
 		const vertical_far_lng_lat_points = this._camera_node.vertical_far_lng_lat_points();
 		const vertical_near_lng_lat_points = this._camera_node.vertical_near_lng_lat_points();
-		const lng_lat_points = this.pv.full_view ? vertical_far_lng_lat_points : vertical_near_lng_lat_points;
+		const lng_lat_points = this.pv.fullView ? vertical_far_lng_lat_points : vertical_near_lng_lat_points;
 
 		if (!lng_lat_points) {
 			return;
@@ -133,7 +133,7 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		//
 		const mirrored_near_lng_lat_points = lng_lat_points.map((p) => this._mirror_lng_lat(p, map_center));
 		lng_lat_points.push(map_center);
-		mirrored_near_lng_lat_points.forEach((p) => {
+		mirrored_near_lng_lat_points.forEach((p: mapboxgl.LngLat) => {
 			lng_lat_points.push(p);
 		});
 		const box = new Box2();
@@ -164,7 +164,7 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		if (!horizontal_lng_lat_points) {
 			return;
 		}
-		const mapbox_horizontal_lng_lat_points = horizontal_lng_lat_points.map((p) => {
+		const mapbox_horizontal_lng_lat_points = horizontal_lng_lat_points.map((p: mapboxgl.LngLat) => {
 			const pt3d = new Vector3(p.lng, 0, p.lat);
 			transformer.transform_position_FINAL(pt3d);
 			return {lng: pt3d.x, lat: pt3d.z};
@@ -188,8 +188,8 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		// Otherwise, we would just from having a point in the center to not having one on every move,
 		// which is jarring
 		const segments_counts = {
-			x: CoreMath.highest_even(this.pv.size_mult * Math.ceil(mapbox_dimensions.x / mapbox_segment_size)),
-			y: CoreMath.highest_even(this.pv.size_mult * Math.ceil(mapbox_dimensions.y / mapbox_segment_size)),
+			x: CoreMath.highest_even(this.pv.sizeMult * Math.ceil(mapbox_dimensions.x / mapbox_segment_size)),
+			y: CoreMath.highest_even(this.pv.sizeMult * Math.ceil(mapbox_dimensions.y / mapbox_segment_size)),
 		};
 		mapbox_dimensions.x = segments_counts.x * mapbox_segment_size;
 		mapbox_dimensions.y = segments_counts.y * mapbox_segment_size;
@@ -241,9 +241,9 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		//
 		const horizontal_scale = mapbox_dimensions.x / segments_counts.x;
 		let core_geo;
-		const plane_dimensions = this.pv.mapbox_transform ? mapbox_dimensions : world_dimensions;
-		const rotation_matrix = this.pv.mapbox_transform ? R_MAT_MAPBOX : R_MAT_WORLD;
-		const geometry_center = this.pv.mapbox_transform ? mapbox_center : world_plane_center;
+		const plane_dimensions = this.pv.mapboxTransform ? mapbox_dimensions : world_dimensions;
+		const rotation_matrix = this.pv.mapboxTransform ? R_MAT_MAPBOX : R_MAT_WORLD;
+		const geometry_center = this.pv.mapboxTransform ? mapbox_center : world_plane_center;
 
 		let geometry: BufferGeometry;
 		if (this._as_hexagons()) {

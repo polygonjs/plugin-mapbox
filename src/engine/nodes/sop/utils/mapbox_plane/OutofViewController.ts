@@ -1,15 +1,15 @@
-import {MapboxPlaneSopNode} from '../../../MapboxPlane';
-import {BufferGeometry} from 'three/src/core/BufferGeometry';
-import {Vector2} from 'three/src/math/Vector2';
-import {Vector3} from 'three/src/math/Vector3';
-import {MapboxCameraObjNode} from '../../../../obj/MapboxCamera';
-import {CoreMapboxTransform} from '../../../../../../core/mapbox/Transform';
+import {BufferGeometry} from 'polygonjs-engine/node_modules/three/src/core/BufferGeometry';
+import {Vector2} from 'polygonjs-engine/node_modules/three/src/math/Vector2';
+import {Vector3} from 'polygonjs-engine/node_modules/three/src/math/Vector3';
+import {Triangle} from 'polygonjs-engine/node_modules/three/src/math/Triangle';
+import {MapboxPlaneSopNode} from '../../MapboxPlane';
+import {MapboxCameraObjNode} from '../../../obj/MapboxCamera';
+import {CoreMapboxTransform} from '../../../../../core/mapbox/Transform';
 import mapboxgl from 'mapbox-gl';
-import {CoreGeometry} from '../../../../../../core/geometry/Geometry';
-import {CoreMath} from '../../../../../../core/math/_Module';
-import {Triangle} from 'three/src/math/Triangle';
-import {ObjectType} from '../../../../../../core/geometry/Constant';
-import {CorePoint} from '../../../../../../core/geometry/Point';
+import {CoreGeometry} from 'polygonjs-engine/src/core/geometry/Geometry';
+import {CoreMath} from 'polygonjs-engine/src/core/math/_Module';
+import {ObjectType} from 'polygonjs-engine/src/core/geometry/Constant';
+import {CorePoint} from 'polygonjs-engine/src/core/geometry/Point';
 
 export class MapboxPlaneFrustumController {
 	// private _core_transform = new CoreTransform();

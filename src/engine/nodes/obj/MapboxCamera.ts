@@ -1,23 +1,22 @@
-import {PerspectiveCamera} from 'three/src/cameras/PerspectiveCamera';
+import {PerspectiveCamera} from 'polygonjs-engine/node_modules/three/src/cameras/PerspectiveCamera';
+import {Raycaster} from 'polygonjs-engine/node_modules/three/src/core/Raycaster';
+import {Vector2} from 'polygonjs-engine/node_modules/three/src/math/Vector2';
+import {Vector3} from 'polygonjs-engine/node_modules/three/src/math/Vector3';
+import {Matrix4} from 'polygonjs-engine/node_modules/three/src/math/Matrix4';
 import {TypedCameraObjNode, CameraMasterCameraParamConfig} from 'polygonjs-engine/src/engine/nodes/obj/_BaseCamera';
 import mapboxgl from 'mapbox-gl';
 import {MapboxViewer} from '../../viewers/Mapbox';
 import {CoreMapboxClient} from '../../../core/mapbox/Client';
-import {Raycaster} from 'three/src/core/Raycaster';
-import {Vector2} from 'three/src/math/Vector2';
 import {ParamConfig, NodeParamsConfig} from 'polygonjs-engine/src/engine/nodes/utils/params/ParamsConfig';
 import {BaseNodeType} from 'polygonjs-engine/src/engine/nodes/_Base';
 import {BaseParamType} from 'polygonjs-engine/src/engine/params/_Base';
-import {CameraNodeType} from 'polygonjs-engine/src/engine/poly/NodeContext';
-import {Vector3} from 'three/src/math/Vector3';
-import {Matrix4} from 'three/src/math/Matrix4';
 class MapboxCameraObjParamConfig extends CameraMasterCameraParamConfig(NodeParamsConfig) {
 	style = ParamConfig.STRING('mapbox://styles/mapbox/dark-v10', {
 		callback: (node: BaseNodeType) => {
 			MapboxCameraObjNode.PARAM_CALLBACK_update_style(node as MapboxCameraObjNode);
 		},
 	});
-	lng_lat = ParamConfig.VECTOR2([-0.07956, 51.5146], {
+	lngLat = ParamConfig.VECTOR2([-0.07956, 51.5146], {
 		callback: (node: BaseNodeType) => {
 			MapboxCameraObjNode.PARAM_CALLBACK_update_nav(node as MapboxCameraObjNode);
 		},
@@ -29,7 +28,7 @@ class MapboxCameraObjParamConfig extends CameraMasterCameraParamConfig(NodeParam
 			MapboxCameraObjNode.PARAM_CALLBACK_update_nav(node as MapboxCameraObjNode);
 		},
 	});
-	zoom_range = ParamConfig.VECTOR2([0, 24], {
+	zoomRange = ParamConfig.VECTOR2([0, 24], {
 		// range: [0, 24],
 		// rangeLocked: [true, true]
 		callback: (node: BaseNodeType) => {
@@ -49,18 +48,18 @@ class MapboxCameraObjParamConfig extends CameraMasterCameraParamConfig(NodeParam
 			MapboxCameraObjNode.PARAM_CALLBACK_update_nav(node as MapboxCameraObjNode);
 		},
 	});
-	update_params_from_map = ParamConfig.BUTTON(null, {
+	updateParamsFromMap = ParamConfig.BUTTON(null, {
 		label: 'Set Navigation Params as Default',
 		callback: (node: BaseNodeType, param: BaseParamType) => {
 			MapboxCameraObjNode.PARAM_CALLBACK_update_params_from_map(node as MapboxCameraObjNode);
 		},
 	});
-	allow_drag_rotate = ParamConfig.BOOLEAN(1, {
+	allowDragRotate = ParamConfig.BOOLEAN(1, {
 		callback: (node: BaseNodeType) => {
 			MapboxCameraObjNode.PARAM_CALLBACK_update_nav(node as MapboxCameraObjNode);
 		},
 	});
-	add_zoom_control = ParamConfig.BOOLEAN(1, {
+	addZoomControl = ParamConfig.BOOLEAN(1, {
 		callback: (node: BaseNodeType) => {
 			MapboxCameraObjNode.PARAM_CALLBACK_update_nav(node as MapboxCameraObjNode);
 		},
@@ -71,8 +70,8 @@ const ParamsConfig = new MapboxCameraObjParamConfig();
 
 export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, MapboxCameraObjParamConfig> {
 	params_config = ParamsConfig;
-	static type(): Readonly<CameraNodeType.MAPBOX> {
-		return CameraNodeType.MAPBOX;
+	static type(): Readonly<'mapboxCamera'> {
+		return 'mapboxCamera';
 	}
 	public integration_data() {
 		return CoreMapboxClient.integration_data();
@@ -121,21 +120,19 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	// 	#	#
 
 	create_map(container: HTMLElement) {
-		CoreMapboxClient.ensure_token_is_set();
-
 		//this.param('lng_lat_at_start').set(@_start_lng_lat)
 		const map = new mapboxgl.Map({
 			style: this.pv.style,
 			container,
-			center: this.pv.lng_lat.toArray() as Number2,
+			center: this.pv.lngLat.toArray() as Number2,
 			zoom: this.pv.zoom,
-			minZoom: this.pv.zoom_range.x,
-			maxZoom: this.pv.zoom_range.y,
+			minZoom: this.pv.zoomRange.x,
+			maxZoom: this.pv.zoomRange.y,
 			pitch: this.pv.pitch,
 			bearing: this.pv.bearing,
 			preserveDrawingBuffer: true,
-			dragRotate: this.pv.allow_drag_rotate,
-			pitchWithRotate: this.pv.allow_drag_rotate,
+			dragRotate: this.pv.allowDragRotate,
+			pitchWithRotate: this.pv.allowDragRotate,
 		});
 
 		this._add_remove_controls(map, container.id);
@@ -198,8 +195,8 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	update_map_nav(map: mapboxgl.Map) {
 		// position/zoom/pitch/bearing
 		map.jumpTo(this.camera_options_from_params());
-		map.setMinZoom(this.pv.zoom_range.x);
-		map.setMaxZoom(this.pv.zoom_range.y);
+		map.setMinZoom(this.pv.zoomRange.x);
+		map.setMaxZoom(this.pv.zoomRange.y);
 
 		const drag_rotate_handler = map.dragRotate;
 		if (this.pv.allow_drag_rotate) {
@@ -368,7 +365,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		this._moving_maps = false;
 	}
 	lng_lat() {
-		const val = this.pv.lng_lat;
+		const val = this.pv.lngLat;
 		return {
 			lng: val.x,
 			lat: val.y,
@@ -419,7 +416,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 			const zoom = map.getZoom();
 			const pitch = map.getPitch();
 			const bearing = map.getBearing();
-			this.p.lng_lat.set([center.lng, center.lat]);
+			this.p.lngLat.set([center.lng, center.lat]);
 			this.p.zoom.set(zoom);
 			this.p.pitch.set(pitch);
 			this.p.bearing.set(bearing);

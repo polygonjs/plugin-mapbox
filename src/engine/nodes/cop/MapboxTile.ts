@@ -12,12 +12,9 @@ import {
 	RGBFormat,
 	// LuminanceFormat,
 	// UnsignedByteType,
-} from 'three/src/constants';
-import {DataTexture} from 'three/src/textures/DataTexture';
-
+} from 'polygonjs-engine/node_modules/three/src/constants';
+import {DataTexture} from 'polygonjs-engine/node_modules/three/src/textures/DataTexture';
 import {TypedCopNode} from 'polygonjs-engine/src/engine/nodes/cop/_Base';
-// import {CoreTextureLoader} from '../../../Core/Loader/Texture'
-
 import {CoreTextureLoader} from 'polygonjs-engine/src/core/loader/Texture';
 import {CoreMapboxUtils} from '../../../core/mapbox/Utils';
 import {CoreImage} from 'polygonjs-engine/src/core/Image';
@@ -43,7 +40,7 @@ class MapboxTileCopParamsConfig extends NodeParamsConfig {
 	// mt fuji 35.3547 138.725
 	// el cap: -119.63, 37.7331199, zoom 13
 	/** @param Longitude and latitude for the tile */
-	lng_lat = ParamConfig.VECTOR2([-119.63, 37.73311]);
+	lngLat = ParamConfig.VECTOR2([-119.63, 37.73311]);
 	/** @param zoom value */
 	zoom = ParamConfig.INTEGER(12, {
 		range: [1, 24],
@@ -178,7 +175,7 @@ export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
 	}
 
 	private async _url(endpoint: string) {
-		const tile_number = CoreMapboxUtils.lnglat_to_tile_number(this.pv.lng_lat.x, this.pv.lng_lat.y, this.pv.zoom);
+		const tile_number = CoreMapboxUtils.lnglat_to_tile_number(this.pv.lngLat.x, this.pv.lngLat.y, this.pv.zoom);
 		const x = tile_number.x;
 		const y = tile_number.y;
 		const z = this.pv.zoom;

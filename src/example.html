@@ -20,18 +20,18 @@
 			height: 100%;
 		}
 	</style>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 
 <body>
 
 
-	<div style='position:absolute; border: 1px solid lightgray; margin: 10px; padding: 10px;'>
+	<div
+		style='position:absolute; border: 1px solid lightgray; margin: 10px; padding: 10px; z-index:99; background-color: #ddd;'>
 		<p>
-			<label>Plane Size</label>
-			<input type='range' min=0 max=10 step=1 value=4 oninput='plane.p.size.set([event.target.value, event.target.value])'></input>
-		</p>
-		<p>
-			<input value='Reset' type='button' onclick='scene.setFrame(1);'></input>
+			<label>Box Size</label>
+			<input type='range' min=0 max=200 step=1 value=100
+				oninput='boxTransform.p.scale.set(event.target.value)'></input>
 		</p>
 	</div>
 

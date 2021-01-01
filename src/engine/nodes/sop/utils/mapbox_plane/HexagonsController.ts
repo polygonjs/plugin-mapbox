@@ -1,6 +1,7 @@
 import {MapboxPlaneSopNode} from '../../MapboxPlane';
-import {Vector2} from 'three/src/math/Vector2';
-import {Vector3} from 'three/src/math/Vector3';
+import {Vector2} from 'polygonjs-engine/node_modules/three/src/math/Vector2';
+import {Vector3} from 'polygonjs-engine/node_modules/three/src/math/Vector3';
+import {BufferGeometry} from 'polygonjs-engine/node_modules/three/src/core/BufferGeometry';
 import {CoreGeometryOperationHexagon} from 'polygonjs-engine/src/core/geometry/operation/Hexagon';
 import {CoreTransform} from 'polygonjs-engine/src/core/Transform';
 
@@ -8,7 +9,7 @@ export class MapboxPlaneHexagonsController {
 	private _core_transform = new CoreTransform();
 	constructor(private node: MapboxPlaneSopNode) {}
 
-	geometry(plane_dimensions: Vector2, segments_counts: Vector2Like) {
+	geometry(plane_dimensions: Vector2, segments_counts: Vector2Like): BufferGeometry {
 		// for the hexagons, we have a constraint which is that
 		// we cannot have different segment_counts for x and y,
 		// we can only give a hexagon radius
@@ -21,7 +22,7 @@ export class MapboxPlaneHexagonsController {
 			plane_dimensions.y / segments_counts.y
 		);
 		let hexagons_scale_compensate: Vector3 | undefined;
-		if (!this.node.pv.mapbox_transform) {
+		if (!this.node.pv.mapboxTransform) {
 			const new_plane_dimensions = {
 				x: segments_counts.x * hexagons_radius,
 				y: segments_counts.y * hexagons_radius,
@@ -37,7 +38,7 @@ export class MapboxPlaneHexagonsController {
 		);
 		const geometry = operation.process();
 		this._core_transform.rotate_geometry(geometry, new Vector3(0, 1, 0), new Vector3(0, 0, 1));
-		if (!this.node.pv.mapbox_transform && hexagons_scale_compensate) {
+		if (!this.node.pv.mapboxTransform && hexagons_scale_compensate) {
 			geometry.scale(hexagons_scale_compensate.x, hexagons_scale_compensate.y, hexagons_scale_compensate.z);
 		}
 		return geometry;

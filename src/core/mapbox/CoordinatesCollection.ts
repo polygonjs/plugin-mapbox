@@ -1,5 +1,5 @@
-import { Vector2 } from "three/src/math/Vector2";
-import { ArrayUtils } from "../ArrayUtils";
+import {Vector2} from 'polygonjs-engine/node_modules/three/src/math/Vector2';
+import {ArrayUtils} from 'polygonjs-engine/src/core/ArrayUtils';
 
 export class CoordinatesCollection {
 	constructor(public coordinates: Vector2[]) {}
@@ -22,7 +22,7 @@ export class CoordinatesCollection {
 		let nearest_id = -1;
 		let dist = -1;
 		let i = 0;
-		features_coordinates_array.forEach(features_coordinates => {
+		features_coordinates_array.forEach((features_coordinates) => {
 			const current_dist = this.distance_to(features_coordinates);
 			if (dist == -1 || current_dist < dist) {
 				dist = current_dist;
@@ -35,7 +35,7 @@ export class CoordinatesCollection {
 	perimeter(): number {
 		let perimeter = 0;
 		let prev_coordinate = this.coordinates[0];
-		this.coordinates.forEach(coordinate => {
+		this.coordinates.forEach((coordinate) => {
 			perimeter += coordinate.distanceTo(prev_coordinate);
 			prev_coordinate = coordinate;
 		});
@@ -43,9 +43,7 @@ export class CoordinatesCollection {
 		return perimeter;
 	}
 
-	static sort(
-		features_coordinates_array: CoordinatesCollection[]
-	): CoordinatesCollection[] {
+	static sort(features_coordinates_array: CoordinatesCollection[]): CoordinatesCollection[] {
 		let current_feature = features_coordinates_array.shift() as CoordinatesCollection;
 		const remaining_features = features_coordinates_array;
 		const sorted_features = [current_feature];

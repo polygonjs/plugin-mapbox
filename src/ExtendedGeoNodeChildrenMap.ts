@@ -13,8 +13,8 @@ export interface ExtendedGeoNodeChildrenMap extends GeoNodeChildrenMap {
 	mapboxTransform: MapboxTransformSopNode;
 }
 export interface ExtendedCopNodeChildrenMap extends CopNodeChildrenMap {
-	MapboxTile: MapboxTileCopNode;
+	mapboxTile: MapboxTileCopNode;
 }
 export interface ExtendedObjNodeChildrenMap extends ObjNodeChildrenMap {
-	MapboxCamera: MapboxCameraObjNode;
+	mapboxCamera: MapboxCameraObjNode;
 }

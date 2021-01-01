@@ -1,15 +1,14 @@
-import {Vector3} from 'three/src/math/Vector3';
-import {Matrix4} from 'three/src/math/Matrix4';
-import {LinearInterpolant} from 'three/src/math/interpolants/LinearInterpolant';
-import {Group} from 'three/src/objects/Group';
-import {Object3D} from 'three/src/core/Object3D';
+import {Vector3} from 'polygonjs-engine/node_modules/three/src/math/Vector3';
+import {Matrix4} from 'polygonjs-engine/node_modules/three/src/math/Matrix4';
+import {LinearInterpolant} from 'polygonjs-engine/node_modules/three/src/math/interpolants/LinearInterpolant';
+import {Group} from 'polygonjs-engine/node_modules/three/src/objects/Group';
+import {Object3D} from 'polygonjs-engine/node_modules/three/src/core/Object3D';
+import {BufferGeometry} from 'polygonjs-engine/node_modules/three/src/core/BufferGeometry';
+import {Mesh} from 'polygonjs-engine/node_modules/three/src/objects/Mesh';
+import {Box3} from 'polygonjs-engine/node_modules/three/src/math/Box3';
 
-import {BufferGeometry} from 'three/src/core/BufferGeometry';
-import {Mesh} from 'three/src/objects/Mesh';
-import {Box3} from 'three/src/math/Box3';
-
-import {CoreGroup} from '../geometry/Group';
-import {CoreGeometry} from '../geometry/Geometry';
+import {CoreGroup} from 'polygonjs-engine/src/core/geometry/Group';
+import {CoreGeometry} from 'polygonjs-engine/src/core/geometry/Geometry';
 // import {Constants} from './Constants'
 import {CoreMapboxUtils} from './Utils';
 import {MapboxCameraObjNode} from '../../engine/nodes/obj/MapboxCamera';
@@ -51,7 +50,7 @@ export class CoreMapboxTransform {
 	private pos_offset: [number, number];
 
 	constructor(private _camera_node: MapboxCameraObjNode) {
-		const lng_lat = this._camera_node.pv.lng_lat;
+		const lng_lat = this._camera_node.pv.lngLat;
 		const lng_lat_start = {
 			lng: lng_lat.x,
 			lat: lng_lat.y,

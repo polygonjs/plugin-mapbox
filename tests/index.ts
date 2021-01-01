@@ -1,8 +1,10 @@
 import {AllRegister} from 'polygonjs-engine/src/engine/poly/registers/All';
 AllRegister.run();
-import {PolygonjsPluginPhysics} from '../src/index';
+import {polyPluginMapbox} from '../src/index';
 import {Poly} from 'polygonjs-engine/src/engine/Poly';
-Poly.instance().pluginsRegister.register('polygonjs-plugin-physics', PolygonjsPluginPhysics);
+import {token} from '../src/ExampleData';
+polyPluginMapbox.setToken(token);
+Poly.instance().registerPlugin(polyPluginMapbox);
 
 import './helpers/setup';
 import './tests';

@@ -1,27 +1,27 @@
 import {CameraController} from 'polygonjs-engine/src/core/CameraController';
 import {NodeContext} from 'polygonjs-engine/src/engine/poly/NodeContext';
-import {MapboxCameraObjNode} from 'polygonjs-engine/src/engine/nodes/obj/MapboxCamera';
+import {MapboxCameraObjNode} from '../../../nodes/obj/MapboxCamera';
 import {TypedSopNode} from 'polygonjs-engine/src/engine/nodes/sop/_Base';
 import {NodeParamsConfig, ParamConfig} from 'polygonjs-engine/src/engine/nodes/utils/params/ParamsConfig';
 import {BaseNodeType} from 'polygonjs-engine/src/engine/nodes/_Base';
-import {PerspectiveCamera} from 'three/src/cameras/PerspectiveCamera';
+import {PerspectiveCamera} from 'polygonjs-engine/node_modules/three/src/cameras/PerspectiveCamera';
 export function MapboxListenerParamConfig<TBase extends Constructor>(Base: TBase) {
 	return class Mixin extends Base {
 		// if use bounds
-		use_bounds = ParamConfig.BOOLEAN(0, {hidden: true});
-		south_west = ParamConfig.VECTOR2([-0.11, 51.51], {
-			visibleIf: {use_bounds: 1},
+		useBounds = ParamConfig.BOOLEAN(0, {hidden: true});
+		southWest = ParamConfig.VECTOR2([-0.11, 51.51], {
+			visibleIf: {useBounds: 1},
 		});
-		north_east = ParamConfig.VECTOR2([-0.1, 51.52], {
-			visibleIf: {use_bounds: 1},
+		northEast = ParamConfig.VECTOR2([-0.1, 51.52], {
+			visibleIf: {useBounds: 1},
 		});
 		// if use zoom
-		use_zoom = ParamConfig.BOOLEAN(0, {hidden: true});
+		useZoom = ParamConfig.BOOLEAN(0, {hidden: true});
 		zoom = ParamConfig.FLOAT(0, {
-			visibleIf: {use_zoom: 1},
+			visibleIf: {useZoom: 1},
 		});
 		// always
-		mapbox_camera = ParamConfig.OPERATOR_PATH('/mapboxCamera1', {
+		mapboxCamera = ParamConfig.OPERATOR_PATH('/mapboxCamera1', {
 			nodeSelection: {
 				context: NodeContext.OBJ,
 				types: [MapboxCameraObjNode.type()],
@@ -32,11 +32,11 @@ export function MapboxListenerParamConfig<TBase extends Constructor>(Base: TBase
 				);
 			},
 		});
-		zoom_range = ParamConfig.VECTOR2([0, 24]);
-		// if update_always_allowed
-		update_always_allowed = ParamConfig.BOOLEAN(0, {hidden: true});
-		update_always = ParamConfig.BOOLEAN(0, {
-			visibleIf: {update_always_allowed: 1},
+		zoomRange = ParamConfig.VECTOR2([0, 24]);
+		// if updateAlwaysAllowed
+		updateAlwaysAllowed = ParamConfig.BOOLEAN(0, {hidden: true});
+		updateAlways = ParamConfig.BOOLEAN(0, {
+			visibleIf: {updateAlwaysAllowed: 1},
 		});
 	};
 }
@@ -60,7 +60,7 @@ export abstract class MapboxListenerSopNode<M extends MapboxListenerParamsConfig
 		return this._camera_node?.object;
 	}
 	find_camera_node(): MapboxCameraObjNode | undefined {
-		const node = this.p.mapbox_camera.found_node_with_context(NodeContext.OBJ);
+		const node = this.p.mapboxCamera.found_node_with_context(NodeContext.OBJ);
 		if (node) {
 			if (node.type == MapboxCameraObjNode.type()) {
 				return node as MapboxCameraObjNode;
@@ -103,7 +103,7 @@ export class MapboxListener {
 		let zoom = this._node.camera_node.zoom();
 		// is_camera_node_valid = @_camera_node?
 		const is_mapbox_active = this._node.camera_node != null;
-		const is_zoom_in_range = zoom != null && zoom > this._node.pv.zoom_range.x && zoom < this._node.pv.zoom_range.y;
+		const is_zoom_in_range = zoom != null && zoom > this._node.pv.zoomRange.x && zoom < this._node.pv.zoomRange.y;
 
 		// still run if the mapbox is not active (good for debugging)
 		// do_post_init_controller = is_camera_node_valid && (!is_mapbox_active || is_zoom_in_range)
@@ -117,7 +117,7 @@ export class MapboxListener {
 	}
 
 	_update_camera_controller() {
-		this._camera_controller.set_update_always(this._node.pv.update_always || false);
+		this._camera_controller.set_update_always(this._node.pv.updateAlways || false);
 
 		if (this._current_camera_path == null || this._current_camera_path !== this._node.pv.camera) {
 			if (this._node.camera_object) {
@@ -131,7 +131,7 @@ export class MapboxListener {
 				this._camera_controller.remove_target();
 			}
 
-			this._current_camera_path = this._node.pv.mapbox_camera;
+			this._current_camera_path = this._node.pv.mapboxCamera;
 		}
 	}
 
@@ -141,8 +141,8 @@ export class MapboxListener {
 			// or once the params are safer, simple run now
 			setTimeout(this._update_from_camera.bind(this), 1000);
 		} else {
-			const has_zoom_param = this._node.pv.use_zoom;
-			const has_bounds_params = this._node.pv.use_bounds;
+			const has_zoom_param = this._node.pv.useZoom;
+			const has_bounds_params = this._node.pv.useBounds;
 
 			const cooker = this._node.scene.cooker;
 			if (has_bounds_params || has_zoom_param) {
@@ -151,8 +151,8 @@ export class MapboxListener {
 			const camera_node = this._node.camera_node;
 
 			if (has_bounds_params) {
-				const sw_param = this._node.p.south_west;
-				const ne_param = this._node.p.north_east;
+				const sw_param = this._node.p.southWest;
+				const ne_param = this._node.p.northEast;
 				if (camera_node) {
 					const bounds = camera_node.bounds();
 					if (camera_node != null && bounds != null) {

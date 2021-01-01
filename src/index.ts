@@ -8,10 +8,16 @@ import {MapboxCameraObjNode} from './engine/nodes/obj/MapboxCamera';
 import {MapboxLayerSopNode} from './engine/nodes/sop/MapboxLayer';
 import {MapboxPlaneSopNode} from './engine/nodes/sop/MapboxPlane';
 import {MapboxTransformSopNode} from './engine/nodes/sop/MapboxTransform';
-export function PolygonjsPluginPhysics(poly: Poly) {
+import {PolyPluginMapbox} from './PolyPluginMapbox';
+function PolygonjsPluginMapbox(poly: Poly) {
 	poly.registerNode(MapboxTileCopNode, 'mapbox');
 	poly.registerNode(MapboxCameraObjNode, 'mapbox');
 	poly.registerNode(MapboxLayerSopNode, 'mapbox');
 	poly.registerNode(MapboxPlaneSopNode, 'mapbox');
 	poly.registerNode(MapboxTransformSopNode, 'mapbox');
+
+	poly.registerCamera(MapboxCameraObjNode);
 }
+export const polyPluginMapbox = new PolyPluginMapbox('mapbox', PolygonjsPluginMapbox, {
+	libraryName: 'polygonjs-plugin-mapbox',
+});

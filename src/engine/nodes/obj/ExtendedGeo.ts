@@ -16,7 +16,7 @@ export class ExtendedGeoObjNode extends GeoObjNode {
 		node_class: Constructor<K>,
 		params_init_value_overrides?: ParamsInitData
 	): K {
-		return super.createNode(node_class, params_init_value_overrides) as K;
+		return super.createNode(node_class as any, params_init_value_overrides) as K;
 	}
 
 	nodesByType<K extends keyof ExtendedGeoNodeChildrenMap>(type: K): ExtendedGeoNodeChildrenMap[K][] {
