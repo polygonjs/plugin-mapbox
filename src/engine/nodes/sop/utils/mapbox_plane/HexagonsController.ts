@@ -4,6 +4,7 @@ import {Vector3} from 'polygonjs-engine/node_modules/three/src/math/Vector3';
 import {BufferGeometry} from 'polygonjs-engine/node_modules/three/src/core/BufferGeometry';
 import {CoreGeometryOperationHexagon} from 'polygonjs-engine/src/core/geometry/operation/Hexagon';
 import {CoreTransform} from 'polygonjs-engine/src/core/Transform';
+import {Vector2Like} from 'polygonjs-engine/src/types/GlobalTypes';
 
 export class MapboxPlaneHexagonsController {
 	private _core_transform = new CoreTransform();

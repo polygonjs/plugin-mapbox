@@ -4,6 +4,7 @@ import {Matrix4} from 'polygonjs-engine/node_modules/three/src/math/Matrix4';
 import mapboxgl from 'mapbox-gl';
 
 import {CoreMapboxConstants} from './Constants';
+import {Number3} from 'polygonjs-engine/src/types/GlobalTypes';
 const Constants = CoreMapboxConstants;
 
 export class CoreMapboxUtils {

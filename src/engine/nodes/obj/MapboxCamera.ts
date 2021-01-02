@@ -10,6 +10,7 @@ import {CoreMapboxClient} from '../../../core/mapbox/Client';
 import {ParamConfig, NodeParamsConfig} from 'polygonjs-engine/src/engine/nodes/utils/params/ParamsConfig';
 import {BaseNodeType} from 'polygonjs-engine/src/engine/nodes/_Base';
 import {BaseParamType} from 'polygonjs-engine/src/engine/params/_Base';
+import {Number2} from 'polygonjs-engine/src/types/GlobalTypes';
 class MapboxCameraObjParamConfig extends CameraMasterCameraParamConfig(NodeParamsConfig) {
 	style = ParamConfig.STRING('mapbox://styles/mapbox/dark-v10', {
 		callback: (node: BaseNodeType) => {

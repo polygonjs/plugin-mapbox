@@ -10,6 +10,7 @@ import {CoreGeometry} from 'polygonjs-engine/src/core/geometry/Geometry';
 import {CoreMath} from 'polygonjs-engine/src/core/math/_Module';
 import {ObjectType} from 'polygonjs-engine/src/core/geometry/Constant';
 import {CorePoint} from 'polygonjs-engine/src/core/geometry/Point';
+import {Vector2Like} from 'polygonjs-engine/src/types/GlobalTypes';
 
 export class MapboxPlaneFrustumController {
 	// private _core_transform = new CoreTransform();

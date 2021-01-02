@@ -33,6 +33,7 @@ const MAPBOX_PLANE_TYPES: Array<MapboxPlaneType> = [MapboxPlaneType.PLANE, Mapbo
 
 import {NodeParamsConfig, ParamConfig} from 'polygonjs-engine/src/engine/nodes/utils/params/ParamsConfig';
 import {MapboxPlaneHexagonsController} from './utils/mapbox_plane/HexagonsController';
+import {Number3} from 'polygonjs-engine/src/types/GlobalTypes';
 // import { MapboxPlaneFrustumController } from "./utils/mapbox_plane/OutofViewController";
 // update_always_allowed: true,
 // use_zoom: true

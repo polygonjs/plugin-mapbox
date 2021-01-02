@@ -2,6 +2,7 @@ import {ExtendedObjNodeChildrenMap} from '../../../ExtendedGeoNodeChildrenMap';
 import {ParamsInitData} from 'polygonjs-engine/src/engine/nodes/utils/io/IOController';
 import {ObjectsManagerNode} from 'polygonjs-engine/src/engine/nodes/manager/ObjectsManager';
 import {ObjNodeChildrenMap} from 'polygonjs-engine/src/engine/poly/registers/nodes/Obj';
+import {Constructor, valueof} from 'polygonjs-engine/src/types/GlobalTypes';
 
 export class ExtendedObjectsManagerNode extends ObjectsManagerNode {
 	createNode<S extends keyof ExtendedObjNodeChildrenMap>(
