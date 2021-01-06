@@ -5,10 +5,10 @@ import {Float32BufferAttribute} from 'polygonjs-engine/node_modules/three/src/co
 import {BufferGeometry} from 'polygonjs-engine/node_modules/three/src/core/BufferGeometry';
 import {CoreGeometry} from 'polygonjs-engine/src/core/geometry/Geometry';
 import {ObjectType} from 'polygonjs-engine/src/core/geometry/Constant';
-import {CoreString} from 'polygonjs-engine/src/core/String';
 import {BaseSopNodeType} from 'polygonjs-engine/src/engine/nodes/sop/_Base';
 import {CoordinatesCollection} from './CoordinatesCollection';
 import {ArrayUtils} from 'polygonjs-engine/src/core/ArrayUtils';
+import {CoreMapboxString} from './String';
 
 const MULTILINESTRING = 'MultiLineString';
 const LINESTRING = 'LineString';
@@ -74,7 +74,7 @@ export class FeatureConverter {
 		const object = this.node.create_object(geometry, ObjectType.LINE_SEGMENTS);
 
 		const core_geometry = new CoreGeometry(geometry);
-		const id_from_name = CoreString.to_id(this.name) % 10000000;
+		const id_from_name = CoreMapboxString.toId(this.name) % 10000000;
 		// console.log(this.name, id_from_name)
 		core_geometry.addNumericAttrib('id', 1, this.id);
 		core_geometry.addNumericAttrib('name_id', 1, id_from_name);
