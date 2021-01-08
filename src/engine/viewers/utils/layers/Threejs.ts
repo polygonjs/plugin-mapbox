@@ -88,7 +88,7 @@ export class ThreejsLayer {
 	// from https://docs.mapbox.com/mapbox-gl-js/example/add-3d-model/
 	// this now rotates objects correctly
 	_update_camera_matrix2(matrix: number[]) {
-		const lng_lat = this._viewer.camera_lng_lat();
+		const lng_lat = this._viewer.cameraLngLat();
 		if (!lng_lat) {
 			return;
 		}

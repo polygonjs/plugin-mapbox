@@ -39,8 +39,8 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 		this._map.on('load', () => {
 			if (this._map) {
 				this._map_loaded = true;
-				this._canvas = this.find_canvas();
-				this.events_controller.init();
+				this._canvas = this._findCanvas();
+				this.eventsController.init();
 				MapsRegister.instance().register_map(this._canvas_container.id, this._map);
 				this.layers_controller.add_layers();
 				this.mapbox_events_controller.camera_node_move_end(); // to update mapbox planes
@@ -48,20 +48,20 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 			// this.$store.app.dispatch_event(this.current_camera_node, {map_loaded: @panel_id.join('')})
 		});
 	}
-	get map_loaded() {
+	mapLoaded() {
 		return this._map_loaded;
 	}
-	get map() {
+	map() {
 		return this._map;
 	}
-	get camera_node() {
+	cameraNode() {
 		return this._camera_node;
 	}
-	get canvas_container() {
+	canvasContainer() {
 		return this._canvas_container;
 	}
 
-	on_resize() {
+	onResize() {
 		if (this._map) {
 			this._map.resize();
 		}
@@ -90,7 +90,7 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 	// canvas(): HTMLCanvasElement {
 	// 	return this._canvas;
 	// }
-	camera_lng_lat() {
+	cameraLngLat() {
 		return this._camera_node?.lng_lat();
 	}
 
@@ -99,7 +99,7 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 		this._map?.addControl(nav, 'bottom-right');
 	}
 
-	find_canvas() {
+	private _findCanvas() {
 		return this._canvas_container.getElementsByTagName('canvas')[0];
 	}
 }

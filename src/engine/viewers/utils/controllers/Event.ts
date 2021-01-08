@@ -3,7 +3,7 @@ import {MapboxViewer} from '../../Mapbox';
 export class MapboxViewerEventsController {
 	constructor(private _viewer: MapboxViewer) {}
 	init_events() {
-		const map = this._viewer.map;
+		const map = this._viewer.map();
 		if (!map) {
 			return;
 		}
@@ -26,6 +26,6 @@ export class MapboxViewerEventsController {
 	private _on_mouseup(e: MouseEvent) {}
 
 	camera_node_move_end() {
-		this._viewer.camera_node?.on_move_end(this._viewer.canvas_container);
+		this._viewer.cameraNode()?.on_move_end(this._viewer.canvasContainer());
 	}
 }

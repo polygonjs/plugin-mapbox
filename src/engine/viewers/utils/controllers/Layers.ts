@@ -11,14 +11,15 @@ export class MapboxViewerLayersController {
 	}
 
 	add_layers() {
-		if (this._viewer.map_loaded != true) {
+		if (!this._viewer.mapLoaded()) {
 			return;
 		}
-		if (!this._viewer.map) {
+		const map = this._viewer.map();
+		if (!map) {
 			return;
 		}
 
-		const current_style = this._viewer.map.getStyle();
+		const current_style = map.getStyle();
 		const layers = current_style.layers;
 		if (!layers) {
 			return;
@@ -46,27 +47,27 @@ export class MapboxViewerLayersController {
 			return;
 		}
 
-		if (this._viewer.map) {
-			this._viewer.map.addLayer(BuildingsLayer, label_layer_id);
+		const map = this._viewer.map();
+		if (map) {
+			map.addLayer(BuildingsLayer, label_layer_id);
 		}
 	}
 
 	_add_threejs_layer(label_layer_id: string) {
-		if (!this._viewer.camera_node) {
+		const camera_node = this._viewer.cameraNode();
+		if (!camera_node) {
 			return;
 		}
-		this._threejs_layer = new ThreejsLayer(
-			this._viewer.camera_node,
-			this._viewer.camera_node.scene.defaultScene,
-			this._viewer
-		);
-		if (this._threejs_layer && this._viewer.map) {
-			this._viewer.map.addLayer(this._threejs_layer, label_layer_id);
+		this._threejs_layer = new ThreejsLayer(camera_node, camera_node.scene.defaultScene, this._viewer);
+		const map = this._viewer.map();
+		if (this._threejs_layer && map) {
+			map.addLayer(this._threejs_layer, label_layer_id);
 		}
 	}
 	_has_layer_id(layer_id: string): boolean {
-		if (this._viewer.map) {
-			const current_style = this._viewer.map.getStyle();
+		const map = this._viewer.map();
+		if (map) {
+			const current_style = map.getStyle();
 			const layer_ids = current_style.layers?.map((l) => l.id) || [];
 			return layer_ids.includes(layer_id);
 		}
