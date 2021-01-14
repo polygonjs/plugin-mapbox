@@ -58,7 +58,7 @@ export class MapboxViewerLayersController {
 		if (!camera_node) {
 			return;
 		}
-		this._threejs_layer = new ThreejsLayer(camera_node, camera_node.scene.defaultScene, this._viewer);
+		this._threejs_layer = new ThreejsLayer(camera_node, camera_node.scene().threejsScene(), this._viewer);
 		const map = this._viewer.map();
 		if (this._threejs_layer && map) {
 			map.addLayer(this._threejs_layer, label_layer_id);

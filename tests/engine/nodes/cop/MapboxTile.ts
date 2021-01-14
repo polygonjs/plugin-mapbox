@@ -3,8 +3,8 @@ import {ExtendedCopObjNode} from '../../../../src/engine/nodes/obj/ExtendedCop';
 
 QUnit.test('height map from mapbox', async (assert) => {
 	const scene = new PolyScene();
-	const geo1 = scene.root.createNode('geo');
-	const COP = scene.root.createNode('cop') as ExtendedCopObjNode;
+	const geo1 = scene.root().createNode('geo');
+	const COP = scene.root().createNode('cop') as ExtendedCopObjNode;
 
 	const mapboxTile1 = COP.createNode('mapboxTile');
 	const plane1 = geo1.createNode('plane');

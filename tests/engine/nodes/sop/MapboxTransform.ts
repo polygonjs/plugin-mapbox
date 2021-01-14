@@ -4,8 +4,8 @@ import {ExtendedGeoObjNode} from '../../../../src/engine/nodes/obj/ExtendedGeo';
 
 QUnit.test('mapbox_transform simple', async (assert) => {
 	const scene = new PolyScene();
-	const root = scene.root as ExtendedObjectsManagerNode;
-	const geo1 = scene.root.createNode('geo') as ExtendedGeoObjNode;
+	const root = scene.root() as ExtendedObjectsManagerNode;
+	const geo1 = root.createNode('geo') as ExtendedGeoObjNode;
 
 	const mapbox_camera1 = root.createNode('mapboxCamera');
 	const add1 = geo1.createNode('add');

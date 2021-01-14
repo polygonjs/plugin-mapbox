@@ -63,7 +63,7 @@ export abstract class MapboxListenerSopNode<M extends MapboxListenerParamsConfig
 	find_camera_node(): MapboxCameraObjNode | undefined {
 		const node = this.p.mapboxCamera.found_node_with_context(NodeContext.OBJ);
 		if (node) {
-			if (node.type == MapboxCameraObjNode.type()) {
+			if (node.type() == MapboxCameraObjNode.type()) {
 				return node as MapboxCameraObjNode;
 			} else {
 				this.states.error.set('found node is not a mapbox camera');
@@ -137,7 +137,7 @@ export class MapboxListener {
 	}
 
 	_update_from_camera() {
-		if (this._node.cook_controller.is_cooking) {
+		if (this._node.cookController.is_cooking) {
 			// TODO: this should be added to a queue instead
 			// or once the params are safer, simple run now
 			setTimeout(this._update_from_camera.bind(this), 1000);
@@ -145,7 +145,7 @@ export class MapboxListener {
 			const has_zoom_param = this._node.pv.useZoom;
 			const has_bounds_params = this._node.pv.useBounds;
 
-			const cooker = this._node.scene.cooker;
+			const cooker = this._node.scene().cooker;
 			if (has_bounds_params || has_zoom_param) {
 				cooker.block();
 			}
@@ -179,7 +179,7 @@ export class MapboxListener {
 			}
 
 			if (!has_bounds_params && !has_zoom_param) {
-				this._node.set_dirty();
+				this._node.setDirty();
 			}
 		}
 	}

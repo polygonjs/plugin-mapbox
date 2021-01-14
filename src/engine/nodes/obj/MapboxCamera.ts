@@ -90,7 +90,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 
 	async cook() {
 		this.update_maps();
-		this.cook_controller.end_cook();
+		this.cookController.end_cook();
 	}
 
 	private _inverse_proj_mat = new Matrix4();
@@ -444,6 +444,6 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	}
 
 	createViewer(element: HTMLElement) {
-		return new MapboxViewer(element, this.scene, this);
+		return new MapboxViewer(element, this.scene(), this);
 	}
 }

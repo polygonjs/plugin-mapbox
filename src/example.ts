@@ -10,17 +10,17 @@ AllRegister.run();
 import {polyPluginMapbox} from './index';
 import {token} from './ExampleData';
 polyPluginMapbox.setToken(token);
-Poly.instance().registerPlugin(polyPluginMapbox);
+Poly.registerPlugin(polyPluginMapbox);
 
 // create a scene
 const scene = new PolyScene();
-const root = scene.root as ExtendedObjectsManagerNode;
+const root = scene.root() as ExtendedObjectsManagerNode;
 
 // create a mapbox camera
 const mapboxCamera = root.createNode('mapboxCamera');
 
 // create a box
-const geo = scene.root.createNode('geo') as ExtendedGeoObjNode;
+const geo = root.createNode('geo') as ExtendedGeoObjNode;
 const box = geo.createNode('roundedBox');
 box.p.center.y.set(0.5);
 const boxTransform = geo.createNode('transform');
@@ -46,11 +46,11 @@ copy.setInput(1, mapboxTransform);
 copy.flags.display.set(true);
 
 // add a light
-scene.root.createNode('hemisphereLight');
+root.createNode('hemisphereLight');
 // TODO: there is currently a bug where this scene
 // would disappear after being rendered for a single frame
 // if there is only a hemisphereLight
-const directionalLight = scene.root.createNode('directionalLight');
+const directionalLight = root.createNode('directionalLight');
 directionalLight.p.r.x.set(8);
 
 // mount the viewer

@@ -6,7 +6,7 @@ export class CoreMapboxClient {
 	static _token: string;
 
 	static token() {
-		const plugin = Poly.instance().pluginsRegister.pluginByName('mapbox') as PolyPluginMapbox;
+		const plugin = Poly.pluginsRegister.pluginByName('mapbox') as PolyPluginMapbox;
 		const token = plugin.token();
 		return token;
 	}
