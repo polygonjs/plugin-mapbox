@@ -75,7 +75,7 @@ export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
 		FloatType
 	);
 
-	initialize_node() {
+	initializeNode() {
 		this._texture.image.data.fill(255);
 		this._texture.minFilter = LinearFilter;
 		this._texture.magFilter = LinearFilter;

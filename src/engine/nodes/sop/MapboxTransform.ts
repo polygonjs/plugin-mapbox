@@ -26,9 +26,9 @@ export class MapboxTransformSopNode extends MapboxListenerSopNode<MapboxTransfor
 		return INPUT_NAMES;
 	}
 
-	initialize_node() {
-		this.io.inputs.set_count(1);
-		this.io.inputs.init_inputs_cloned_state(InputCloneMode.FROM_NODE);
+	initializeNode() {
+		this.io.inputs.setCount(1);
+		this.io.inputs.initInputsClonedState(InputCloneMode.FROM_NODE);
 
 		// this.uiData.set_icon("map-marker-alt");
 		// this._init_mapbox_listener();
