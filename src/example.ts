@@ -56,6 +56,6 @@ directionalLight.p.r.x.set(8);
 // mount the viewer
 mapboxCamera.createViewer(document.getElementById('app')!);
 
-// make some noes globals to access in html controls
+// make some nodes globals to access in html controls
 (window as any).boxTransform = boxTransform;
 (window as any).scene = scene;
