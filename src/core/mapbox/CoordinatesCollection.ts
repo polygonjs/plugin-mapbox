@@ -1,4 +1,4 @@
-import {Vector2} from 'polygonjs-engine/node_modules/three/src/math/Vector2';
+import {Vector2} from 'three/src/math/Vector2';
 import {ArrayUtils} from 'polygonjs-engine/src/core/ArrayUtils';
 
 export class CoordinatesCollection {
@@ -9,7 +9,7 @@ export class CoordinatesCollection {
 	last() {
 		return this.coordinates[this.coordinates.length - 1];
 	}
-	distance_to(features_coordinates: CoordinatesCollection): number {
+	private distanceTo(features_coordinates: CoordinatesCollection): number {
 		const d00 = this.first().distanceTo(features_coordinates.first());
 		const d01 = this.first().distanceTo(features_coordinates.last());
 		const d10 = this.last().distanceTo(features_coordinates.first());
@@ -22,23 +22,23 @@ export class CoordinatesCollection {
 		let nearest_id = -1;
 		let dist = -1;
 		let i = 0;
-		features_coordinates_array.forEach((features_coordinates) => {
-			const current_dist = this.distance_to(features_coordinates);
+		for (let features_coordinates of features_coordinates_array) {
+			const current_dist = this.distanceTo(features_coordinates);
 			if (dist == -1 || current_dist < dist) {
 				dist = current_dist;
 				nearest_id = i;
 			}
 			i += 1;
-		});
+		}
 		return nearest_id;
 	}
 	perimeter(): number {
 		let perimeter = 0;
 		let prev_coordinate = this.coordinates[0];
-		this.coordinates.forEach((coordinate) => {
+		for (let coordinate of this.coordinates) {
 			perimeter += coordinate.distanceTo(prev_coordinate);
 			prev_coordinate = coordinate;
-		});
+		}
 
 		return perimeter;
 	}

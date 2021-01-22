@@ -4,12 +4,12 @@
  * @remarks
  * Note that you will need a mapbox key to use this node.
  */
-import {Vector3} from 'polygonjs-engine/node_modules/three/src/math/Vector3';
-import {Vector2} from 'polygonjs-engine/node_modules/three/src/math/Vector2';
-import {PlaneBufferGeometry} from 'polygonjs-engine/node_modules/three/src/geometries/PlaneBufferGeometry';
-import {Matrix4} from 'polygonjs-engine/node_modules/three/src/math/Matrix4';
-import {Box2} from 'polygonjs-engine/node_modules/three/src/math/Box2';
-import {BufferGeometry} from 'polygonjs-engine/node_modules/three/src/core/BufferGeometry';
+import {Vector3} from 'three/src/math/Vector3';
+import {Vector2} from 'three/src/math/Vector2';
+import {PlaneBufferGeometry} from 'three/src/geometries/PlaneBufferGeometry';
+import {Matrix4} from 'three/src/math/Matrix4';
+import {Box2} from 'three/src/math/Box2';
+import {BufferGeometry} from 'three/src/core/BufferGeometry';
 import mapboxgl from 'mapbox-gl';
 import {CoreObject} from 'polygonjs-engine/src/core/geometry/Object';
 import {ObjectType} from 'polygonjs-engine/src/core/geometry/Constant';

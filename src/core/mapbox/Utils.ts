@@ -1,6 +1,6 @@
 // THREE = require("../three97.js"); # Modified version to use 64-bit double precision floats for matrix math
-import {Vector3} from 'polygonjs-engine/node_modules/three/src/math/Vector3';
-import {Matrix4} from 'polygonjs-engine/node_modules/three/src/math/Matrix4';
+import {Vector3} from 'three/src/math/Vector3';
+import {Matrix4} from 'three/src/math/Matrix4';
 import mapboxgl from 'mapbox-gl';
 
 import {CoreMapboxConstants} from './Constants';

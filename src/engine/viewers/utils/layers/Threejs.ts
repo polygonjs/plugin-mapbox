@@ -1,11 +1,11 @@
 import {CoreMapboxTransform} from '../../../../core/mapbox/Transform';
 import {MapboxCameraObjNode} from '../../../nodes/obj/MapboxCamera';
 import {MapboxViewer} from '../../Mapbox';
-import {WebGLRenderer} from 'polygonjs-engine/node_modules/three/src/renderers/WebGLRenderer';
-import {Vector3} from 'polygonjs-engine/node_modules/three/src/math/Vector3';
-import {Scene} from 'polygonjs-engine/node_modules/three/src/scenes/Scene';
-import {Matrix4} from 'polygonjs-engine/node_modules/three/src/math/Matrix4';
-import {Camera} from 'polygonjs-engine/node_modules/three/src/cameras/Camera';
+import {WebGLRenderer} from 'three/src/renderers/WebGLRenderer';
+import {Vector3} from 'three/src/math/Vector3';
+import {Scene} from 'three/src/scenes/Scene';
+import {Matrix4} from 'three/src/math/Matrix4';
+import {Camera} from 'three/src/cameras/Camera';
 import mapboxgl from 'mapbox-gl';
 
 const ID = 'threejs_layer';

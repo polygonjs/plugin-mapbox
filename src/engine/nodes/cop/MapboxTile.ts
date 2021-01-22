@@ -12,8 +12,8 @@ import {
 	RGBFormat,
 	// LuminanceFormat,
 	// UnsignedByteType,
-} from 'polygonjs-engine/node_modules/three/src/constants';
-import {DataTexture} from 'polygonjs-engine/node_modules/three/src/textures/DataTexture';
+} from 'three/src/constants';
+import {DataTexture} from 'three/src/textures/DataTexture';
 import {TypedCopNode} from 'polygonjs-engine/src/engine/nodes/cop/_Base';
 import {CoreTextureLoader} from 'polygonjs-engine/src/core/loader/Texture';
 import {CoreMapboxUtils} from '../../../core/mapbox/Utils';

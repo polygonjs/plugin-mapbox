@@ -1,8 +1,8 @@
-import {PerspectiveCamera} from 'polygonjs-engine/node_modules/three/src/cameras/PerspectiveCamera';
-import {Raycaster} from 'polygonjs-engine/node_modules/three/src/core/Raycaster';
-import {Vector2} from 'polygonjs-engine/node_modules/three/src/math/Vector2';
-import {Vector3} from 'polygonjs-engine/node_modules/three/src/math/Vector3';
-import {Matrix4} from 'polygonjs-engine/node_modules/three/src/math/Matrix4';
+import {PerspectiveCamera} from 'three/src/cameras/PerspectiveCamera';
+import {Raycaster} from 'three/src/core/Raycaster';
+import {Vector2} from 'three/src/math/Vector2';
+import {Vector3} from 'three/src/math/Vector3';
+import {Matrix4} from 'three/src/math/Matrix4';
 import {TypedCameraObjNode, CameraMasterCameraParamConfig} from 'polygonjs-engine/src/engine/nodes/obj/_BaseCamera';
 import mapboxgl from 'mapbox-gl';
 import {MapboxViewer} from '../../viewers/Mapbox';
