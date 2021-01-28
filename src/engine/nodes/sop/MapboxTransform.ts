@@ -5,13 +5,13 @@
  * The mapbox space is very specific to mapbox, as it is very small (several orders of magnitude) compared to the threejs space.
  */
 import {CoreMapboxTransform} from '../../../core/mapbox/Transform';
-import {InputCloneMode} from 'polygonjs-engine/src/engine/poly/InputCloneMode';
-import {CoreGroup} from 'polygonjs-engine/src/core/geometry/Group';
+import {InputCloneMode} from '@polygonjs/polygonjs/dist/src/engine/poly/InputCloneMode';
+import {CoreGroup} from '@polygonjs/polygonjs/dist/src/core/geometry/Group';
 import {MapboxListenerParamConfig, MapboxListenerSopNode} from './utils/MapboxListener';
 
 const INPUT_NAMES = ['points to transform in mapbox space'];
 
-import {NodeParamsConfig} from 'polygonjs-engine/src/engine/nodes/utils/params/ParamsConfig';
+import {NodeParamsConfig} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/params/ParamsConfig';
 class MapboxTransformSopParamsConfig extends MapboxListenerParamConfig(NodeParamsConfig) {}
 const ParamsConfig = new MapboxTransformSopParamsConfig();
 

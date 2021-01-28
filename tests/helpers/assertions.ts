@@ -1,4 +1,4 @@
-import {Number3} from 'polygonjs-engine/src/types/GlobalTypes';
+import {Number3} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 import 'qunit';
 import {Vector3} from 'three/src/math/Vector3';
 // https://qunitjs.com/cookbook/#custom-assertions

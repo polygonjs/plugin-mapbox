@@ -2,9 +2,9 @@ import {MapboxPlaneSopNode} from '../../MapboxPlane';
 import {Vector2} from 'three/src/math/Vector2';
 import {Vector3} from 'three/src/math/Vector3';
 import {BufferGeometry} from 'three/src/core/BufferGeometry';
-import {CoreGeometryOperationHexagon} from 'polygonjs-engine/src/core/geometry/operation/Hexagon';
-import {CoreTransform} from 'polygonjs-engine/src/core/Transform';
-import {Vector2Like} from 'polygonjs-engine/src/types/GlobalTypes';
+import {CoreGeometryOperationHexagon} from '@polygonjs/polygonjs/dist/src/core/geometry/operation/Hexagon';
+import {CoreTransform} from '@polygonjs/polygonjs/dist/src/core/Transform';
+import {Vector2Like} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 
 export class MapboxPlaneHexagonsController {
 	private _core_transform = new CoreTransform();

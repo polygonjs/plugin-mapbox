@@ -11,10 +11,10 @@ import {Matrix4} from 'three/src/math/Matrix4';
 import {Box2} from 'three/src/math/Box2';
 import {BufferGeometry} from 'three/src/core/BufferGeometry';
 import mapboxgl from 'mapbox-gl';
-import {CoreObject} from 'polygonjs-engine/src/core/geometry/Object';
-import {ObjectType} from 'polygonjs-engine/src/core/geometry/Constant';
-import {CoreGeometry} from 'polygonjs-engine/src/core/geometry/Geometry';
-import {CoreMath} from 'polygonjs-engine/src/core/math/_Module';
+import {CoreObject} from '@polygonjs/polygonjs/dist/src/core/geometry/Object';
+import {ObjectType} from '@polygonjs/polygonjs/dist/src/core/geometry/Constant';
+import {CoreGeometry} from '@polygonjs/polygonjs/dist/src/core/geometry/Geometry';
+import {CoreMath} from '@polygonjs/polygonjs/dist/src/core/math/_Module';
 
 import {MapboxListenerParamConfig, MapboxListenerSopNode} from './utils/MapboxListener';
 import {CoreMapboxTransform} from '../../../core/mapbox/Transform';
@@ -31,9 +31,9 @@ enum MapboxPlaneType {
 }
 const MAPBOX_PLANE_TYPES: Array<MapboxPlaneType> = [MapboxPlaneType.PLANE, MapboxPlaneType.HEXAGONS];
 
-import {NodeParamsConfig, ParamConfig} from 'polygonjs-engine/src/engine/nodes/utils/params/ParamsConfig';
+import {NodeParamsConfig, ParamConfig} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/params/ParamsConfig';
 import {MapboxPlaneHexagonsController} from './utils/mapbox_plane/HexagonsController';
-import {Number3} from 'polygonjs-engine/src/types/GlobalTypes';
+import {Number3} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 // import { MapboxPlaneFrustumController } from "./utils/mapbox_plane/OutofViewController";
 // update_always_allowed: true,
 // use_zoom: true

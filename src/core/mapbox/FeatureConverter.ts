@@ -3,11 +3,11 @@ import {Object3D} from 'three/src/core/Object3D';
 import {LineSegments} from 'three/src/objects/LineSegments';
 import {Float32BufferAttribute} from 'three/src/core/BufferAttribute';
 import {BufferGeometry} from 'three/src/core/BufferGeometry';
-import {CoreGeometry} from 'polygonjs-engine/src/core/geometry/Geometry';
-import {ObjectType} from 'polygonjs-engine/src/core/geometry/Constant';
-import {BaseSopNodeType} from 'polygonjs-engine/src/engine/nodes/sop/_Base';
+import {CoreGeometry} from '@polygonjs/polygonjs/dist/src/core/geometry/Geometry';
+import {ObjectType} from '@polygonjs/polygonjs/dist/src/core/geometry/Constant';
+import {BaseSopNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/sop/_Base';
 import {CoordinatesCollection} from './CoordinatesCollection';
-import {ArrayUtils} from 'polygonjs-engine/src/core/ArrayUtils';
+import {ArrayUtils} from '@polygonjs/polygonjs/dist/src/core/ArrayUtils';
 import {CoreMapboxString} from './String';
 
 const MULTILINESTRING = 'MultiLineString';

@@ -6,11 +6,11 @@ import {MapboxPlaneSopNode} from '../../MapboxPlane';
 import {MapboxCameraObjNode} from '../../../obj/MapboxCamera';
 import {CoreMapboxTransform} from '../../../../../core/mapbox/Transform';
 import mapboxgl from 'mapbox-gl';
-import {CoreGeometry} from 'polygonjs-engine/src/core/geometry/Geometry';
-import {CoreMath} from 'polygonjs-engine/src/core/math/_Module';
-import {ObjectType} from 'polygonjs-engine/src/core/geometry/Constant';
-import {CorePoint} from 'polygonjs-engine/src/core/geometry/Point';
-import {Vector2Like} from 'polygonjs-engine/src/types/GlobalTypes';
+import {CoreGeometry} from '@polygonjs/polygonjs/dist/src/core/geometry/Geometry';
+import {CoreMath} from '@polygonjs/polygonjs/dist/src/core/math/_Module';
+import {ObjectType} from '@polygonjs/polygonjs/dist/src/core/geometry/Constant';
+import {CorePoint} from '@polygonjs/polygonjs/dist/src/core/geometry/Point';
+import {Vector2Like} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 
 export class MapboxPlaneFrustumController {
 	// private _core_transform = new CoreTransform();

@@ -1,5 +1,5 @@
 import {Vector2} from 'three/src/math/Vector2';
-import {ArrayUtils} from 'polygonjs-engine/src/core/ArrayUtils';
+import {ArrayUtils} from '@polygonjs/polygonjs/dist/src/core/ArrayUtils';
 
 export class CoordinatesCollection {
 	constructor(public coordinates: Vector2[]) {}

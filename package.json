@@ -1,5 +1,5 @@
 {
-	"name": "polygonjs-plugin-mapbox",
+	"name": "@polygonjs/plugin-mapbox",
 	"version": "1.0.0",
 	"engines": {
 		"node": ">=12.16.1",
@@ -7,7 +7,7 @@
 	},
 	"description": "Mapbox plugin for the 3D engine https://polygonjs.com",
 	"repository": {
-		"url": "git@github.com:polygonjs/polygonjs-plugin-mapbox.git",
+		"url": "git@github.com:polygonjs/plugin-mapbox.git",
 		"type": "git"
 	},
 	"keywords": [
@@ -21,7 +21,7 @@
 	],
 	"author": "Guillaume Fradin <gui@polygonjs.com>",
 	"license": "MIT",
-	"main": "./dist/polygonjs-plugin-mapbox.js",
+	"main": "./dist/index.js",
 	"scripts": {
 		"start": "webpack-dev-server --env.NODE_ENV=development --env.production=false --config config/webpack/dev.js",
 		"build": "export NODE_OPTIONS='--max-old-space-size=32768' yarn build_folder_delete && yarn build_with_webpack && yarn build_with_esbuild && yarn build_folder_remove_unneeded && yarn cp_types",
@@ -36,16 +36,16 @@
 		"build_with_esbuild": "yarn tsc_esbuild && node config/esbuild/esbuild.js",
 		"build_folder_delete": "rm -rf dist/*",
 		"build_folder_remove_unneeded": "rm -rf dist/config && rm -rf dist/tests",
-		"cp_types": "cp dist/polygonjs-plugin-mapbox/src/index.d.ts dist/"
+		"cp_types": "cp dist/src/index.d.ts dist/"
 	},
 	"dependencies": {
+		"@polygonjs/polygonjs": "^1.1.57",
 		"@mapbox/mapbox-sdk": "0.11.0",
-		"@types/mapbox-gl": "1.12.0",
-		"mapbox-gl": "1.12.0",
-		"polygonjs-engine": "^1.1.50"
+		"mapbox-gl": "1.12.0"
 	},
 	"devDependencies": {
 		"@types/lodash": "4.14.166",
+		"@types/mapbox-gl": "1.12.0",
 		"@types/qunit": "2.11.1",
 		"@typescript-eslint/eslint-plugin": "4.7.0",
 		"@typescript-eslint/parser": "4.7.0",

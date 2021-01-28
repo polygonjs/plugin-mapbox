@@ -1,4 +1,4 @@
-import {PolyScene} from 'polygonjs-engine/src/engine/scene/PolyScene';
+import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
 import {ExtendedCopObjNode} from '../../../../src/engine/nodes/obj/ExtendedCop';
 
 QUnit.test('height map from mapbox', async (assert) => {

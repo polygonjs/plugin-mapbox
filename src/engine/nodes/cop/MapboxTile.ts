@@ -14,10 +14,10 @@ import {
 	// UnsignedByteType,
 } from 'three/src/constants';
 import {DataTexture} from 'three/src/textures/DataTexture';
-import {TypedCopNode} from 'polygonjs-engine/src/engine/nodes/cop/_Base';
-import {CoreTextureLoader} from 'polygonjs-engine/src/core/loader/Texture';
+import {TypedCopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/cop/_Base';
+import {CoreTextureLoader} from '@polygonjs/polygonjs/dist/src/core/loader/Texture';
 import {CoreMapboxUtils} from '../../../core/mapbox/Utils';
-import {CoreImage} from 'polygonjs-engine/src/core/Image';
+import {CoreImage} from '@polygonjs/polygonjs/dist/src/core/Image';
 import {CoreMapboxClient} from '../../../core/mapbox/Client';
 
 export enum TileType {
@@ -33,7 +33,7 @@ export enum TileRes {
 
 const ROOT_URL = 'https://api.mapbox.com/v4';
 
-import {NodeParamsConfig, ParamConfig} from 'polygonjs-engine/src/engine/nodes/utils/params/ParamsConfig';
+import {NodeParamsConfig, ParamConfig} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/params/ParamsConfig';
 class MapboxTileCopParamsConfig extends NodeParamsConfig {
 	// TODO: add presets
 	// london [-0.07956, 51.5146]

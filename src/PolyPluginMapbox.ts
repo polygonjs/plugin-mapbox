@@ -1,4 +1,4 @@
-import {PolyPlugin} from 'polygonjs-engine/src/engine/poly/registers/plugins/Plugin';
+import {PolyPlugin} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/plugins/Plugin';
 
 import mapboxgl from 'mapbox-gl';
 export class PolyPluginMapbox extends PolyPlugin {

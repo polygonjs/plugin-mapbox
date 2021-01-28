@@ -1,5 +1,5 @@
-import {IntegrationData} from 'polygonjs-engine/src/engine/nodes/_Base';
-import {Poly} from 'polygonjs-engine/src/engine/Poly';
+import {IntegrationData} from '@polygonjs/polygonjs/dist/src/engine/nodes/_Base';
+import {Poly} from '@polygonjs/polygonjs/dist/src/engine/Poly';
 import {PolyPluginMapbox} from '../../PolyPluginMapbox';
 export class CoreMapboxClient {
 	static CSS_URL = 'https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css';

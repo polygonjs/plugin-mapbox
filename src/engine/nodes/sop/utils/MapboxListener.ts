@@ -1,11 +1,11 @@
-import {CameraController} from 'polygonjs-engine/src/core/CameraController';
-import {NodeContext} from 'polygonjs-engine/src/engine/poly/NodeContext';
+import {CameraController} from '@polygonjs/polygonjs/dist/src/core/CameraController';
+import {NodeContext} from '@polygonjs/polygonjs/dist/src/engine/poly/NodeContext';
 import {MapboxCameraObjNode} from '../../../nodes/obj/MapboxCamera';
-import {TypedSopNode} from 'polygonjs-engine/src/engine/nodes/sop/_Base';
-import {NodeParamsConfig, ParamConfig} from 'polygonjs-engine/src/engine/nodes/utils/params/ParamsConfig';
-import {BaseNodeType} from 'polygonjs-engine/src/engine/nodes/_Base';
+import {TypedSopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/sop/_Base';
+import {NodeParamsConfig, ParamConfig} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/params/ParamsConfig';
+import {BaseNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/_Base';
 import {PerspectiveCamera} from 'three/src/cameras/PerspectiveCamera';
-import {Constructor} from 'polygonjs-engine/src/types/GlobalTypes';
+import {Constructor} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 export function MapboxListenerParamConfig<TBase extends Constructor>(Base: TBase) {
 	return class Mixin extends Base {
 		// if use bounds

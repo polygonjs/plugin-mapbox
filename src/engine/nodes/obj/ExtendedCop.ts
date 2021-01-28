@@ -1,8 +1,8 @@
-import {CopObjNode} from 'polygonjs-engine/src/engine/nodes/obj/Cop';
+import {CopObjNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/Cop';
 import {ExtendedCopNodeChildrenMap} from '../../../ExtendedGeoNodeChildrenMap';
-import {ParamsInitData} from 'polygonjs-engine/src/engine/nodes/utils/io/IOController';
-import {CopNodeChildrenMap} from 'polygonjs-engine/src/engine/poly/registers/nodes/Cop';
-import {Constructor, valueof} from 'polygonjs-engine/src/types/GlobalTypes';
+import {ParamsInitData} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/io/IOController';
+import {CopNodeChildrenMap} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/nodes/Cop';
+import {Constructor, valueof} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 
 export class ExtendedCopObjNode extends CopObjNode {
 	createNode<S extends keyof ExtendedCopNodeChildrenMap>(

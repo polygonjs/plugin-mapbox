@@ -3,14 +3,17 @@ import {Raycaster} from 'three/src/core/Raycaster';
 import {Vector2} from 'three/src/math/Vector2';
 import {Vector3} from 'three/src/math/Vector3';
 import {Matrix4} from 'three/src/math/Matrix4';
-import {TypedCameraObjNode, CameraMasterCameraParamConfig} from 'polygonjs-engine/src/engine/nodes/obj/_BaseCamera';
+import {
+	TypedCameraObjNode,
+	CameraMasterCameraParamConfig,
+} from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/_BaseCamera';
 import mapboxgl from 'mapbox-gl';
 import {MapboxViewer} from '../../viewers/Mapbox';
 import {CoreMapboxClient} from '../../../core/mapbox/Client';
-import {ParamConfig, NodeParamsConfig} from 'polygonjs-engine/src/engine/nodes/utils/params/ParamsConfig';
-import {BaseNodeType} from 'polygonjs-engine/src/engine/nodes/_Base';
-import {BaseParamType} from 'polygonjs-engine/src/engine/params/_Base';
-import {Number2} from 'polygonjs-engine/src/types/GlobalTypes';
+import {ParamConfig, NodeParamsConfig} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/params/ParamsConfig';
+import {BaseNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/_Base';
+import {BaseParamType} from '@polygonjs/polygonjs/dist/src/engine/params/_Base';
+import {Number2} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 class MapboxCameraObjParamConfig extends CameraMasterCameraParamConfig(NodeParamsConfig) {
 	style = ParamConfig.STRING('mapbox://styles/mapbox/dark-v10', {
 		callback: (node: BaseNodeType) => {

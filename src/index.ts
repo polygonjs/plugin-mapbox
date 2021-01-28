@@ -1,7 +1,4 @@
-import {PolyEngine} from 'polygonjs-engine/src/engine/Poly';
-
-import {ExtendedGeoNodeChildrenMap} from './ExtendedGeoNodeChildrenMap';
-export {ExtendedGeoNodeChildrenMap};
+import {PolyEngine} from '@polygonjs/polygonjs/dist/src/engine/Poly';
 
 import {MapboxTileCopNode} from './engine/nodes/cop/MapboxTile';
 import {MapboxCameraObjNode} from './engine/nodes/obj/MapboxCamera';

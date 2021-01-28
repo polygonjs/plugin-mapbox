@@ -1,7 +1,7 @@
-import {AllRegister} from 'polygonjs-engine/src/engine/poly/registers/All';
+import {AllRegister} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/All';
 AllRegister.run();
 import {polyPluginMapbox} from '../src/index';
-import {Poly} from 'polygonjs-engine/src/engine/Poly';
+import {Poly} from '@polygonjs/polygonjs/dist/src/engine/Poly';
 import {token} from '../src/ExampleData';
 polyPluginMapbox.setToken(token);
 Poly.registerPlugin(polyPluginMapbox);

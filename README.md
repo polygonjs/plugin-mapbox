@@ -1,22 +1,24 @@
-# Polygonjs Physics Plugin
+# Polygonjs Mapbox Plugin
 
-This adds several Physics SOP nodes to the Polygonjs webgl engine.
+This adds several nodes to work with Mapbox with the [Polygonjs webgl engine](https://polygonjs.com).
 
-# run for development
+See [example scene](https://github.com/polygonjs/example-plugin-mapbox):
 
-Ensure you have `node` and `yarn` installed, then run the following in the root folder of the repository:
+![example scene with mapbox camera](https://github.com/polygonjs/example-plugin-mapbox/blob/main/doc/mapbox_examples.jpg?raw=true)
 
--   run `yarn`
--   run `npm start`
--   open `http://localhost:8080/example`
+# Install
 
-# testing
+Import the plugin:
 
--   run `yarn`
--   run `npm start`
--   open `http://localhost:8080/test`
+`yarn add @polygonjs/plugin-mapbox`
 
-# build
+And register the plugin in the function `configurePolygonjs` in the file `PolyConfig.js` so that the mapbox nodes can be accessible in both the editor and your exported scene:
 
--   run `yarn`
--   run `npm run build`
+```js
+import {polyPluginMapbox} from '@polygonjs/plugin-mapbox/dist/src/index';
+
+export function configurePolygonjs(poly) {
+	poly.registerPlugin(polyPluginMapbox);
+	polyPluginMapbox.setToken('<your-mapbox-token>');
+}
+```

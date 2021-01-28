@@ -7,18 +7,19 @@ import {BufferGeometry} from 'three/src/core/BufferGeometry';
 import {Mesh} from 'three/src/objects/Mesh';
 import {Box3} from 'three/src/math/Box3';
 
-import {CoreGroup} from 'polygonjs-engine/src/core/geometry/Group';
-import {CoreGeometry} from 'polygonjs-engine/src/core/geometry/Geometry';
+import {CoreGroup} from '@polygonjs/polygonjs/dist/src/core/geometry/Group';
+import {CoreGeometry} from '@polygonjs/polygonjs/dist/src/core/geometry/Geometry';
 // import {Constants} from './Constants'
 import {CoreMapboxUtils} from './Utils';
 import {MapboxCameraObjNode} from '../../engine/nodes/obj/MapboxCamera';
 import mapboxgl from 'mapbox-gl';
+import {PolyDictionary} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 const Utils = CoreMapboxUtils;
 
 const MAT_RX = new Matrix4().makeRotationAxis(new Vector3(1, 0, 0), -Math.PI / 2);
 const POSITION_ATTRIB_NAME = 'position';
 
-const STEP_SIZE_BY_ZOOM: Dictionary<number> = {
+const STEP_SIZE_BY_ZOOM: PolyDictionary<number> = {
 	1: 1802297.1652004332,
 	2: 901148.582600187,
 	3: 450574.29129994207,

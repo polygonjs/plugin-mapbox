@@ -6,7 +6,7 @@
  * Note that you will need a mapbox key to use this node.
  */
 import {Object3D} from 'three/src/core/Object3D';
-import {CoreString} from 'polygonjs-engine/src/core/String';
+import {CoreString} from '@polygonjs/polygonjs/dist/src/core/String';
 import {FeatureConverter} from '../../../core/mapbox/FeatureConverter';
 
 // const MULTILINESTRING = 'MultiLineString'
@@ -19,10 +19,10 @@ const DEFAULT_LIST: Readonly<string> = [
 	'road-street',
 ].join(' ');
 
-import {NodeParamsConfig, ParamConfig} from 'polygonjs-engine/src/engine/nodes/utils/params/ParamsConfig';
+import {NodeParamsConfig, ParamConfig} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/params/ParamsConfig';
 import {MapboxListenerParamConfig, MapboxListenerSopNode} from './utils/MapboxListener';
-import {MapUtils} from 'polygonjs-engine/src/core/MapUtils';
-import {ArrayUtils} from 'polygonjs-engine/src/core/ArrayUtils';
+import {MapUtils} from '@polygonjs/polygonjs/dist/src/core/MapUtils';
+import {ArrayUtils} from '@polygonjs/polygonjs/dist/src/core/ArrayUtils';
 // use_bounds: false,
 // update_always_allowed: false
 class MapboxLayerSopParamsConfig extends MapboxListenerParamConfig(NodeParamsConfig) {

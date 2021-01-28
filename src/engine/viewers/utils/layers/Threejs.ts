@@ -71,8 +71,8 @@ export class ThreejsLayer {
 		this._update_camera_matrix2(matrix);
 		if (this._prints_count < 100) {
 			this._prints_count++;
-			// console.log('-> ', this._display_scene.uuid);
-			// console.log(this._camera.projectionMatrix);
+			console.log('-> ', this._display_scene.uuid);
+			console.log(this._camera.projectionMatrix);
 		}
 
 		this._renderer.state.reset();

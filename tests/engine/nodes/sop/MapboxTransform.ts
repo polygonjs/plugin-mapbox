@@ -1,4 +1,4 @@
-import {PolyScene} from 'polygonjs-engine/src/engine/scene/PolyScene';
+import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
 import {ExtendedObjectsManagerNode} from '../../../../src/engine/nodes/manager/ExtendedObjectsManager';
 import {ExtendedGeoObjNode} from '../../../../src/engine/nodes/obj/ExtendedGeo';
 
