@@ -1,6 +1,7 @@
 yarn-error.log
 node_modules/
 coverage
+config/esbuild/esbuild.js
 config/webpack/stats.json
 config/webpack/dts_concat.js
 config/webpack/debug_dev_config.json
