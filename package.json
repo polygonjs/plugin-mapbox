@@ -40,12 +40,10 @@
 	},
 	"dependencies": {
 		"@polygonjs/polygonjs": "^1.1.57",
-		"@mapbox/mapbox-sdk": "0.11.0",
-		"mapbox-gl": "1.12.0"
+		"mapbox-gl": "2.0.1"
 	},
 	"devDependencies": {
-		"@types/lodash": "4.14.166",
-		"@types/mapbox-gl": "1.12.0",
+		"@types/mapbox-gl": "2.0.1",
 		"@types/qunit": "2.11.1",
 		"@typescript-eslint/eslint-plugin": "4.7.0",
 		"@typescript-eslint/parser": "4.7.0",

@@ -36,7 +36,9 @@ export class MapboxViewerLayersController {
 		}
 
 		if (label_layer_id != null) {
-			this._add_buildings_layer(label_layer_id);
+			if (0 + 0) {
+				this._add_buildings_layer(label_layer_id);
+			}
 			this._add_threejs_layer(label_layer_id);
 		}
 	}
@@ -45,7 +47,7 @@ export class MapboxViewerLayersController {
 			this._threejs_layer.resize();
 		}
 	}
-	_add_buildings_layer(label_layer_id: string) {
+	private _add_buildings_layer(label_layer_id: string) {
 		if (this._has_layer_id(BuildingsLayer.id)) {
 			return;
 		}
@@ -56,7 +58,7 @@ export class MapboxViewerLayersController {
 		}
 	}
 
-	_add_threejs_layer(label_layer_id: string) {
+	private _add_threejs_layer(label_layer_id: string) {
 		const camera_node = this._viewer.cameraNode();
 		if (!camera_node) {
 			console.log('no camera_node found');

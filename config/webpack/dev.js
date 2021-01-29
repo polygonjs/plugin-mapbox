@@ -20,6 +20,15 @@ module.exports = (env) => {
 				chunks: ['example'],
 			})
 		);
+
+		common_options.plugins.push(
+			new HtmlWebpackPlugin({
+				title: 'Mapbox Example',
+				filename: 'mapbox_example',
+				template: './src/mapbox_example.html',
+				chunks: [],
+			})
+		);
 	}
 
 	// load test index file

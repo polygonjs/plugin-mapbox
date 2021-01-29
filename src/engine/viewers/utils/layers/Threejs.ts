@@ -25,6 +25,7 @@ export class ThreejsLayer {
 		private _viewer: MapboxViewer
 	) {
 		this._camera = this._camera_node.object;
+		console.log('this._camera', this._camera);
 	}
 
 	onAdd(map: mapboxgl.Map, gl: WebGLRenderingContext) {
@@ -47,6 +48,7 @@ export class ThreejsLayer {
 			canvas: this._map.getCanvas(),
 			context: this._gl,
 		});
+		console.log('create renderer', this._gl);
 
 		this._renderer.autoClear = false;
 		this._renderer.shadowMap.enabled = true;
@@ -62,18 +64,27 @@ export class ThreejsLayer {
 		this.create_renderer();
 	}
 
-	// private _prints_count = 0;
+	private _prints_count = 0;
 	render(gl: WebGLRenderingContext, matrix: number[]) {
 		if (!this._renderer || !this._map) {
 			return;
 		}
+		// if (this._prints_count > 20) {
+		// 	return;
+		// }
 
 		this._update_camera_matrix2(matrix);
-		// if (this._prints_count < 100) {
-		// 	this._prints_count++;
-		// 	console.log('-> ', this._display_scene.uuid);
-		// 	console.log(this._camera.projectionMatrix);
+		this._prints_count++;
+		// console.log('-> ', this._display_scene.uuid);
+		// console.log(this._camera.projectionMatrix.elements);
+		// console.log(this._camera.matrix.elements);
+		// console.log(this._prints_count);
 		// }
+		let childrenCount = 0;
+		this._display_scene.traverse((object) => {
+			childrenCount++;
+		});
+		console.log(this._prints_count, childrenCount);
 
 		this._renderer.state.reset();
 		this._renderer.render(this._display_scene, this._camera);
@@ -93,6 +104,7 @@ export class ThreejsLayer {
 	private mRX = new Matrix4();
 	private mRY = new Matrix4();
 	private mRZ = new Matrix4();
+	private s = new Vector3();
 	private m = new Matrix4();
 	private l = new Matrix4();
 	_update_camera_matrix2(matrix: number[]) {
@@ -114,11 +126,14 @@ export class ThreejsLayer {
 		const rotationY = this.mRY.makeRotationAxis(this._vY, transform.rotation.y);
 		const rotationZ = this.mRZ.makeRotationAxis(this._vZ, transform.rotation.z);
 
+		this.s.x = transform.scale;
+		this.s.y = -transform.scale;
+		this.s.z = transform.scale;
 		this.m.fromArray(matrix);
 		this.l.identity();
 		this.l
 			.makeTranslation(1 * transform.position.x, 1 * transform.position.y, 1 * (transform.position.z || 0))
-			.scale(new Vector3(transform.scale, -transform.scale, transform.scale))
+			.scale(this.s)
 			.multiply(rotationX)
 			.multiply(rotationY)
 			.multiply(rotationZ);

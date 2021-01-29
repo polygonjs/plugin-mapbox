@@ -39,13 +39,13 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 		this._map.on('load', () => {
 			if (this._map) {
 				this._map_loaded = true;
+
 				this._canvas = this._findCanvas();
 				this.eventsController.init();
 				MapsRegister.instance().register_map(this._canvas_container.id, this._map);
 				this.layers_controller.add_layers();
 				this.mapbox_events_controller.camera_node_move_end(); // to update mapbox planes
 			}
-			// this.$store.app.dispatch_event(this.current_camera_node, {map_loaded: @panel_id.join('')})
 		});
 	}
 	mapLoaded() {

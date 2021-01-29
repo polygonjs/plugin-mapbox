@@ -137,6 +137,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 			preserveDrawingBuffer: true,
 			dragRotate: this.pv.allowDragRotate,
 			pitchWithRotate: this.pv.allowDragRotate,
+			antialias: true,
 		});
 
 		this._add_remove_controls(map, container.id);
