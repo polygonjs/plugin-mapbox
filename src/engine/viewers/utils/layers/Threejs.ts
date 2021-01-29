@@ -43,7 +43,7 @@ export class ThreejsLayer {
 		}
 		this._renderer = new WebGLRenderer({
 			// alpha: true
-			// antialias: true
+			// antialias: true,
 			canvas: this._map.getCanvas(),
 			context: this._gl,
 		});
@@ -62,18 +62,18 @@ export class ThreejsLayer {
 		this.create_renderer();
 	}
 
-	private _prints_count = 0;
+	// private _prints_count = 0;
 	render(gl: WebGLRenderingContext, matrix: number[]) {
 		if (!this._renderer || !this._map) {
 			return;
 		}
 
 		this._update_camera_matrix2(matrix);
-		if (this._prints_count < 100) {
-			this._prints_count++;
-			console.log('-> ', this._display_scene.uuid);
-			console.log(this._camera.projectionMatrix);
-		}
+		// if (this._prints_count < 100) {
+		// 	this._prints_count++;
+		// 	console.log('-> ', this._display_scene.uuid);
+		// 	console.log(this._camera.projectionMatrix);
+		// }
 
 		this._renderer.state.reset();
 		this._renderer.render(this._display_scene, this._camera);
@@ -87,6 +87,14 @@ export class ThreejsLayer {
 
 	// from https://docs.mapbox.com/mapbox-gl-js/example/add-3d-model/
 	// this now rotates objects correctly
+	private _vX = new Vector3(1, 0, 0);
+	private _vY = new Vector3(0, 1, 0);
+	private _vZ = new Vector3(0, 0, 1);
+	private mRX = new Matrix4();
+	private mRY = new Matrix4();
+	private mRZ = new Matrix4();
+	private m = new Matrix4();
+	private l = new Matrix4();
 	_update_camera_matrix2(matrix: number[]) {
 		const lng_lat = this._viewer.cameraLngLat();
 		if (!lng_lat) {
@@ -99,12 +107,16 @@ export class ThreejsLayer {
 			scale: CoreMapboxTransform.WORLD_SCALE,
 		};
 
-		const rotationX = new Matrix4().makeRotationAxis(new Vector3(1, 0, 0), transform.rotation.x);
-		const rotationY = new Matrix4().makeRotationAxis(new Vector3(0, 1, 0), transform.rotation.y);
-		const rotationZ = new Matrix4().makeRotationAxis(new Vector3(0, 0, 1), transform.rotation.z);
+		this.mRX.identity();
+		this.mRY.identity();
+		this.mRZ.identity();
+		const rotationX = this.mRX.makeRotationAxis(this._vX, transform.rotation.x);
+		const rotationY = this.mRY.makeRotationAxis(this._vY, transform.rotation.y);
+		const rotationZ = this.mRZ.makeRotationAxis(this._vZ, transform.rotation.z);
 
-		const m = new Matrix4().fromArray(matrix);
-		const l = new Matrix4()
+		this.m.fromArray(matrix);
+		this.l.identity();
+		this.l
 			.makeTranslation(1 * transform.position.x, 1 * transform.position.y, 1 * (transform.position.z || 0))
 			.scale(new Vector3(transform.scale, -transform.scale, transform.scale))
 			.multiply(rotationX)
@@ -112,6 +124,6 @@ export class ThreejsLayer {
 			.multiply(rotationZ);
 
 		this._camera.projectionMatrix.elements = matrix;
-		this._camera.projectionMatrix = m.multiply(l);
+		this._camera.projectionMatrix = this.m.multiply(this.l);
 	}
 }

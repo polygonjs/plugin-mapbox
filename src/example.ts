@@ -43,7 +43,15 @@ mapboxTransform.p.mapboxCamera.setNode(mapboxCamera);
 const copy = geo.createNode('copy');
 copy.setInput(0, boxTransform);
 copy.setInput(1, mapboxTransform);
-copy.flags.display.set(true);
+
+// create a material and assign it
+const MAT = root.createNode('materials');
+// const meshBasic = MAT.createNode('meshBasic');
+const meshLambert = MAT.createNode('meshLambert');
+const material = geo.createNode('material');
+material.setInput(0, copy);
+material.p.material.setNode(meshLambert);
+material.flags.display.set(true);
 
 // add a light
 root.createNode('hemisphereLight');
