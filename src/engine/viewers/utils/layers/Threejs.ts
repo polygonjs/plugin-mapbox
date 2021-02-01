@@ -7,6 +7,7 @@ import {Scene} from 'three/src/scenes/Scene';
 import {Matrix4} from 'three/src/math/Matrix4';
 import {Camera} from 'three/src/cameras/Camera';
 import mapboxgl from 'mapbox-gl';
+import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
 
 const ID = 'threejs_layer';
 
@@ -15,9 +16,11 @@ export class ThreejsLayer {
 	public readonly type: 'custom' = 'custom';
 	public readonly renderingMode: '3d' = '3d'; // 2d or 3d, the threejs will be either as an overlay or intersecting with buildings
 	private _camera: Camera;
+	private _scene: PolyScene;
 	private _renderer: WebGLRenderer | undefined;
 	private _map: mapboxgl.Map | undefined;
 	private _gl: WebGLRenderingContext | undefined;
+	// private _debug = true;
 
 	constructor(
 		private _camera_node: MapboxCameraObjNode,
@@ -25,17 +28,17 @@ export class ThreejsLayer {
 		private _viewer: MapboxViewer
 	) {
 		this._camera = this._camera_node.object;
-		console.log('this._camera', this._camera);
+		this._scene = this._camera_node.scene();
 	}
 
 	onAdd(map: mapboxgl.Map, gl: WebGLRenderingContext) {
 		this._map = map;
 		this._gl = gl;
 
-		this.create_renderer();
+		this.createRenderer();
 	}
 
-	create_renderer() {
+	private createRenderer() {
 		if (this._renderer != null) {
 			this._renderer.dispose();
 		}
@@ -61,33 +64,73 @@ export class ThreejsLayer {
 	resize() {
 		// TODO: resize is currently broken, as it seems to never be triggered
 		// re-creating a renderer is the only way I found to reliably resize
-		this.create_renderer();
+		this.createRenderer();
 	}
 
-	private _prints_count = 0;
+	// private _prints_count = 0;
+	// private _stopped = false;
 	render(gl: WebGLRenderingContext, matrix: number[]) {
 		if (!this._renderer || !this._map) {
 			return;
 		}
+
+		this._scene.timeController.incrementTimeIfPlaying();
 		// if (this._prints_count > 20) {
 		// 	return;
 		// }
 
-		this._update_camera_matrix2(matrix);
-		this._prints_count++;
+		// let childrenCount = 0;
+		// this._display_scene.traverse((object) => {
+		// 	childrenCount++;
+		// });
+
+		this._updateCameraMatrix(matrix);
+
+		// if (this._debug && this._prints_count == 0) {
+		// 	if ((window as any).spector) {
+		// 		console.log('start capture');
+		// 		(window as any).spector.startCapture(gl);
+		// 	}
+		// }
+		// if (this._debug && this._scene.frame() > 200 && !this._stopped) {
+		// 	if ((window as any).spector) {
+		// 		console.log('stop', this._scene.frame());
+		// 		this._stopped = true;
+		// 		const result = (window as any).spector.stopCapture();
+		// 		console.log(result);
+		// 	}
+		// }
+
+		// this._prints_count++;
 		// console.log('-> ', this._display_scene.uuid);
 		// console.log(this._camera.projectionMatrix.elements);
 		// console.log(this._camera.matrix.elements);
 		// console.log(this._prints_count);
 		// }
-		let childrenCount = 0;
-		this._display_scene.traverse((object) => {
-			childrenCount++;
-		});
-		console.log(this._prints_count, childrenCount);
+		// console.log(this._prints_count, childrenCount, this._scene.frame());
 
+		// if (this._debug && (window as any).spector) {
+		// 	(window as any).spector.setMarker(`Threejs layer reset (${this._prints_count})`);
+		// }
 		this._renderer.state.reset();
+		// if (this._debug && (window as any).spector) {
+		// 	(window as any).spector.clearMarker();
+		// }
+
+		// if (this._debug && (window as any).spector) {
+		// 	const markerName = `Threejs layer render (${this._prints_count}, ${this._scene.frame()})`;
+		// 	console.log('markerName', markerName);
+		// 	(window as any).spector.setMarker(markerName);
+		// }
 		this._renderer.render(this._display_scene, this._camera);
+		// if (this._debug && (window as any).spector) {
+		// 	(window as any).spector.clearMarker();
+		// }
+		// if (this._debug && (window as any).spector) {
+		// 	const markerName = `map (${this._prints_count}, ${this._scene.frame()})`;
+		// 	console.log('markerName', markerName);
+		// 	(window as any).spector.setMarker(markerName);
+		// }
 		this._map.triggerRepaint();
 	}
 
@@ -107,7 +150,7 @@ export class ThreejsLayer {
 	private s = new Vector3();
 	private m = new Matrix4();
 	private l = new Matrix4();
-	_update_camera_matrix2(matrix: number[]) {
+	_updateCameraMatrix(matrix: number[]) {
 		const lng_lat = this._viewer.cameraLngLat();
 		if (!lng_lat) {
 			return;
