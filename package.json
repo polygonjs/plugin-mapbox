@@ -1,6 +1,6 @@
 {
 	"name": "@polygonjs/plugin-mapbox",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"engines": {
 		"node": ">=12.16.1",
 		"yarn": ">=1.22.4"
@@ -43,7 +43,7 @@
 		"mapbox-gl": "2.0.1"
 	},
 	"devDependencies": {
-		"@types/mapbox-gl": "2.0.1",
+		"@types/mapbox-gl": "2.0.4",
 		"@types/qunit": "2.11.1",
 		"@typescript-eslint/eslint-plugin": "4.7.0",
 		"@typescript-eslint/parser": "4.7.0",

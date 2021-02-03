@@ -88,18 +88,7 @@
 					loader.load(
 						'https://docs.mapbox.com/mapbox-gl-js/assets/34M_17/34M_17.gltf',
 						function (gltf) {
-							setTimeout(() => {
-								this.scene.add(gltf.scene);
-								this.scene.traverse((object) => {
-									// object.matrixAutoUpdate = false;
-									object.castShadow = true;
-									object.receiveShadow = true;
-									if (object.material) {
-										object.material = meshBasic;
-									}
-								});
-								console.log(this.scene);
-							}, 100);
+							this.scene.add(gltf.scene);
 						}.bind(this)
 					);
 					this.map = map;
@@ -140,8 +129,7 @@
 						.multiply(rotationZ);
 
 					this.camera.projectionMatrix = m.multiply(l);
-					// this.renderer.state.reset();
-					console.log('render');
+					this.renderer.state.reset();
 					this.renderer.render(this.scene, this.camera);
 					this.map.triggerRepaint();
 				},

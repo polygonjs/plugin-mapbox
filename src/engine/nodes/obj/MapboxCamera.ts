@@ -14,13 +14,29 @@ import {ParamConfig, NodeParamsConfig} from '@polygonjs/polygonjs/dist/src/engin
 import {BaseNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/_Base';
 import {BaseParamType} from '@polygonjs/polygonjs/dist/src/engine/params/_Base';
 import {Number2} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
+
+const PRESETS = {
+	LONDON: {
+		style: 'mapbox://styles/mapbox/dark-v10',
+		lngLat: [-0.07956, 51.5146] as Number2,
+	},
+	SAN_FRANCISCO: {
+		style: 'mapbox://styles/mapbox/dark-v10',
+		lngLat: [-122.4726194, 37.7577627] as Number2,
+	},
+	MOUNTAIN: {
+		style: 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
+		lngLat: [-114.34411, 32.6141] as Number2,
+	},
+};
+const PRESET = PRESETS.LONDON;
 class MapboxCameraObjParamConfig extends CameraMasterCameraParamConfig(NodeParamsConfig) {
-	style = ParamConfig.STRING('mapbox://styles/mapbox/dark-v10', {
+	style = ParamConfig.STRING(PRESET.style, {
 		callback: (node: BaseNodeType) => {
 			MapboxCameraObjNode.PARAM_CALLBACK_update_style(node as MapboxCameraObjNode);
 		},
 	});
-	lngLat = ParamConfig.VECTOR2([-0.07956, 51.5146], {
+	lngLat = ParamConfig.VECTOR2(PRESET.lngLat, {
 		callback: (node: BaseNodeType) => {
 			MapboxCameraObjNode.PARAM_CALLBACK_update_nav(node as MapboxCameraObjNode);
 		},
@@ -69,6 +85,9 @@ class MapboxCameraObjParamConfig extends CameraMasterCameraParamConfig(NodeParam
 		},
 	});
 	// this.create_player_camera_params();
+	tlayerBuildings = ParamConfig.BOOLEAN(0);
+	tlayer3D = ParamConfig.BOOLEAN(0);
+	tlayerSky = ParamConfig.BOOLEAN(0);
 }
 const ParamsConfig = new MapboxCameraObjParamConfig();
 
@@ -92,7 +111,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	}
 
 	async cook() {
-		this.update_maps();
+		this.updateMaps();
 		this.cookController.end_cook();
 	}
 
@@ -119,12 +138,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		raycaster.set(this._cam_pos, this._view_dir);
 	}
 
-	// prepare_for_viewer: (aspect)->
-	// 	#if (camera = this.object())?
-	// 	#	#
-
-	create_map(container: HTMLElement) {
-		//this.param('lng_lat_at_start').set(@_start_lng_lat)
+	createMap(container: HTMLElement) {
 		const map = new mapboxgl.Map({
 			style: this.pv.style,
 			container,
@@ -134,7 +148,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 			maxZoom: this.pv.zoomRange.y,
 			pitch: this.pv.pitch,
 			bearing: this.pv.bearing,
-			preserveDrawingBuffer: true,
+			// preserveDrawingBuffer: true,
 			dragRotate: this.pv.allowDragRotate,
 			pitchWithRotate: this.pv.allowDragRotate,
 			antialias: true,
@@ -178,7 +192,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	// 	}
 	// }
 
-	update_maps() {
+	updateMaps() {
 		this._maps_by_container_id.forEach((map, container_id) => {
 			this.update_map_from_container_id(container_id);
 		});

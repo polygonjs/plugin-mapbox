@@ -8,6 +8,8 @@ import {Matrix4} from 'three/src/math/Matrix4';
 import {Camera} from 'three/src/cameras/Camera';
 import mapboxgl from 'mapbox-gl';
 import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
+import {Mesh} from 'three/src/objects/Mesh';
+import {PlaneBufferGeometry} from 'three/src/geometries/PlaneBufferGeometry';
 
 const ID = 'threejs_layer';
 
@@ -20,7 +22,6 @@ export class ThreejsLayer {
 	private _renderer: WebGLRenderer | undefined;
 	private _map: mapboxgl.Map | undefined;
 	private _gl: WebGLRenderingContext | undefined;
-	// private _debug = true;
 
 	constructor(
 		private _camera_node: MapboxCameraObjNode,
@@ -37,12 +38,19 @@ export class ThreejsLayer {
 
 		this.createRenderer();
 	}
-
+	onRemove() {
+		this._renderer?.dispose();
+	}
 	private createRenderer() {
 		if (this._renderer != null) {
 			this._renderer.dispose();
 		}
 		if (!this._map) {
+			console.error('no map given');
+			return;
+		}
+		if (!this._gl) {
+			console.error('no gl context given');
 			return;
 		}
 		this._renderer = new WebGLRenderer({
@@ -51,14 +59,10 @@ export class ThreejsLayer {
 			canvas: this._map.getCanvas(),
 			context: this._gl,
 		});
-		console.log('create renderer', this._gl);
-
 		this._renderer.autoClear = false;
 		this._renderer.shadowMap.enabled = true;
-	}
 
-	onRemove() {
-		this._renderer?.dispose();
+		this._hack();
 	}
 
 	resize() {
@@ -67,77 +71,19 @@ export class ThreejsLayer {
 		this.createRenderer();
 	}
 
-	// private _prints_count = 0;
-	// private _stopped = false;
-	render(gl: WebGLRenderingContext, matrix: number[]) {
+	async render(gl: WebGLRenderingContext, matrix: number[]) {
 		if (!this._renderer || !this._map) {
 			return;
 		}
 
 		this._scene.timeController.incrementTimeIfPlaying();
-		// if (this._prints_count > 20) {
-		// 	return;
-		// }
-
-		// let childrenCount = 0;
-		// this._display_scene.traverse((object) => {
-		// 	childrenCount++;
-		// });
 
 		this._updateCameraMatrix(matrix);
 
-		// if (this._debug && this._prints_count == 0) {
-		// 	if ((window as any).spector) {
-		// 		console.log('start capture');
-		// 		(window as any).spector.startCapture(gl);
-		// 	}
-		// }
-		// if (this._debug && this._scene.frame() > 200 && !this._stopped) {
-		// 	if ((window as any).spector) {
-		// 		console.log('stop', this._scene.frame());
-		// 		this._stopped = true;
-		// 		const result = (window as any).spector.stopCapture();
-		// 		console.log(result);
-		// 	}
-		// }
-
-		// this._prints_count++;
-		// console.log('-> ', this._display_scene.uuid);
-		// console.log(this._camera.projectionMatrix.elements);
-		// console.log(this._camera.matrix.elements);
-		// console.log(this._prints_count);
-		// }
-		// console.log(this._prints_count, childrenCount, this._scene.frame());
-
-		// if (this._debug && (window as any).spector) {
-		// 	(window as any).spector.setMarker(`Threejs layer reset (${this._prints_count})`);
-		// }
 		this._renderer.state.reset();
-		// if (this._debug && (window as any).spector) {
-		// 	(window as any).spector.clearMarker();
-		// }
-
-		// if (this._debug && (window as any).spector) {
-		// 	const markerName = `Threejs layer render (${this._prints_count}, ${this._scene.frame()})`;
-		// 	console.log('markerName', markerName);
-		// 	(window as any).spector.setMarker(markerName);
-		// }
 		this._renderer.render(this._display_scene, this._camera);
-		// if (this._debug && (window as any).spector) {
-		// 	(window as any).spector.clearMarker();
-		// }
-		// if (this._debug && (window as any).spector) {
-		// 	const markerName = `map (${this._prints_count}, ${this._scene.frame()})`;
-		// 	console.log('markerName', markerName);
-		// 	(window as any).spector.setMarker(markerName);
-		// }
 		this._map.triggerRepaint();
 	}
-
-	// https://github.com/mapbox/mapbox-gl-js/issues/7395
-	// _update_camera_matrix3(gl, matrix){
-	// 	this._camera.projectionMatrix.elements = matrix;
-	// }
 
 	// from https://docs.mapbox.com/mapbox-gl-js/example/add-3d-model/
 	// this now rotates objects correctly
@@ -183,5 +129,51 @@ export class ThreejsLayer {
 
 		this._camera.projectionMatrix.elements = matrix;
 		this._camera.projectionMatrix = this.m.multiply(this.l);
+	}
+
+	// This is a very dirty hack that seems to allow objects to render properly.
+	// If this was not called,
+	// all objects created would render for a couple frames and then disappear.
+	// There sometimes would be an WebGL warning along the lines of "buffer not large enough"
+	// but it is completely unclear what could have caused it.
+	//
+	// What I tried to debug this:
+	//
+	// - upgrade from mapbox 1 to 2
+	// this made no difference
+	//
+	// - using Babylon Spector
+	// but I was unable to isolate which call was problematic
+	//
+	// - fiddle with renderes options
+	// that solved nothing
+	//
+	// - integrate the mapbox example as a layer instead of this one
+	// When using the example layer and its included THREE.Scene,
+	// it renders just fine.
+	// But as soon as I replace the included scene with the one created by Polygonjs,
+	// Then the problem reappears.
+	// That's even if the scene is as simple as a Hemisphere Light and a Plane.
+	// So that did not allow me to find a solution.
+	//
+	// - use src/debug.js (I forgot now where I copied it from)
+	// to help find bad webgl calls.
+	// but that didn't help.
+	//
+	// - setting Polygonjs scene's objects to
+	// matrixAutoUpdate = true
+	// or
+	// frustumCulled = false
+	// But that solved nothing.
+	//
+	// In short.... WFT?!?!
+	// But for now, with this hack, it seems to work fine.
+	private _hack() {
+		const hackObject = new Mesh(new PlaneBufferGeometry());
+		hackObject.frustumCulled = false;
+		hackObject.position.z = -1000;
+		hackObject.scale.set(0.01, 0.01, 0.01);
+		const scene = this._scene.threejsScene();
+		scene.add(hackObject);
 	}
 }

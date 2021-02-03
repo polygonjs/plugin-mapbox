@@ -52,7 +52,6 @@ console.log(`esbuild: transpiling ${files_list.length} files`);
 
 // // const out = './dist/out.js';
 const outdir = './dist/src';
-const POLYGONJS_VERSION = JSON.stringify(require('../../package.json').version);
 
 function getTarget() {
 	const tsconfig = fs.readFileSync(path.resolve(process.cwd(), './tsconfig.json'), 'utf-8');
@@ -88,7 +87,6 @@ function getOptions() {
 		// minifySyntax: false,
 		// bundle: true,
 		// external: ['require', 'fs', 'path'],
-		define: {__POLYGONJS_VERSION__: POLYGONJS_VERSION},
 		loader: {
 			'.glsl': 'text',
 		},

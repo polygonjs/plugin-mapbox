@@ -20,7 +20,8 @@
 			height: 100%;
 		}
 	</style>
-	<link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css" rel="stylesheet" />
+</script>
 </head>
 
 <body>
@@ -29,14 +30,15 @@
 	<div
 		style='position:absolute; border: 1px solid lightgray; margin: 10px; padding: 10px; z-index:99; background-color: #ddd;'>
 		<p>
-			<label>Box Size</label>
-			<input type='range' min=0 max=200 step=1 value=100
-				oninput='boxTransform.p.scale.set(event.target.value)'></input>
+			<label>Text Segments</label>
+			<input type='range' min=1 max=4 step=1 value=2
+				oninput='text.p.segments.set(event.target.value)'></input>
 		</p>
 	</div>
 
 
 	<div id="app"></div>
+	
 </body>
 
 </html>
