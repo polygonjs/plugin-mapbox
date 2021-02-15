@@ -9,7 +9,7 @@ import {Camera} from 'three/src/cameras/Camera';
 import mapboxgl from 'mapbox-gl';
 import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
 import {Mesh} from 'three/src/objects/Mesh';
-import {PlaneBufferGeometry} from 'three/src/geometries/PlaneBufferGeometry';
+import {PlaneBufferGeometry} from 'three/src/geometries/PlaneGeometry';
 
 const ID = 'threejs_layer';
 

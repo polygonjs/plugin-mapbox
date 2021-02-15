@@ -118,16 +118,16 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@polygonjs/polygonjs@^1.1.59":
-  version "1.1.59"
-  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.1.59.tgz#002ced250c2be7b3706c2f8560b601c7dee214be"
-  integrity sha512-3rMFkYgnhmArHLA6Q2Cm7YmPuFJCTms+UesTwMfpBWbRC0poR6AGSwoJ0wC9X39otRwPN0eCw9vbfUt8AvByJA==
+"@polygonjs/polygonjs@^1.1.67":
+  version "1.1.67"
+  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.1.67.tgz#0d5bbdaf2444a6522e627478a0831c426a13268a"
+  integrity sha512-xPGW9l0iF4cI8Lh+RJLWSNHh9S1UVmRp5SB9H+QUzViABNQzHEgaNjmmy0ZY6VE0qBSOFYfQ0U2aJT6J4cM7Bw==
   dependencies:
     gsap "3.5.1"
     jsep "0.3.5"
     lodash "4.17.20"
     opentype.js "1.3.3"
-    three "0.124.0"
+    three "0.125.1"
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -4642,11 +4642,6 @@ spdy@^4.0.2:
     select-hose "^2.0.0"
     spdy-transport "^3.0.0"
 
-spectorjs@^0.9.17:
-  version "0.9.17"
-  resolved "https://registry.yarnpkg.com/spectorjs/-/spectorjs-0.9.17.tgz#fad9c24d56cac068d256ce69fa26025746b83cb5"
-  integrity sha512-fTQg5Yj16Fti4Wg+zB2wkcLtawxo9Vn8IJCfryJpn9BHM1SUzupMJwOL+mpKFPq9qHJZ0827aal1wI4G95savw==
-
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/split-string/-/split-string-3.1.0.tgz#7cb09dda3a86585705c64b39a6466038682e8fe2"
@@ -4901,10 +4896,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three@0.124.0:
-  version "0.124.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.124.0.tgz#14ab1a26ba6c56e51190e1b55695cd3c1e69ea55"
-  integrity sha512-ROXp1Ly7YyF+jC910DQyAWj++Qlw2lQv0qwYLNQwdDbjk4bsOXAfGO92wYTMPNei1GMJUmCxSxc3MjGBTS09Rg==
+three@0.125.1:
+  version "0.125.1"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.125.1.tgz#6eedbc5003b843fd5b6c48b3e61bfbd86bd3e0b2"
+  integrity sha512-7CbiSHZOc18ChhVZU8wQ2g9F2KHJqiG7+ND56/XMrJC2XZMmu+dZFeLFl380c5JwKZGHTOkBQzioZVkI7Jumhg==
 
 through2@^2.0.0:
   version "2.0.5"

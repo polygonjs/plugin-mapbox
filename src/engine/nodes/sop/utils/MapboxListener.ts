@@ -137,7 +137,7 @@ export class MapboxListener {
 	}
 
 	_update_from_camera() {
-		if (this._node.cookController.is_cooking) {
+		if (this._node.cookController.isCooking()) {
 			// TODO: this should be added to a queue instead
 			// or once the params are safer, simple run now
 			setTimeout(this._update_from_camera.bind(this), 1000);

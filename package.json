@@ -1,6 +1,6 @@
 {
 	"name": "@polygonjs/plugin-mapbox",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"engines": {
 		"node": ">=12.16.1",
 		"yarn": ">=1.22.4"
@@ -39,7 +39,7 @@
 		"cp_types": "cp dist/src/index.d.ts dist/"
 	},
 	"dependencies": {
-		"@polygonjs/polygonjs": "^1.1.59",
+		"@polygonjs/polygonjs": "^1.1.67",
 		"mapbox-gl": "2.0.1"
 	},
 	"devDependencies": {
