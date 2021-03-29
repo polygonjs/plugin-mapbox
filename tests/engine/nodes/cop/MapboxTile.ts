@@ -32,6 +32,6 @@ QUnit.test('height map from mapbox', async (assert) => {
 	assert.equal(container.boundingBox().max.x, 0.5);
 	assert.equal(container.boundingBox().min.z, -0.5);
 	assert.equal(container.boundingBox().max.z, 0.5);
-	assert.in_delta(container.boundingBox().min.y, 9.4, 0.1);
+	assert.in_delta(container.boundingBox().min.y, 12.15, 0.1);
 	assert.in_delta(container.boundingBox().max.y, 21.5, 0.1);
 });

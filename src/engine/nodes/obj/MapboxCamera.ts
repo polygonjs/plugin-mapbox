@@ -92,7 +92,7 @@ class MapboxCameraObjParamConfig extends CameraMasterCameraParamConfig(NodeParam
 const ParamsConfig = new MapboxCameraObjParamConfig();
 
 export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, MapboxCameraObjParamConfig> {
-	params_config = ParamsConfig;
+	paramsConfig = ParamsConfig;
 	static type(): Readonly<'mapboxCamera'> {
 		return 'mapboxCamera';
 	}
@@ -106,20 +106,20 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	private _controls_by_container_id: Map<string, mapboxgl.NavigationControl> = new Map();
 	private _moving_maps = false;
 
-	create_object() {
+	createObject() {
 		return new PerspectiveCamera(); // I use a PerspectiveCamera to have the picker working
 	}
 
 	async cook() {
 		this.updateMaps();
-		this.cookController.end_cook();
+		this.cookController.endCook();
 	}
 
 	private _inverse_proj_mat = new Matrix4();
 	private _cam_pos = new Vector3();
 	private _mouse_pos = new Vector3();
 	private _view_dir = new Vector3();
-	prepare_raycaster(mouse: Vector2, raycaster: Raycaster) {
+	prepareRaycaster(mouse: Vector2, raycaster: Raycaster) {
 		// adapted from https://github.com/mapbox/mapbox-gl-js/issues/7395
 		// const camInverseProjection = this._inverse_proj_mat.getInverse(this._object.projectionMatrix);
 		// this._cam_pos.set(0, 0, 0);
@@ -154,7 +154,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 			antialias: true,
 		});
 
-		this._add_remove_controls(map, container.id);
+		this._addRemoveControls(map, container.id);
 
 		this._maps_by_container_id.set(container.id, map);
 		this._map_containers_by_container_id.set(container.id, container);
@@ -194,26 +194,26 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 
 	updateMaps() {
 		this._maps_by_container_id.forEach((map, container_id) => {
-			this.update_map_from_container_id(container_id);
+			this.updateMapFromContainerId(container_id);
 		});
 	}
 
 	//this.object().dispatchEvent('change')
 
-	update_map_from_container_id(container_id: string) {
+	updateMapFromContainerId(container_id: string) {
 		const map = this._maps_by_container_id.get(container_id);
 		if (!map) {
 			return;
 		}
-		this.update_map_nav(map);
+		this.updateMapNav(map);
 		// controls
-		this._add_remove_controls(map, container_id);
+		this._addRemoveControls(map, container_id);
 		// style
 		map.setStyle(this.pv.style);
 	}
-	update_map_nav(map: mapboxgl.Map) {
+	updateMapNav(map: mapboxgl.Map) {
 		// position/zoom/pitch/bearing
-		map.jumpTo(this.camera_options_from_params());
+		map.jumpTo(this.cameraOptionsFromParams());
 		map.setMinZoom(this.pv.zoomRange.x);
 		map.setMaxZoom(this.pv.zoomRange.y);
 
@@ -225,7 +225,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		}
 	}
 
-	first_map() {
+	firstMap() {
 		let first_map: mapboxgl.Map | undefined;
 		this._maps_by_container_id.forEach((map, id) => {
 			if (!first_map) {
@@ -234,7 +234,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		});
 		return first_map;
 	}
-	first_id() {
+	firstId() {
 		let first_id: string | undefined;
 		this._maps_by_container_id.forEach((map, id) => {
 			if (!first_id) {
@@ -243,32 +243,32 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		});
 		return first_id;
 	}
-	first_map_element() {
-		const id = this.first_id();
+	firstMapElement() {
+		const id = this.firstId();
 		if (id) {
 			return this._map_containers_by_container_id.get(id);
 		}
 	}
 	bounds() {
-		const map = this.first_map();
+		const map = this.firstMap();
 		if (map) {
 			return map.getBounds();
 		}
 	}
 	zoom() {
-		const map = this.first_map();
+		const map = this.firstMap();
 		if (map) {
 			return map.getZoom();
 		}
 	}
 	center() {
-		const map = this.first_map();
+		const map = this.firstMap();
 		if (map) {
 			return map.getCenter();
 		}
 	}
 	horizontal_lng_lat_points() {
-		const id = this.first_id();
+		const id = this.firstId();
 		if (id) {
 			// const x = Math.floor(map._container.clientWidth*0.5*1.01)
 			// const y = map._container.clientHeight / 2;
@@ -292,8 +292,8 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	// 		return map.unproject([+x, y])
 	// 	}
 	// }
-	center_lng_lat_point() {
-		const id = this.first_id();
+	centerLngLatPoint() {
+		const id = this.firstId();
 		if (id) {
 			const map = this._maps_by_container_id.get(id);
 			const element = this._canvases_by_container_id.get(id);
@@ -304,8 +304,8 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 			}
 		}
 	}
-	vertical_far_lng_lat_points() {
-		const id = this.first_id();
+	verticalFarLngLatPoints() {
+		const id = this.firstId();
 		if (id) {
 			const map = this._maps_by_container_id.get(id);
 			const element = this._canvases_by_container_id.get(id);
@@ -317,8 +317,8 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 			}
 		}
 	}
-	vertical_near_lng_lat_points() {
-		const id = this.first_id();
+	verticalNearLngLatPoints() {
+		const id = this.firstId();
 		if (id) {
 			const map = this._maps_by_container_id.get(id);
 			const element = this._canvases_by_container_id.get(id);
@@ -344,7 +344,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	// 	}
 	// }
 
-	remove_map(container: HTMLElement) {
+	removeMap(container: HTMLElement) {
 		if (container) {
 			const map = this._maps_by_container_id.get(container.id);
 			if (map) {
@@ -360,7 +360,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 
 	// allows all mapbox viewers depending on the same camera to sync up
 	// once one has completed a move
-	on_move_end(container: HTMLElement) {
+	onMoveEnd(container: HTMLElement) {
 		if (this._moving_maps === true) {
 			return;
 		}
@@ -369,7 +369,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		if (container != null) {
 			const triggering_map = this._maps_by_container_id.get(container.id);
 			if (triggering_map != null) {
-				const camera_options = this.camera_options_from_map(triggering_map);
+				const camera_options = this.cameraOptionsFromMap(triggering_map);
 				this._maps_by_container_id.forEach((map, container_id) => {
 					if (container_id !== container.id) {
 						const map = this._maps_by_container_id.get(container_id);
@@ -383,7 +383,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 
 		this._moving_maps = false;
 	}
-	lng_lat() {
+	lngLat() {
 		const val = this.pv.lngLat;
 		return {
 			lng: val.x,
@@ -391,16 +391,16 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		};
 	}
 
-	camera_options_from_params() {
+	cameraOptionsFromParams() {
 		return {
-			center: this.lng_lat(),
+			center: this.lngLat(),
 			pitch: this.pv.pitch,
 			bearing: this.pv.bearing,
 			zoom: this.pv.zoom,
 		};
 	}
 
-	camera_options_from_map(map: mapboxgl.Map) {
+	cameraOptionsFromMap(map: mapboxgl.Map) {
 		// let data;
 		// this.pv.lng_lat.toArray();
 
@@ -412,7 +412,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		};
 	}
 
-	_add_remove_controls(map: mapboxgl.Map, container_id: string) {
+	_addRemoveControls(map: mapboxgl.Map, container_id: string) {
 		let nav_control = this._controls_by_container_id.get(container_id);
 		if (nav_control) {
 			if (!this.pv.add_zoom_control) {
@@ -428,8 +428,8 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		}
 	}
 
-	update_params_from_map() {
-		const map = this.first_map();
+	updateParamsFromMap() {
+		const map = this.firstMap();
 		if (map) {
 			const center = map.getCenter();
 			const zoom = map.getZoom();
@@ -442,22 +442,22 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		}
 	}
 	static PARAM_CALLBACK_update_params_from_map(node: MapboxCameraObjNode) {
-		node.update_params_from_map();
+		node.updateParamsFromMap();
 	}
 	static PARAM_CALLBACK_update_style(node: MapboxCameraObjNode) {
-		node.update_style();
+		node.updateStyle();
 	}
 	static PARAM_CALLBACK_update_nav(node: MapboxCameraObjNode) {
-		node.update_nav();
+		node.updateNav();
 	}
-	update_style() {
+	updateStyle() {
 		this._maps_by_container_id.forEach((map, container_id) => {
 			map.setStyle(this.pv.style);
 		});
 	}
-	update_nav() {
+	updateNav() {
 		this._maps_by_container_id.forEach((map) => {
-			this.update_map_nav(map);
+			this.updateMapNav(map);
 		});
 	}
 

@@ -44,23 +44,22 @@ export function MapboxListenerParamConfig<TBase extends Constructor>(Base: TBase
 
 class MapboxListenerParamsConfig extends MapboxListenerParamConfig(NodeParamsConfig) {}
 export abstract class MapboxListenerSopNode<M extends MapboxListenerParamsConfig> extends TypedSopNode<M> {
-	// params_config = new MapboxListenerParamsConfig();
-	protected _mapbox_listener: MapboxListener = new MapboxListener(this as MapboxListenerSopNodeWithParams);
-	protected _camera_node: MapboxCameraObjNode | undefined;
+	protected _mapboxListener: MapboxListener = new MapboxListener(this as MapboxListenerSopNodeWithParams);
+	protected _cameraNode: MapboxCameraObjNode | undefined;
 
 	static PARAM_CALLBACK_update_mapbox_camera(node: MapboxListenerSopNode<MapboxListenerParamsConfig>) {
-		node.update_mapbox_camera();
+		node.updateMapboxCamera();
 	}
-	update_mapbox_camera() {
-		this._camera_node = this.find_camera_node();
+	updateMapboxCamera() {
+		this._cameraNode = this.findCameraNode();
 	}
-	get camera_node() {
-		return this._camera_node;
+	cameraNode() {
+		return this._cameraNode;
 	}
-	get camera_object(): PerspectiveCamera | undefined {
-		return this._camera_node?.object;
+	cameraObject(): PerspectiveCamera | undefined {
+		return this._cameraNode?.object;
 	}
-	find_camera_node(): MapboxCameraObjNode | undefined {
+	findCameraNode(): MapboxCameraObjNode | undefined {
 		const node = this.p.mapboxCamera.found_node_with_context(NodeContext.OBJ);
 		if (node) {
 			if (node.type() == MapboxCameraObjNode.type()) {
@@ -70,19 +69,19 @@ export abstract class MapboxListenerSopNode<M extends MapboxListenerParamsConfig
 			}
 		}
 	}
-	abstract _post_init_controller(): void;
+	abstract _postInitController(): void;
 }
 
 class MapboxListenerSopNodeWithParams extends MapboxListenerSopNode<MapboxListenerParamsConfig> {
-	params_config = new MapboxListenerParamsConfig();
-	_post_init_controller() {}
+	paramsConfig = new MapboxListenerParamsConfig();
+	_postInitController() {}
 }
 
 export class MapboxListener {
 	private _current_camera_path: string | undefined;
 	private _camera_controller: CameraController;
 	constructor(private _node: MapboxListenerSopNodeWithParams) {
-		this._camera_controller = new CameraController(this._update_from_camera.bind(this));
+		this._camera_controller = new CameraController(this._updateFromCamera.bind(this));
 	}
 
 	// _init_mapbox_listener() {
@@ -92,71 +91,71 @@ export class MapboxListener {
 
 	// }
 	async cook() {
-		if (!this._node.camera_node) {
-			this._node.update_mapbox_camera();
-			this._update_camera_controller();
+		let cameraNode = this._node.cameraNode();
+		if (!cameraNode) {
+			this._node.updateMapboxCamera();
+			this._updateCameraController();
 		}
-		if (!this._node.camera_node) {
+		cameraNode = this._node.cameraNode();
+		if (!cameraNode) {
 			this._node.setObjects([]);
 			return;
 		}
 
-		let zoom = this._node.camera_node.zoom();
-		// is_camera_node_valid = @_camera_node?
-		const is_mapbox_active = this._node.camera_node != null;
-		const is_zoom_in_range = zoom != null && zoom > this._node.pv.zoomRange.x && zoom < this._node.pv.zoomRange.y;
+		let zoom = cameraNode.zoom();
+		const isMapboxActive = cameraNode != null;
+		const isZoomInRange = zoom != null && zoom > this._node.pv.zoomRange.x && zoom < this._node.pv.zoomRange.y;
 
-		// still run if the mapbox is not active (good for debugging)
-		// do_post_init_controller = is_camera_node_valid && (!is_mapbox_active || is_zoom_in_range)
-		const do_post_init_controller = !is_mapbox_active || is_zoom_in_range;
+		const doPostInitController = !isMapboxActive || isZoomInRange;
 
-		if (do_post_init_controller) {
-			this._node._post_init_controller();
+		if (doPostInitController) {
+			this._node._postInitController();
 		} else {
 			this._node.setObjects([]);
 		}
 	}
 
-	_update_camera_controller() {
-		this._camera_controller.set_update_always(this._node.pv.updateAlways || false);
+	_updateCameraController() {
+		this._camera_controller.setUpdateAlways(this._node.pv.updateAlways || false);
 
 		if (this._current_camera_path == null || this._current_camera_path !== this._node.pv.camera) {
-			if (this._node.camera_object) {
+			const cameraObject = this._node.cameraObject();
+			if (cameraObject) {
 				// if (this._is_mapbox_camera(this._camera_object)) {
-				this._camera_controller.set_target(this._node.camera_object);
+				this._camera_controller.setTarget(cameraObject);
 				// } else {
 				// 	this.set_error("camera must be a mapbox camera");
 				// 	this._camera_controller.remove_target();
 				// }
 			} else {
-				this._camera_controller.remove_target();
+				this._camera_controller.removeTarget();
 			}
 
 			this._current_camera_path = this._node.pv.mapboxCamera;
 		}
 	}
 
-	_update_from_camera() {
+	_updateFromCamera() {
 		if (this._node.cookController.isCooking()) {
 			// TODO: this should be added to a queue instead
 			// or once the params are safer, simple run now
-			setTimeout(this._update_from_camera.bind(this), 1000);
+			setTimeout(this._updateFromCamera.bind(this), 1000);
 		} else {
-			const has_zoom_param = this._node.pv.useZoom;
-			const has_bounds_params = this._node.pv.useBounds;
+			const hasZoomParam = this._node.pv.useZoom;
+			const hasBoundsParams = this._node.pv.useBounds;
 
 			const cooker = this._node.scene().cooker;
-			if (has_bounds_params || has_zoom_param) {
+			if (hasBoundsParams || hasZoomParam) {
 				cooker.block();
 			}
-			const camera_node = this._node.camera_node;
+			const cameraNode = this._node.cameraNode();
 
-			if (has_bounds_params) {
+			if (hasBoundsParams) {
 				const sw_param = this._node.p.southWest;
 				const ne_param = this._node.p.northEast;
-				if (camera_node) {
-					const bounds = camera_node.bounds();
-					if (camera_node != null && bounds != null) {
+				if (cameraNode) {
+					const bounds = cameraNode.bounds();
+					if (cameraNode != null && bounds != null) {
 						const sw = bounds.getSouthWest();
 						const ne = bounds.getNorthEast();
 
@@ -165,20 +164,20 @@ export class MapboxListener {
 					}
 				}
 			}
-			if (has_zoom_param) {
-				if (camera_node) {
-					const zoom = camera_node.zoom();
+			if (hasZoomParam) {
+				if (cameraNode) {
+					const zoom = cameraNode.zoom();
 					if (zoom) {
 						this._node.p.zoom.set(zoom);
 					}
 				}
 			}
 
-			if (has_bounds_params || has_zoom_param) {
+			if (hasBoundsParams || hasZoomParam) {
 				cooker.unblock();
 			}
 
-			if (!has_bounds_params && !has_zoom_param) {
+			if (!hasBoundsParams && !hasZoomParam) {
 				this._node.setDirty();
 			}
 		}

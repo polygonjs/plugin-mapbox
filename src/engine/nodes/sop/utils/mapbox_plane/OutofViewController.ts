@@ -16,7 +16,7 @@ export class MapboxPlaneFrustumController {
 	// private _core_transform = new CoreTransform();
 	constructor(protected node: MapboxPlaneSopNode) {}
 
-	delete_out_of_view(
+	deleteOutOfView(
 		geometry: BufferGeometry,
 		core_geo: CoreGeometry,
 		camera_node: MapboxCameraObjNode,
@@ -24,8 +24,8 @@ export class MapboxPlaneFrustumController {
 		plane_dimensions: Vector2,
 		segments_counts: Vector2Like
 	) {
-		const near_lng_lat_pts = camera_node.vertical_near_lng_lat_points();
-		const far_lng_lat_pts = camera_node.vertical_far_lng_lat_points();
+		const near_lng_lat_pts = camera_node.verticalNearLngLatPoints();
+		const far_lng_lat_pts = camera_node.verticalFarLngLatPoints();
 		if (!near_lng_lat_pts || !far_lng_lat_pts) {
 			return;
 		}
@@ -46,8 +46,7 @@ export class MapboxPlaneFrustumController {
 			plane_dimensions.x / segments_counts.x,
 			plane_dimensions.y / segments_counts.y
 		);
-		console.log('delete_out_of_view_margin', delete_out_of_view_margin);
-		return this._delete_out_of_view(
+		return this._deleteOutOfView(
 			core_geo,
 			delete_out_of_view_bound_pts,
 			delete_out_of_view_margin * 2 // *2 just to be safe
@@ -57,7 +56,7 @@ export class MapboxPlaneFrustumController {
 	private _triangle_a = new Triangle();
 	private _triangle_b = new Triangle();
 	private _point_pos = new Vector3();
-	private _delete_out_of_view(
+	private _deleteOutOfView(
 		core_geo: CoreGeometry,
 		bound_pts: mapboxgl.LngLat[],
 		margin: number

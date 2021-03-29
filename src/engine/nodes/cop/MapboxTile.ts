@@ -5,17 +5,9 @@
  * Note that this node requires a mapbox account.
  */
 
-import {
-	// NearestFilter,
-	LinearFilter,
-	FloatType,
-	RGBFormat,
-	// LuminanceFormat,
-	// UnsignedByteType,
-} from 'three/src/constants';
+import {LinearFilter, FloatType, RGBFormat} from 'three/src/constants';
 import {DataTexture} from 'three/src/textures/DataTexture';
 import {TypedCopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/cop/_Base';
-import {CoreTextureLoader} from '@polygonjs/polygonjs/dist/src/core/loader/Texture';
 import {CoreMapboxUtils} from '../../../core/mapbox/Utils';
 import {CoreImage} from '@polygonjs/polygonjs/dist/src/core/Image';
 import {CoreMapboxClient} from '../../../core/mapbox/Client';
@@ -60,13 +52,12 @@ class MapboxTileCopParamsConfig extends NodeParamsConfig {
 const ParamsConfig = new MapboxTileCopParamsConfig();
 
 export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
-	params_config = ParamsConfig;
-	_param_hires = true;
+	paramsConfig = ParamsConfig;
+	_paramHires = true;
 	static type() {
 		return 'mapboxTile';
 	}
 
-	private _texture_loader: CoreTextureLoader | undefined;
 	private _texture: DataTexture = new DataTexture(
 		new Float32Array(3 * TileRes.HIGH * TileRes.HIGH),
 		TileRes.HIGH,
@@ -83,32 +74,30 @@ export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
 	}
 
 	async cook() {
-		this._texture_loader = this._texture_loader || new CoreTextureLoader(this, this.p.lng_lat);
-
 		const type = TILE_TYPES[this.pv.type];
 		switch (type) {
 			case TileType.ELEVATION: {
-				await this._cook_for_elevation();
+				await this._cookForElevation();
 				break;
 			}
 			case TileType.SATELLITE: {
-				await this._cook_for_satellite();
+				await this._cookForSatellite();
 				break;
 			}
 		}
 
 		this._texture.needsUpdate = true;
-		this.set_texture(this._texture);
+		this.setTexture(this._texture);
 	}
 
-	private async _cook_for_elevation() {
+	private async _cookForElevation() {
 		const url = await this._url('mapbox.terrain-rgb');
 		const image_data_rgba = await CoreImage.data_from_url(url);
 		const data_rgba = image_data_rgba.data;
 		const pixels_count = image_data_rgba.width * image_data_rgba.height;
 		let src_stride, dest_stride;
 		const dest_data = this._texture.image.data;
-		if (this._param_hires) {
+		if (this._paramHires) {
 			let elevation: number, R: number, G: number, B: number;
 			for (let i = 0; i < pixels_count; i++) {
 				src_stride = i * 4;
@@ -124,14 +113,14 @@ export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
 			}
 		}
 	}
-	private async _cook_for_satellite() {
+	private async _cookForSatellite() {
 		const url = await this._url('mapbox.satellite');
 		const image_data_rgba = await CoreImage.data_from_url(url);
 		const data_rgba = image_data_rgba.data;
 		const pixels_count = image_data_rgba.width * image_data_rgba.height;
 		let src_stride, dest_stride;
 		const dest_data = this._texture.image.data;
-		if (this._param_hires) {
+		if (this._paramHires) {
 			for (let i = 0; i < pixels_count; i++) {
 				src_stride = i * 4;
 				dest_stride = i * 3;
@@ -180,7 +169,7 @@ export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
 		const y = tile_number.y;
 		const z = this.pv.zoom;
 
-		const res = this._param_hires ? '@2x' : '';
+		const res = this._paramHires ? '@2x' : '';
 
 		const token = CoreMapboxClient.token();
 		return `${ROOT_URL}/${endpoint}/${z}/${x}/${y}${res}.pngraw?access_token=${token}`;

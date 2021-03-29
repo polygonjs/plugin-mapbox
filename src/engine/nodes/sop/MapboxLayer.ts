@@ -32,47 +32,47 @@ class MapboxLayerSopParamsConfig extends MapboxListenerParamConfig(NodeParamsCon
 const ParamsConfig = new MapboxLayerSopParamsConfig();
 
 export class MapboxLayerSopNode extends MapboxListenerSopNode<MapboxLayerSopParamsConfig> {
-	params_config = ParamsConfig;
+	paramsConfig = ParamsConfig;
 	static type() {
 		return 'mapboxLayer';
 	}
 
 	cook() {
-		this._mapbox_listener.cook();
+		this._mapboxListener.cook();
 	}
 
-	_post_init_controller() {
-		if (!this._camera_node) {
+	_postInitController() {
+		if (!this._cameraNode) {
 			return;
 		}
-		const first_map = this._camera_node.first_map();
-		if (first_map == null) {
+		const firstMap = this._cameraNode.firstMap();
+		if (firstMap == null) {
 			this.states.error.set('map not initialized yet');
 			return;
 		}
-		const layer_names = CoreString.attribNames(this.pv.layers);
-		const existing_layer_names: string[] = [];
-		for (let layer_name of layer_names) {
-			if (first_map.getLayer(layer_name)) {
-				existing_layer_names.push(layer_name);
+		const layerNames = CoreString.attribNames(this.pv.layers);
+		const existingLayerNames: string[] = [];
+		for (let layerName of layerNames) {
+			if (firstMap.getLayer(layerName)) {
+				existingLayerNames.push(layerName);
 			} else {
 				// const layers = first_map.getStyle().layers;
-				this.states.error.set(`layer ${layer_name} does not exist`);
+				this.states.error.set(`layer ${layerName} does not exist`);
 				return;
 			}
 		}
 
-		const features = first_map.queryRenderedFeatures(undefined, {
-			layers: existing_layer_names,
+		const features = firstMap.queryRenderedFeatures(undefined, {
+			layers: existingLayerNames,
 		});
 
 		const objects: Object3D[] = [];
 		if (features) {
-			const features_by_name = this._group_features_by_name(features);
+			const featuresByName = this._groupFeaturesByName(features);
 
-			features_by_name.forEach((features_for_name, name) => {
-				const converter = new FeatureConverter(this, name, features_for_name);
-				const new_object = converter.create_object();
+			featuresByName.forEach((featuresForName, featureName) => {
+				const converter = new FeatureConverter(this, featureName, featuresForName);
+				const new_object = converter.createObject();
 				if (new_object) {
 					objects.push(new_object);
 				}
@@ -82,16 +82,16 @@ export class MapboxLayerSopNode extends MapboxListenerSopNode<MapboxLayerSopPara
 	}
 
 	private _features_by_name: Map<string, mapboxgl.MapboxGeoJSONFeature[]> = new Map();
-	private _group_features_by_name(
+	private _groupFeaturesByName(
 		features: mapboxgl.MapboxGeoJSONFeature[]
 	): Map<string, mapboxgl.MapboxGeoJSONFeature[]> {
 		this._features_by_name.clear();
-		features.forEach((feature) => {
+		for (let feature of features) {
 			const name = this._feature_name(feature);
 			if (name) {
 				MapUtils.push_on_array_at_entry(this._features_by_name, name, feature);
 			}
-		});
+		}
 		return this._features_by_name;
 	}
 

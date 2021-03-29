@@ -26,6 +26,6 @@ export class MapboxViewerEventsController {
 	private _on_mouseup(e: MouseEvent) {}
 
 	camera_node_move_end() {
-		this._viewer.cameraNode()?.on_move_end(this._viewer.canvasContainer());
+		this._viewer.cameraNode()?.onMoveEnd(this._viewer.canvasContainer());
 	}
 }

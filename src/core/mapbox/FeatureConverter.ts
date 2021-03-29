@@ -17,13 +17,13 @@ export class FeatureConverter {
 	id: number | undefined;
 	constructor(private node: BaseSopNodeType, private name: string, private features: any[]) {}
 
-	create_object(): Object3D | undefined {
-		const coordinates_collections = this._create_all_coordinates_collections();
-		const perimeter: number = ArrayUtils.sum(coordinates_collections.map((f) => f.perimeter()));
-		const sorted_features = CoordinatesCollection.sort(coordinates_collections);
+	createObject(): Object3D | undefined {
+		const coordinatesCollections = this._createAllCoordinatesCollections();
+		const perimeter: number = ArrayUtils.sum(coordinatesCollections.map((f) => f.perimeter()));
+		const sortedFeatures = CoordinatesCollection.sort(coordinatesCollections);
 
-		const lines = sorted_features.map((feature) => {
-			return this._create_line(feature);
+		const lines = sortedFeatures.map((feature) => {
+			return this._createLine(feature);
 		});
 		lines.forEach((line) => {
 			const geometry = line.geometry as BufferGeometry;
@@ -42,16 +42,17 @@ export class FeatureConverter {
 		core_geometry.addNumericAttrib('pti', 1, 0);
 		const points = core_geometry.points();
 		const points_count = points.length;
-		points.forEach((point, i) => {
+		for (let i = 0; i < points.length; i++) {
+			const point = points[i];
 			const pti = i / (points_count - 1);
 			point.setAttribValue('pti', pti);
-		});
+		}
 
-		const merged_object = this.node.create_object(merged_geometry, ObjectType.LINE_SEGMENTS);
-		return merged_object;
+		const mergedObject = this.node.createObject(merged_geometry, ObjectType.LINE_SEGMENTS);
+		return mergedObject;
 	}
 
-	_create_line(coordinates_collection: CoordinatesCollection): LineSegments {
+	_createLine(coordinates_collection: CoordinatesCollection): LineSegments {
 		const points_count = coordinates_collection.coordinates.length;
 
 		const positions: number[] = [];
@@ -71,7 +72,7 @@ export class FeatureConverter {
 		const geometry = new BufferGeometry();
 		geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
 		geometry.setIndex(indices);
-		const object = this.node.create_object(geometry, ObjectType.LINE_SEGMENTS);
+		const object = this.node.createObject(geometry, ObjectType.LINE_SEGMENTS);
 
 		const core_geometry = new CoreGeometry(geometry);
 		const id_from_name = CoreMapboxString.toId(this.name) % 10000000;
@@ -82,7 +83,7 @@ export class FeatureConverter {
 		return object;
 	}
 
-	private _create_all_coordinates_collections(): CoordinatesCollection[] {
+	private _createAllCoordinatesCollections(): CoordinatesCollection[] {
 		const coordinates_collections: CoordinatesCollection[] = [];
 		this.features.forEach((feature) => {
 			this.id = this.id || feature['id'];

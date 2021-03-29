@@ -16,13 +16,13 @@ class MapboxTransformSopParamsConfig extends MapboxListenerParamConfig(NodeParam
 const ParamsConfig = new MapboxTransformSopParamsConfig();
 
 export class MapboxTransformSopNode extends MapboxListenerSopNode<MapboxTransformSopParamsConfig> {
-	params_config = ParamsConfig;
+	paramsConfig = ParamsConfig;
 
 	static type() {
 		return 'mapboxTransform';
 	}
 
-	static displayed_input_names(): string[] {
+	static displayedInputNames(): string[] {
 		return INPUT_NAMES;
 	}
 
@@ -35,9 +35,9 @@ export class MapboxTransformSopNode extends MapboxListenerSopNode<MapboxTransfor
 	}
 
 	cook(input_contents: CoreGroup[]) {
-		if (!this._camera_node) {
-			this.update_mapbox_camera();
-			if (!this._camera_node) {
+		if (!this._cameraNode) {
+			this.updateMapboxCamera();
+			if (!this._cameraNode) {
 				this.states.error.set('mapbox camera not found');
 				return;
 			}
@@ -51,12 +51,12 @@ export class MapboxTransformSopNode extends MapboxListenerSopNode<MapboxTransfor
 		// }
 
 		const core_group = input_contents[0];
-		this.transform_input(core_group);
+		this._transformInput(core_group);
 	}
 
-	transform_input(core_group: CoreGroup) {
-		if (this._camera_node) {
-			const transformer = new CoreMapboxTransform(this._camera_node);
+	private _transformInput(core_group: CoreGroup) {
+		if (this._cameraNode) {
+			const transformer = new CoreMapboxTransform(this._cameraNode);
 			for (let object of core_group.objects()) {
 				transformer.transform_group_FINAL(object);
 			}
@@ -66,5 +66,5 @@ export class MapboxTransformSopNode extends MapboxListenerSopNode<MapboxTransfor
 		this.setCoreGroup(core_group);
 	}
 
-	_post_init_controller() {}
+	_postInitController() {}
 }

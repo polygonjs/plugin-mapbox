@@ -71,32 +71,24 @@ class MapboxPlaneSopParamsConfig extends MapboxListenerParamConfig(NodeParamsCon
 const ParamsConfig = new MapboxPlaneSopParamsConfig();
 
 export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopParamsConfig> {
-	params_config = ParamsConfig;
+	paramsConfig = ParamsConfig;
 	static type() {
 		return 'mapboxPlane';
 	}
-	private _hexagons_controller = new MapboxPlaneHexagonsController(this);
-	// private _frustum_controller = new MapboxPlaneFrustumController(this);
+	private _hexagonsController = new MapboxPlaneHexagonsController(this);
 
-	// private _param_type: number;
-	// private _param_resolution: number;
-	// private _param_size_mult: number;
-	// private _param_full_view: boolean;
-	// private _param_delete_out_of_view: boolean;
-	// private _param_as_points: boolean;
-	// private _param_mapbox_transform: boolean;
 	cook() {
-		this._mapbox_listener.cook();
+		this._mapboxListener.cook();
 	}
 
-	_post_init_controller() {
-		const geometry = this._build_plane();
+	_postInitController() {
+		const geometry = this._buildPlane();
 		if (geometry) {
 			let type: ObjectType = ObjectType.MESH;
-			if (this.pv.as_points || this._as_hexagons()) {
+			if (this.pv.as_points || this._asHexagons()) {
 				type = ObjectType.POINTS;
 			}
-			const object = this.create_object(geometry, type);
+			const object = this.createObject(geometry, type);
 
 			const core_object = new CoreObject(object, 0);
 			core_object.addAttribute('mapbox_sw', this.pv.southWest);
@@ -106,22 +98,22 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		}
 	}
 
-	_build_plane() {
-		if (!this._camera_node) {
+	_buildPlane() {
+		if (!this._cameraNode) {
 			return;
 		}
-		const map_center = this._camera_node.center();
+		const map_center = this._cameraNode.center();
 		if (!map_center) {
 			this.states.error.set('map is not yet loaded');
 			return;
 		}
-		const transformer = new CoreMapboxTransform(this._camera_node);
+		const transformer = new CoreMapboxTransform(this._cameraNode);
 		const mapbox_center_3d = new Vector3(map_center.lng, 0, map_center.lat);
 		transformer.transform_position_FINAL(mapbox_center_3d);
 		const mapbox_center = new Vector2(mapbox_center_3d.x, mapbox_center_3d.z);
 
-		const vertical_far_lng_lat_points = this._camera_node.vertical_far_lng_lat_points();
-		const vertical_near_lng_lat_points = this._camera_node.vertical_near_lng_lat_points();
+		const vertical_far_lng_lat_points = this._cameraNode.verticalFarLngLatPoints();
+		const vertical_near_lng_lat_points = this._cameraNode.verticalNearLngLatPoints();
 		const lng_lat_points = this.pv.fullView ? vertical_far_lng_lat_points : vertical_near_lng_lat_points;
 
 		if (!lng_lat_points) {
@@ -132,11 +124,11 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		// we mirror the requested points from the map center, to know how much of the map we cover
 		//
 		//
-		const mirrored_near_lng_lat_points = lng_lat_points.map((p) => this._mirror_lng_lat(p, map_center));
+		const mirrored_near_lng_lat_points = lng_lat_points.map((p) => this._mirrorLngLat(p, map_center));
 		lng_lat_points.push(map_center);
-		mirrored_near_lng_lat_points.forEach((p: mapboxgl.LngLat) => {
+		for (let p of mirrored_near_lng_lat_points) {
 			lng_lat_points.push(p);
-		});
+		}
 		const box = new Box2();
 		for (let p of lng_lat_points) {
 			box.expandByPoint(new Vector2(p.lng, p.lat));
@@ -161,7 +153,7 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		// get visible distance
 		//
 		//
-		const horizontal_lng_lat_points = this._camera_node.horizontal_lng_lat_points();
+		const horizontal_lng_lat_points = this._cameraNode.horizontal_lng_lat_points();
 		if (!horizontal_lng_lat_points) {
 			return;
 		}
@@ -209,12 +201,12 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 			mapbox_center.clone().add(mapbox_dimensions.clone().multiplyScalar(0.5)),
 			mapbox_center.clone().add(mapbox_dimensions.clone().multiplyScalar(-0.5)),
 		];
-		mapbox_corners.forEach((p) => {
+		for (let p of mapbox_corners) {
 			const untransformed_3d = transformer.untransform_position_FINAL(new Vector3(p.x, 0, p.y));
 			const untransformed = new Vector2(untransformed_3d.x, untransformed_3d.z);
 			// const retransformed = transformer.transform_position_FINAL(new Vector3(untransformed.x, 0, untransformed.y))
 			mapbox_box_untransformed.expandByPoint(untransformed);
-		});
+		}
 		const world_dimensions = new Vector2();
 		mapbox_box_untransformed.getSize(world_dimensions);
 
@@ -247,8 +239,8 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		const geometry_center = this.pv.mapboxTransform ? mapbox_center : world_plane_center;
 
 		let geometry: BufferGeometry;
-		if (this._as_hexagons()) {
-			geometry = this._hexagons_controller.geometry(plane_dimensions, segments_counts);
+		if (this._asHexagons()) {
+			geometry = this._hexagonsController.geometry(plane_dimensions, segments_counts);
 		} else {
 			geometry = new PlaneBufferGeometry(
 				plane_dimensions.x,
@@ -293,14 +285,14 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		return geometry;
 	}
 
-	private _mirror_lng_lat(p: mapboxgl.LngLat, map_center: mapboxgl.LngLat) {
+	private _mirrorLngLat(p: mapboxgl.LngLat, map_center: mapboxgl.LngLat) {
 		const delta = {
 			lng: map_center.lng - p.lng,
 			lat: map_center.lat - p.lat,
 		};
 		return new mapboxgl.LngLat(map_center.lng + delta.lng, map_center.lat + delta.lat);
 	}
-	private _as_hexagons(): boolean {
+	private _asHexagons(): boolean {
 		return this.pv.type == MAPBOX_PLANE_TYPES.indexOf(MapboxPlaneType.HEXAGONS);
 	}
 }

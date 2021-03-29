@@ -27,13 +27,12 @@ QUnit.test('mapbox_plane simple', async (assert) => {
 	let center = container.center().toArray();
 	let bbox = container.boundingBox();
 	assert.in_delta(center[0], 0, 0.1);
-	console.log(bbox);
 	assert.in_delta(bbox.min.x, -350, 50);
 	assert.in_delta(bbox.max.x, 350, 50);
 	assert.in_delta(bbox.min.y, 0, 1);
 	assert.in_delta(bbox.max.y, 0, 1);
-	assert.in_delta(bbox.min.z, -350, 50);
-	assert.in_delta(bbox.max.z, 350, 50);
+	assert.in_delta(bbox.min.z, -293, 50);
+	assert.in_delta(bbox.max.z, 293, 50);
 
 	// clear viewer
 	viewer.dispose();

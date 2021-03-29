@@ -70,7 +70,7 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 	}
 	dispose() {
 		MapsRegister.instance().deregisterMap(this._canvas_container.id);
-		this._camera_node?.remove_map(this._canvas_container);
+		this._camera_node?.removeMap(this._canvas_container);
 		super.dispose();
 	}
 
@@ -91,10 +91,10 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 	// 	return this._canvas;
 	// }
 	cameraLngLat() {
-		return this._camera_node?.lng_lat();
+		return this._camera_node?.lngLat();
 	}
 
-	_add_navigation_controls() {
+	_addNavigationControls() {
 		const nav = new mapboxgl.NavigationControl();
 		this._map?.addControl(nav, 'bottom-right');
 	}
