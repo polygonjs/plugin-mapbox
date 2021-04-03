@@ -90,7 +90,7 @@ function createText() {
 	copy.setInput(1, mapboxTransform);
 
 	// create a material and assign it
-	const MAT = root.createNode('materials');
+	const MAT = root.createNode('materialsNetwork');
 	// const meshBasic = MAT.createNode('meshBasic');
 	const meshLambert = MAT.createNode('meshLambert');
 	const material = geo.createNode('material');

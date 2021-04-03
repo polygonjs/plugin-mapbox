@@ -89,7 +89,7 @@ export class MapboxLayerSopNode extends MapboxListenerSopNode<MapboxLayerSopPara
 		for (let feature of features) {
 			const name = this._feature_name(feature);
 			if (name) {
-				MapUtils.push_on_array_at_entry(this._features_by_name, name, feature);
+				MapUtils.pushOnArrayAtEntry(this._features_by_name, name, feature);
 			}
 		}
 		return this._features_by_name;
