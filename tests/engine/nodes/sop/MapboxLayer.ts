@@ -22,7 +22,7 @@ QUnit.test('mapbox_layer simple', async (assert) => {
 	mapboxLayer1.flags.display.set(true);
 
 	// await CoreSleep.sleep(5000);
-	let container = await mapboxLayer1.requestContainer();
+	let container = await mapboxLayer1.compute();
 	await CoreSleep.sleep(100);
 	const core_group = container.coreContent();
 	assert.ok(core_group, 'core_group exists');

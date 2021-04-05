@@ -118,18 +118,18 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@polygonjs/polygonjs@^1.1.125":
-  version "1.1.125"
-  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.1.125.tgz#75b32feda8cdf8b0ce2d764c604ccffeec939129"
-  integrity sha512-RoEXL2TgFGEsmtm1D3eUs827yk5eA15kYYXdRdeYPI5SEMZnLKNnKxrJBk1Xc/2c1BPJSK9zR2UfeStBu1WEPw==
+"@polygonjs/polygonjs@^1.1.127":
+  version "1.1.127"
+  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.1.127.tgz#9c31ab3139b2d9f828ef4b85b7ffaa8c3cd3210e"
+  integrity sha512-JAroyhOnvP5XmLmLdHmnxSKaCCcUC1tu/6nY7K67G3LOeGyLsypbySbQ9CFM1nOQkWnWIm/HaTQQznaI9dFYXg==
   dependencies:
-    "@types/three" "^0.126.2"
+    "@types/three" "^0.127.0"
     fflate "0.6.9"
     gsap "3.6.1"
     jsep "0.3.5"
     lodash "4.17.21"
     opentype.js "1.3.3"
-    three "0.126.1"
+    three "0.127.0"
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -191,10 +191,10 @@
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.6.tgz#a9ca4b70a18b270ccb2bc0aaafefd1d486b7ea74"
   integrity sha512-W+bw9ds02rAQaMvaLYxAbJ6cvguW/iJXNT6lTssS1ps6QdrMKttqEAMEG/b5CR8TZl3/L7/lH0ZV5nNR1LXikA==
 
-"@types/three@^0.126.2":
-  version "0.126.2"
-  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.126.2.tgz#68838cc92cc89c156c05be63e54efc91f58a5417"
-  integrity sha512-6JqTgijtfXcTJik8NtiNxr2L90ex6ElM00qilOGeUcrEsJLOdzLJSIkXHUYS+KPAYQYtRJQKD6XaXds3HjS+gg==
+"@types/three@^0.127.0":
+  version "0.127.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.127.0.tgz#6d2bf6d7c14d4c4dc399a0e355085f27e996ac89"
+  integrity sha512-4Q33L6PzzxCXm0VdUv4x1/4VBnwWgCS7Ui6WpRh88GVIUUYsg5qU2GVzva14hDJbtfyNBxey7UcdInR4RkKPeQ==
 
 "@types/uglify-js@*":
   version "3.11.1"
@@ -4913,10 +4913,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three@0.126.1:
-  version "0.126.1"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.126.1.tgz#cf4e4e52060fd952f6f0d5440cbd422c66bc4be7"
-  integrity sha512-eOEXnZeE1FDV0XgL1u08auIP13jxdN9LQBAEmlErYzMxtIIfuGIAZbijOyookALUhqVzVOx0Tywj6n192VM+nQ==
+three@0.127.0:
+  version "0.127.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.127.0.tgz#c463f4d41b2c735dcf8e9e51a388815e80cd3791"
+  integrity sha512-wtgrn+mhYUbobxT7QN3GPdu3SRpSBQvwY6uOzLChWS7QE//f7paDU/+wlzbg+ngeIvBBqjBHSRuywTh8A99Jng==
 
 through2@^2.0.0:
   version "2.0.5"

@@ -23,7 +23,7 @@ QUnit.test('mapbox_transform simple', async (assert) => {
 	const viewer = mapbox_camera1.createViewer(element);
 
 	await viewer.waitForMapLoaded();
-	let container = await mapbox_transform1.requestContainer();
+	let container = await mapbox_transform1.compute();
 	let center = container.center();
 	assert.in_delta(center.x, 0, 0.01);
 	assert.in_delta(center.y, 0, 0.01);
@@ -31,14 +31,14 @@ QUnit.test('mapbox_transform simple', async (assert) => {
 
 	// change the position in world space and check it's updated correctly in mapbox space
 	transform1.p.t.set([-0.07956000001661323, 0, 51.8]);
-	container = await mapbox_transform1.requestContainer();
+	container = await mapbox_transform1.compute();
 	center = container.center();
 	assert.in_delta(center.x, 0, 0.01);
 	assert.in_delta(center.y, 0, 0.01);
 	assert.in_delta(center.z, -23000, 1000);
 
 	transform1.p.t.set([-0.1, 0, 51.8]);
-	container = await mapbox_transform1.requestContainer();
+	container = await mapbox_transform1.compute();
 	center = container.center();
 	assert.in_delta(center.x, -1050, 100);
 	assert.in_delta(center.y, 0, 0.01);

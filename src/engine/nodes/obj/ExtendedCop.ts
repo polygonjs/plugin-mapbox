@@ -1,10 +1,10 @@
-import {CopObjNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/Cop';
+import {CopNetworkObjNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/CopNetwork';
 import {ExtendedCopNodeChildrenMap} from '../../../ExtendedGeoNodeChildrenMap';
 import {ParamsInitData} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/io/IOController';
 import {CopNodeChildrenMap} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/nodes/Cop';
 import {Constructor, valueof} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 
-export class ExtendedCopObjNode extends CopObjNode {
+export class ExtendedCopObjNode extends CopNetworkObjNode {
 	createNode<S extends keyof ExtendedCopNodeChildrenMap>(
 		node_class: S,
 		params_init_value_overrides?: ParamsInitData

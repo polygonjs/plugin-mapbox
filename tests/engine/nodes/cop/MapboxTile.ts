@@ -15,9 +15,9 @@ QUnit.test('height map from mapbox', async (assert) => {
 	heightMap1.p.mult.set(100);
 
 	mapboxTile1.p.type.set(0); // elevation
-	await mapboxTile1.requestContainer();
+	await mapboxTile1.compute();
 	let container;
-	container = await heightMap1.requestContainer();
+	container = await heightMap1.compute();
 	assert.equal(container.boundingBox().min.x, -0.5);
 	assert.equal(container.boundingBox().max.x, 0.5);
 	assert.equal(container.boundingBox().min.z, -0.5);
@@ -26,8 +26,8 @@ QUnit.test('height map from mapbox', async (assert) => {
 	assert.in_delta(container.boundingBox().max.y, 18.8, 0.2);
 
 	mapboxTile1.p.type.set(1); // satelite
-	await mapboxTile1.requestContainer();
-	container = await heightMap1.requestContainer();
+	await mapboxTile1.compute();
+	container = await heightMap1.compute();
 	assert.equal(container.boundingBox().min.x, -0.5);
 	assert.equal(container.boundingBox().max.x, 0.5);
 	assert.equal(container.boundingBox().min.z, -0.5);
