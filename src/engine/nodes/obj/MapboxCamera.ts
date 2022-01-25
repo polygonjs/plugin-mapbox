@@ -6,6 +6,7 @@ import {Matrix4} from 'three/src/math/Matrix4';
 import {
 	TypedCameraObjNode,
 	CameraMainCameraParamConfig,
+	BaseViewerOptions,
 } from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/_BaseCamera';
 import mapboxgl from 'mapbox-gl';
 import {MapboxViewer} from '../../viewers/Mapbox';
@@ -462,7 +463,19 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		});
 	}
 
-	createViewer(element: HTMLElement) {
-		return new MapboxViewer(element, this.scene(), this);
+	createViewer(options: BaseViewerOptions | HTMLElement) {
+		const viewer = new MapboxViewer(this);
+		let element: HTMLElement | undefined;
+		if (options && options instanceof HTMLElement) {
+			element = options;
+		} else {
+			element = options?.element;
+		}
+		if (element) {
+			viewer.mount(element);
+		}
+
+		this.scene().viewersRegister.registerViewer(viewer);
+		return viewer;
 	}
 }

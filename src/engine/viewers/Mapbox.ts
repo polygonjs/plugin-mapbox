@@ -1,5 +1,4 @@
 import mapboxgl from 'mapbox-gl';
-import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
 import {MapboxCameraObjNode} from '../nodes/obj/MapboxCamera';
 import {TypedViewer} from '@polygonjs/polygonjs/dist/src/engine/viewers/_Base';
 import {MapboxViewerEventsController} from './utils/controllers/Event';
@@ -9,56 +8,53 @@ import {MapsRegister} from '../../core/mapbox/MapsRegister';
 const CSS_CLASS = 'CoreMapboxViewer';
 
 export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
-	private _canvas_container: HTMLElement;
+	private _canvasContainer: HTMLElement;
 	// private _canvas: HTMLCanvasElement | undefined;
 	// private _camera_node: MapboxCameraObjNode | undefined;
 
 	private _map: mapboxgl.Map;
-	private _map_loaded: boolean = false;
+	private _mapLoaded: boolean = false;
 
 	// controllers
 	public readonly layers_controller = new MapboxViewerLayersController(this);
 	public readonly mapbox_events_controller = new MapboxViewerEventsController(this);
 
-	constructor(
-		protected _element: HTMLElement,
-		protected override _scene: PolyScene,
-		protected _camera_node: MapboxCameraObjNode
-	) {
-		super(_camera_node);
-
+	constructor(protected override _cameraNode: MapboxCameraObjNode) {
+		super(_cameraNode);
+		this._canvasContainer = document.createElement('div');
+		this._canvasContainer.id = `mapbox_container_id_${Math.random()}`.replace('.', '_');
+		this._canvasContainer.style.height = '100%';
 		MapboxViewerStylesheetController.load();
-		this._canvas_container = document.createElement('div');
-		this._element.appendChild(this._canvas_container);
-		this._element.classList.add(CSS_CLASS);
-		this._canvas_container.id = `mapbox_container_id_${Math.random()}`.replace('.', '_');
-		this._canvas_container.style.height = '100%';
-		this._map = this._camera_node.createMap(this._canvas_container);
+		this._map = this._cameraNode.createMap(this._canvasContainer);
+	}
+	override async mount(element: HTMLElement) {
+		super.mount(element);
+		this._domElement?.appendChild(this._canvasContainer);
+		this._domElement?.classList.add(CSS_CLASS);
 
 		this.mapbox_events_controller.init_events();
 		this._map.on('load', () => {
 			if (this._map) {
-				this._map_loaded = true;
+				this._mapLoaded = true;
 
 				this._canvas = this._findCanvas();
 				this.eventsController().init();
-				MapsRegister.instance().registerMap(this._canvas_container.id, this._map);
+				MapsRegister.instance().registerMap(this._canvasContainer.id, this._map);
 				this.layers_controller.addLayers();
 				this.mapbox_events_controller.camera_node_move_end(); // to update mapbox planes
+				window.dispatchEvent(new Event('resize')); // helps making sure it is resized correctly
 			}
 		});
 	}
+
 	mapLoaded() {
-		return this._map_loaded;
+		return this._mapLoaded;
 	}
 	map() {
 		return this._map;
 	}
-	override cameraNode() {
-		return this._camera_node;
-	}
 	canvasContainer() {
-		return this._canvas_container;
+		return this._canvasContainer;
 	}
 
 	onResize() {
@@ -69,8 +65,8 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 		this.mapbox_events_controller.camera_node_move_end(); // to update mapbox planes
 	}
 	override dispose() {
-		MapsRegister.instance().deregisterMap(this._canvas_container.id);
-		this._camera_node?.removeMap(this._canvas_container);
+		MapsRegister.instance().deregisterMap(this._canvasContainer.id);
+		this._cameraNode?.removeMap(this._canvasContainer);
 		super.dispose();
 	}
 
@@ -91,7 +87,7 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 	// 	return this._canvas;
 	// }
 	cameraLngLat() {
-		return this._camera_node?.lngLat();
+		return this._cameraNode?.lngLat();
 	}
 
 	_addNavigationControls() {
@@ -100,6 +96,6 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 	}
 
 	private _findCanvas() {
-		return this._canvas_container.getElementsByTagName('canvas')[0];
+		return this._canvasContainer.getElementsByTagName('canvas')[0];
 	}
 }
