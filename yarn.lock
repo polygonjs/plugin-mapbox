@@ -124,10 +124,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@polygonjs/polygonjs@^1.1.218":
-  version "1.1.218"
-  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.1.218.tgz#30c98236e0bacad4ba0127d0c9111c8601242a29"
-  integrity sha512-qhhXu9P3POUc/Fyg+6ISl4UeygXuWEfziw0qaMaPPj716k1x96aTmbCvyF0Ids2mdjrDP3+eQiUnR/tbrgAmDQ==
+"@polygonjs/polygonjs@^1.1.219":
+  version "1.1.219"
+  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.1.219.tgz#d0dcaee97196997b2f324bad20614f1859362f30"
+  integrity sha512-tuXZYHvorvMc/HpMRtwTFY1AezDM3L+3QYDChZD6+VGh2KZ8dLNAE1wpuVoefAUgyoF7tK07iuCYPNfeAzkhiA==
   dependencies:
     "@types/three" "0.133.1"
     chromotome "1.19.1"
