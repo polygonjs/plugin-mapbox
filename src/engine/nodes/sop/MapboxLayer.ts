@@ -32,12 +32,12 @@ class MapboxLayerSopParamsConfig extends MapboxListenerParamConfig(NodeParamsCon
 const ParamsConfig = new MapboxLayerSopParamsConfig();
 
 export class MapboxLayerSopNode extends MapboxListenerSopNode<MapboxLayerSopParamsConfig> {
-	paramsConfig = ParamsConfig;
-	static type() {
+	override paramsConfig = ParamsConfig;
+	static override type() {
 		return 'mapboxLayer';
 	}
 
-	cook() {
+	override cook() {
 		this._mapboxListener.cook();
 	}
 

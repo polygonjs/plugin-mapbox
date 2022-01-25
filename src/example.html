@@ -30,6 +30,11 @@
 	<div
 		style='position:absolute; border: 1px solid lightgray; margin: 10px; padding: 10px; z-index:99; background-color: #ddd;'>
 		<p>
+			<label>Text</label>
+			<input type='text' value='Polygonjs + Mapbox'
+				oninput='text.p.text.set(event.target.value)'></input>
+		</p>
+		<p>
 			<label>Text Segments</label>
 			<input type='range' min=1 max=4 step=1 value=2
 				oninput='text.p.segments.set(event.target.value)'></input>

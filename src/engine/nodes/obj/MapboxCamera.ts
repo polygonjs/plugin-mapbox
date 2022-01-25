@@ -5,7 +5,7 @@ import {Vector3} from 'three/src/math/Vector3';
 import {Matrix4} from 'three/src/math/Matrix4';
 import {
 	TypedCameraObjNode,
-	CameraMasterCameraParamConfig,
+	CameraMainCameraParamConfig,
 } from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/_BaseCamera';
 import mapboxgl from 'mapbox-gl';
 import {MapboxViewer} from '../../viewers/Mapbox';
@@ -14,6 +14,7 @@ import {ParamConfig, NodeParamsConfig} from '@polygonjs/polygonjs/dist/src/engin
 import {BaseNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/_Base';
 import {BaseParamType} from '@polygonjs/polygonjs/dist/src/engine/params/_Base';
 import {Number2} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
+import {isBooleanTrue} from '@polygonjs/polygonjs/dist/src/core/Type';
 
 const PRESETS = {
 	LONDON: {
@@ -30,7 +31,7 @@ const PRESETS = {
 	},
 };
 const PRESET = PRESETS.LONDON;
-class MapboxCameraObjParamConfig extends CameraMasterCameraParamConfig(NodeParamsConfig) {
+class MapboxCameraObjParamConfig extends CameraMainCameraParamConfig(NodeParamsConfig) {
 	style = ParamConfig.STRING(PRESET.style, {
 		callback: (node: BaseNodeType) => {
 			MapboxCameraObjNode.PARAM_CALLBACK_update_style(node as MapboxCameraObjNode);
@@ -92,8 +93,8 @@ class MapboxCameraObjParamConfig extends CameraMasterCameraParamConfig(NodeParam
 const ParamsConfig = new MapboxCameraObjParamConfig();
 
 export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, MapboxCameraObjParamConfig> {
-	paramsConfig = ParamsConfig;
-	static type(): Readonly<'mapboxCamera'> {
+	override paramsConfig = ParamsConfig;
+	static override type(): Readonly<'mapboxCamera'> {
 		return 'mapboxCamera';
 	}
 	public integration_data() {
@@ -106,11 +107,11 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	private _controls_by_container_id: Map<string, mapboxgl.NavigationControl> = new Map();
 	private _moving_maps = false;
 
-	createObject() {
+	override createObject() {
 		return new PerspectiveCamera(); // I use a PerspectiveCamera to have the picker working
 	}
 
-	async cook() {
+	override async cook() {
 		this.updateMaps();
 		this.cookController.endCook();
 	}
@@ -119,7 +120,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	private _cam_pos = new Vector3();
 	private _mouse_pos = new Vector3();
 	private _view_dir = new Vector3();
-	prepareRaycaster(mouse: Vector2, raycaster: Raycaster) {
+	override prepareRaycaster(mouse: Vector2, raycaster: Raycaster) {
 		// adapted from https://github.com/mapbox/mapbox-gl-js/issues/7395
 		// const camInverseProjection = this._inverse_proj_mat.getInverse(this._object.projectionMatrix);
 		// this._cam_pos.set(0, 0, 0);
@@ -218,7 +219,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		map.setMaxZoom(this.pv.zoomRange.y);
 
 		const drag_rotate_handler = map.dragRotate;
-		if (this.pv.allow_drag_rotate) {
+		if (isBooleanTrue(this.pv.allowDragRotate)) {
 			drag_rotate_handler.enable();
 		} else {
 			drag_rotate_handler.disable();
@@ -415,12 +416,12 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	_addRemoveControls(map: mapboxgl.Map, container_id: string) {
 		let nav_control = this._controls_by_container_id.get(container_id);
 		if (nav_control) {
-			if (!this.pv.add_zoom_control) {
+			if (!isBooleanTrue(this.pv.addZoomControl)) {
 				map.removeControl(nav_control);
 				this._controls_by_container_id.delete(container_id);
 			}
 		} else {
-			if (this.pv.add_zoom_control) {
+			if (isBooleanTrue(this.pv.addZoomControl)) {
 				nav_control = new mapboxgl.NavigationControl();
 				map.addControl(nav_control, 'bottom-right');
 				this._controls_by_container_id.set(container_id, nav_control);

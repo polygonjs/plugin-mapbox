@@ -16,17 +16,17 @@ class MapboxTransformSopParamsConfig extends MapboxListenerParamConfig(NodeParam
 const ParamsConfig = new MapboxTransformSopParamsConfig();
 
 export class MapboxTransformSopNode extends MapboxListenerSopNode<MapboxTransformSopParamsConfig> {
-	paramsConfig = ParamsConfig;
+	override paramsConfig = ParamsConfig;
 
-	static type() {
+	static override type() {
 		return 'mapboxTransform';
 	}
 
-	static displayedInputNames(): string[] {
+	static override displayedInputNames(): string[] {
 		return INPUT_NAMES;
 	}
 
-	initializeNode() {
+	override initializeNode() {
 		this.io.inputs.setCount(1);
 		this.io.inputs.initInputsClonedState(InputCloneMode.FROM_NODE);
 
@@ -34,7 +34,7 @@ export class MapboxTransformSopNode extends MapboxListenerSopNode<MapboxTransfor
 		// this._init_mapbox_listener();
 	}
 
-	cook(input_contents: CoreGroup[]) {
+	override cook(input_contents: CoreGroup[]) {
 		if (!this._cameraNode) {
 			this.updateMapboxCamera();
 			if (!this._cameraNode) {

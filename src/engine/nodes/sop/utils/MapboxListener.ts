@@ -22,7 +22,7 @@ export function MapboxListenerParamConfig<TBase extends Constructor>(Base: TBase
 			visibleIf: {useZoom: 1},
 		});
 		// always
-		mapboxCamera = ParamConfig.OPERATOR_PATH('/mapboxCamera1', {
+		mapboxCamera = ParamConfig.NODE_PATH('', {
 			nodeSelection: {
 				context: NodeContext.OBJ,
 				types: [MapboxCameraObjNode.type()],
@@ -60,7 +60,7 @@ export abstract class MapboxListenerSopNode<M extends MapboxListenerParamsConfig
 		return this._cameraNode?.object;
 	}
 	findCameraNode(): MapboxCameraObjNode | undefined {
-		const node = this.p.mapboxCamera.found_node_with_context(NodeContext.OBJ);
+		const node = this.pv.mapboxCamera.nodeWithContext(NodeContext.OBJ, this.states.error);
 		if (node) {
 			if (node.type() == MapboxCameraObjNode.type()) {
 				return node as MapboxCameraObjNode;
@@ -73,7 +73,7 @@ export abstract class MapboxListenerSopNode<M extends MapboxListenerParamsConfig
 }
 
 class MapboxListenerSopNodeWithParams extends MapboxListenerSopNode<MapboxListenerParamsConfig> {
-	paramsConfig = new MapboxListenerParamsConfig();
+	override paramsConfig = new MapboxListenerParamsConfig();
 	_postInitController() {}
 }
 
@@ -118,7 +118,7 @@ export class MapboxListener {
 	_updateCameraController() {
 		this._camera_controller.setUpdateAlways(this._node.pv.updateAlways || false);
 
-		if (this._current_camera_path == null || this._current_camera_path !== this._node.pv.camera) {
+		if (this._current_camera_path == null || this._current_camera_path !== this._node.pv.mapboxCamera.path()) {
 			const cameraObject = this._node.cameraObject();
 			if (cameraObject) {
 				// if (this._is_mapbox_camera(this._camera_object)) {
@@ -131,7 +131,7 @@ export class MapboxListener {
 				this._camera_controller.removeTarget();
 			}
 
-			this._current_camera_path = this._node.pv.mapboxCamera;
+			this._current_camera_path = this._node.pv.mapboxCamera.path();
 		}
 	}
 

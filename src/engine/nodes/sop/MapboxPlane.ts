@@ -34,6 +34,7 @@ const MAPBOX_PLANE_TYPES: Array<MapboxPlaneType> = [MapboxPlaneType.PLANE, Mapbo
 import {NodeParamsConfig, ParamConfig} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/params/ParamsConfig';
 import {MapboxPlaneHexagonsController} from './utils/mapbox_plane/HexagonsController';
 import {Number3} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
+import {isBooleanTrue} from '@polygonjs/polygonjs/dist/src/core/Type';
 // import { MapboxPlaneFrustumController } from "./utils/mapbox_plane/OutofViewController";
 // update_always_allowed: true,
 // use_zoom: true
@@ -71,13 +72,13 @@ class MapboxPlaneSopParamsConfig extends MapboxListenerParamConfig(NodeParamsCon
 const ParamsConfig = new MapboxPlaneSopParamsConfig();
 
 export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopParamsConfig> {
-	paramsConfig = ParamsConfig;
-	static type() {
+	override paramsConfig = ParamsConfig;
+	static override type() {
 		return 'mapboxPlane';
 	}
 	private _hexagonsController = new MapboxPlaneHexagonsController(this);
 
-	cook() {
+	override cook() {
 		this._mapboxListener.cook();
 	}
 
@@ -85,7 +86,7 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		const geometry = this._buildPlane();
 		if (geometry) {
 			let type: ObjectType = ObjectType.MESH;
-			if (this.pv.as_points || this._asHexagons()) {
+			if (isBooleanTrue(this.pv.asPoints) || this._asHexagons()) {
 				type = ObjectType.POINTS;
 			}
 			const object = this.createObject(geometry, type);

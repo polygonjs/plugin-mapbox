@@ -6,8 +6,10 @@ import {CoreGeometryOperationHexagon} from '@polygonjs/polygonjs/dist/src/core/g
 import {CoreTransform} from '@polygonjs/polygonjs/dist/src/core/Transform';
 import {Vector2Like} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 
+const DIR_ORIGIN = new Vector3(0, 1, 0);
+const DIR_DEST = new Vector3(0, 0, 1);
 export class MapboxPlaneHexagonsController {
-	private _core_transform = new CoreTransform();
+	private _coreTransform = new CoreTransform();
 	constructor(private node: MapboxPlaneSopNode) {}
 
 	geometry(plane_dimensions: Vector2, segments_counts: Vector2Like): BufferGeometry {
@@ -38,7 +40,7 @@ export class MapboxPlaneHexagonsController {
 			true // always as points in the case of hexagons. too complicated otherwise
 		);
 		const geometry = operation.process();
-		this._core_transform.rotate_geometry(geometry, new Vector3(0, 1, 0), new Vector3(0, 0, 1));
+		this._coreTransform.rotateGeometry(geometry, DIR_ORIGIN, DIR_DEST);
 		if (!this.node.pv.mapboxTransform && hexagons_scale_compensate) {
 			geometry.scale(hexagons_scale_compensate.x, hexagons_scale_compensate.y, hexagons_scale_compensate.z);
 		}

@@ -1,11 +1,11 @@
 import {CoreSleep} from '@polygonjs/polygonjs/dist/src/core/Sleep';
 import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
-import {ExtendedObjectsManagerNode} from '../../../../src/engine/nodes/manager/ExtendedObjectsManager';
+import {ExtendedRootManagerNode} from '../../../../src/engine/nodes/manager/ExtendedRoot';
 import {ExtendedGeoObjNode} from '../../../../src/engine/nodes/obj/ExtendedGeo';
 
 QUnit.test('mapbox_plane simple', async (assert) => {
 	const scene = new PolyScene();
-	const root = scene.root() as ExtendedObjectsManagerNode;
+	const root = scene.root() as ExtendedRootManagerNode;
 	const geo1 = root.createNode('geo') as ExtendedGeoObjNode;
 
 	const mapbox_camera1 = root.createNode('mapboxCamera');

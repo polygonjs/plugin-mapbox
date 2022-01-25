@@ -52,9 +52,9 @@ class MapboxTileCopParamsConfig extends NodeParamsConfig {
 const ParamsConfig = new MapboxTileCopParamsConfig();
 
 export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
-	paramsConfig = ParamsConfig;
+	override paramsConfig = ParamsConfig;
 	_paramHires = true;
-	static type() {
+	static override type() {
 		return 'mapboxTile';
 	}
 
@@ -66,14 +66,14 @@ export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
 		FloatType
 	);
 
-	initializeNode() {
+	override initializeNode() {
 		this._texture.image.data.fill(255);
 		this._texture.minFilter = LinearFilter;
 		this._texture.magFilter = LinearFilter;
 		this._texture.flipY = true; // necessary otherwise the texture is misplaced
 	}
 
-	async cook() {
+	override async cook() {
 		const type = TILE_TYPES[this.pv.type];
 		switch (type) {
 			case TileType.ELEVATION: {

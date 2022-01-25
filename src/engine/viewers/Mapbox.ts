@@ -22,10 +22,10 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 
 	constructor(
 		protected _element: HTMLElement,
-		protected _scene: PolyScene,
+		protected override _scene: PolyScene,
 		protected _camera_node: MapboxCameraObjNode
 	) {
-		super(_element, _scene, _camera_node);
+		super(_camera_node);
 
 		MapboxViewerStylesheetController.load();
 		this._canvas_container = document.createElement('div');
@@ -41,7 +41,7 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 				this._map_loaded = true;
 
 				this._canvas = this._findCanvas();
-				this.eventsController.init();
+				this.eventsController().init();
 				MapsRegister.instance().registerMap(this._canvas_container.id, this._map);
 				this.layers_controller.addLayers();
 				this.mapbox_events_controller.camera_node_move_end(); // to update mapbox planes
@@ -54,7 +54,7 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 	map() {
 		return this._map;
 	}
-	cameraNode() {
+	override cameraNode() {
 		return this._camera_node;
 	}
 	canvasContainer() {
@@ -68,7 +68,7 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 		this.layers_controller.resize();
 		this.mapbox_events_controller.camera_node_move_end(); // to update mapbox planes
 	}
-	dispose() {
+	override dispose() {
 		MapsRegister.instance().deregisterMap(this._canvas_container.id);
 		this._camera_node?.removeMap(this._canvas_container);
 		super.dispose();

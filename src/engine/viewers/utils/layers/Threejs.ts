@@ -10,6 +10,7 @@ import mapboxgl from 'mapbox-gl';
 import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
 import {Mesh} from 'three/src/objects/Mesh';
 import {PlaneBufferGeometry} from 'three/src/geometries/PlaneGeometry';
+import {Clock} from 'three/src/core/Clock';
 
 const ID = 'threejs_layer';
 
@@ -22,6 +23,8 @@ export class ThreejsLayer {
 	private _renderer: WebGLRenderer | undefined;
 	private _map: mapboxgl.Map | undefined;
 	private _gl: WebGLRenderingContext | undefined;
+	private _clock = new Clock();
+	private _delta: number = 0;
 
 	constructor(
 		private _camera_node: MapboxCameraObjNode,
@@ -76,7 +79,9 @@ export class ThreejsLayer {
 			return;
 		}
 
-		this._scene.timeController.incrementTimeIfPlaying();
+		const delta = this._clock.getDelta();
+		this._delta = delta;
+		this._scene.timeController.incrementTimeIfPlaying(this._delta);
 
 		this._updateCameraMatrix(matrix);
 

@@ -1,7 +1,7 @@
 import {Poly} from '@polygonjs/polygonjs/dist/src/engine/Poly';
 import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
 import {ExtendedGeoObjNode} from './engine/nodes/obj/ExtendedGeo';
-import {ExtendedObjectsManagerNode} from './engine/nodes/manager/ExtendedObjectsManager';
+import {ExtendedRootManagerNode} from './engine/nodes/manager/ExtendedRoot';
 
 // register all nodes
 import {AllRegister} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/All';
@@ -14,7 +14,7 @@ Poly.registerPlugin(polyPluginMapbox);
 
 // create a scene
 const scene = new PolyScene();
-const root = scene.root() as ExtendedObjectsManagerNode;
+const root = scene.root() as ExtendedRootManagerNode;
 
 // create a mapbox camera
 const mapboxCamera = root.createNode('mapboxCamera');
