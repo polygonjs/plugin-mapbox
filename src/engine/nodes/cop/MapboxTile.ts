@@ -5,7 +5,7 @@
  * Note that this node requires a mapbox account.
  */
 
-import {LinearFilter, FloatType, RGBFormat} from 'three/src/constants';
+import {LinearFilter, FloatType, RGBAFormat} from 'three/src/constants';
 import {DataTexture} from 'three/src/textures/DataTexture';
 import {TypedCopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/cop/_Base';
 import {CoreMapboxUtils} from '../../../core/mapbox/Utils';
@@ -59,10 +59,10 @@ export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
 	}
 
 	private _texture: DataTexture = new DataTexture(
-		new Float32Array(3 * TileRes.HIGH * TileRes.HIGH),
+		new Float32Array(4 * TileRes.HIGH * TileRes.HIGH),
 		TileRes.HIGH,
 		TileRes.HIGH,
-		RGBFormat,
+		RGBAFormat,
 		FloatType
 	);
 
@@ -101,7 +101,7 @@ export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
 			let elevation: number, R: number, G: number, B: number;
 			for (let i = 0; i < pixels_count; i++) {
 				src_stride = i * 4;
-				dest_stride = i * 3;
+				dest_stride = i * 4;
 				R = data_rgba[src_stride + 0];
 				G = data_rgba[src_stride + 1];
 				B = data_rgba[src_stride + 2];
@@ -123,7 +123,7 @@ export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
 		if (this._paramHires) {
 			for (let i = 0; i < pixels_count; i++) {
 				src_stride = i * 4;
-				dest_stride = i * 3;
+				dest_stride = i * 4;
 				dest_data[dest_stride + 0] = data_rgba[src_stride + 0] / 255;
 				dest_data[dest_stride + 1] = data_rgba[src_stride + 1] / 255;
 				dest_data[dest_stride + 2] = data_rgba[src_stride + 2] / 255;
@@ -136,25 +136,25 @@ export class MapboxTileCopNode extends TypedCopNode<MapboxTileCopParamsConfig> {
 					let k = i * resolution + j;
 					src_stride = k * 4;
 
-					dest_stride = k * 3;
+					dest_stride = k * 4;
 					dest_data[dest_stride + 0] = data_rgba[src_stride + 0]; // / 255
 					dest_data[dest_stride + 1] = data_rgba[src_stride + 1]; // / 255
 					dest_data[dest_stride + 2] = data_rgba[src_stride + 2]; // / 255
 
 					k = (i + 1) * resolution + j;
-					dest_stride = k * 3;
+					dest_stride = k * 4;
 					dest_data[dest_stride + 0] = data_rgba[src_stride + 0]; // / 255
 					dest_data[dest_stride + 1] = data_rgba[src_stride + 1]; // / 255
 					dest_data[dest_stride + 2] = data_rgba[src_stride + 2]; // / 255
 
 					k = i * resolution + (j + 1);
-					dest_stride = k * 3;
+					dest_stride = k * 4;
 					dest_data[dest_stride + 0] = data_rgba[src_stride + 0]; // / 255
 					dest_data[dest_stride + 1] = data_rgba[src_stride + 1]; // / 255
 					dest_data[dest_stride + 2] = data_rgba[src_stride + 2]; // / 255
 
 					k = (i + 1) * resolution + (j + 1);
-					dest_stride = k * 3;
+					dest_stride = k * 4;
 					dest_data[dest_stride + 0] = data_rgba[src_stride + 0]; // / 255
 					dest_data[dest_stride + 1] = data_rgba[src_stride + 1]; // / 255
 					dest_data[dest_stride + 2] = data_rgba[src_stride + 2]; // / 255

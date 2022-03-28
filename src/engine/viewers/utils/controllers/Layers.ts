@@ -50,6 +50,13 @@ export class MapboxViewerLayersController {
 		if (!cameraNode.pv.tlayer3D) {
 			return;
 		}
+		const scene = cameraNode.scene().threejsScene();
+		if (scene.background != null) {
+			console.warn(
+				'the scene has the background set, which may prevent the layers from displaying correctly. Make sure to remove the background.'
+			);
+		}
+
 		map.addSource('mapbox-dem', {
 			type: 'raster-dem',
 			url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
