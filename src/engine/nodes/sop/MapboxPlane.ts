@@ -4,12 +4,12 @@
  * @remarks
  * Note that you will need a mapbox key to use this node.
  */
-import {Vector3} from 'three/src/math/Vector3';
-import {Vector2} from 'three/src/math/Vector2';
-import {PlaneBufferGeometry} from 'three/src/geometries/PlaneGeometry';
-import {Matrix4} from 'three/src/math/Matrix4';
-import {Box2} from 'three/src/math/Box2';
-import {BufferGeometry} from 'three/src/core/BufferGeometry';
+import {Vector3} from 'three';
+import {Vector2} from 'three';
+import {PlaneBufferGeometry} from 'three';
+import {Matrix4} from 'three';
+import {Box2} from 'three';
+import {BufferGeometry} from 'three';
 import mapboxgl from 'mapbox-gl';
 import {CoreObject} from '@polygonjs/polygonjs/dist/src/core/geometry/Object';
 import {ObjectType} from '@polygonjs/polygonjs/dist/src/core/geometry/Constant';

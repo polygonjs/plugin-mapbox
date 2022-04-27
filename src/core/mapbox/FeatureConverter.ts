@@ -1,13 +1,14 @@
-import {Vector2} from 'three/src/math/Vector2';
-import {Object3D} from 'three/src/core/Object3D';
-import {LineSegments} from 'three/src/objects/LineSegments';
-import {Float32BufferAttribute} from 'three/src/core/BufferAttribute';
-import {BufferGeometry} from 'three/src/core/BufferGeometry';
+import {Vector2} from 'three';
+import {Object3D} from 'three';
+import {LineSegments} from 'three';
+import {Float32BufferAttribute} from 'three';
+import {BufferGeometry} from 'three';
 import {CoreGeometry} from '@polygonjs/polygonjs/dist/src/core/geometry/Geometry';
 import {ObjectType} from '@polygonjs/polygonjs/dist/src/core/geometry/Constant';
 import {BaseSopNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/sop/_Base';
 import {CoordinatesCollection} from './CoordinatesCollection';
 import {ArrayUtils} from '@polygonjs/polygonjs/dist/src/core/ArrayUtils';
+import {CoreGeometryBuilderMerge} from '@polygonjs/polygonjs/dist/src/core/geometry/builders/Merge';
 import {CoreMapboxString} from './String';
 
 const MULTILINESTRING = 'MultiLineString';
@@ -32,7 +33,7 @@ export class FeatureConverter {
 		});
 
 		const geometries = lines.map((l) => l.geometry) as BufferGeometry[];
-		const merged_geometry = CoreGeometry.merge_geometries(geometries);
+		const merged_geometry = CoreGeometryBuilderMerge.merge(geometries);
 		if (!merged_geometry) {
 			return;
 		}

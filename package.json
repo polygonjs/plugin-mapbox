@@ -39,7 +39,7 @@
 		"cp_types": "cp dist/src/index.d.ts dist/"
 	},
 	"dependencies": {
-		"@polygonjs/polygonjs": "^1.1.246",
+		"@polygonjs/polygonjs": "^1.1.257",
 		"mapbox-gl": "2.7.1"
 	},
 	"devDependencies": {

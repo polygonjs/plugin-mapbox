@@ -5,8 +5,8 @@
  * Note that this node requires a mapbox account.
  */
 
-import {LinearFilter, FloatType, RGBAFormat} from 'three/src/constants';
-import {DataTexture} from 'three/src/textures/DataTexture';
+import {LinearFilter, FloatType, RGBAFormat} from 'three';
+import {DataTexture} from 'three';
 import {TypedCopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/cop/_Base';
 import {CoreMapboxUtils} from '../../../core/mapbox/Utils';
 import {CoreImage} from '@polygonjs/polygonjs/dist/src/core/Image';

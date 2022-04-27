@@ -34,11 +34,13 @@ export class MapboxTransformSopNode extends MapboxListenerSopNode<MapboxTransfor
 		// this._init_mapbox_listener();
 	}
 
-	override cook(input_contents: CoreGroup[]) {
+	override cook(inputContents: CoreGroup[]) {
+		const coreGroup = inputContents[0];
 		if (!this._cameraNode) {
 			this.updateMapboxCamera();
 			if (!this._cameraNode) {
 				this.states.error.set('mapbox camera not found');
+				this.setCoreGroup(coreGroup);
 				return;
 			}
 		}
@@ -49,9 +51,7 @@ export class MapboxTransformSopNode extends MapboxListenerSopNode<MapboxTransfor
 		// 	this.states.error.set('mapbox not yet loaded');
 		// 	return;
 		// }
-
-		const core_group = input_contents[0];
-		this._transformInput(core_group);
+		this._transformInput(coreGroup);
 	}
 
 	private _transformInput(core_group: CoreGroup) {

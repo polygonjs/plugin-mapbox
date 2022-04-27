@@ -1,6 +1,6 @@
 // THREE = require("../three97.js"); # Modified version to use 64-bit double precision floats for matrix math
-import {Vector3} from 'three/src/math/Vector3';
-import {Matrix4} from 'three/src/math/Matrix4';
+import {Vector3} from 'three';
+import {Matrix4} from 'three';
 import mapboxgl from 'mapbox-gl';
 
 import {CoreMapboxConstants} from './Constants';

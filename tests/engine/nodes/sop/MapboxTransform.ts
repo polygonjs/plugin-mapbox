@@ -7,23 +7,24 @@ QUnit.test('mapbox_transform simple', async (assert) => {
 	const root = scene.root() as ExtendedRootManagerNode;
 	const geo1 = root.createNode('geo') as ExtendedGeoObjNode;
 
-	const mapbox_camera1 = root.createNode('mapboxCamera');
+	const mapboxCamera1 = root.createNode('mapboxCamera');
 	const add1 = geo1.createNode('add');
 	const transform1 = geo1.createNode('transform');
 	transform1.p.t.set([-0.07956000001661323, 0, 51.514600000018646]);
-	const mapbox_transform1 = geo1.createNode('mapboxTransform');
+	const mapboxTransform1 = geo1.createNode('mapboxTransform');
 	transform1.setInput(0, add1);
-	mapbox_transform1.setInput(0, transform1);
+	mapboxTransform1.setInput(0, transform1);
+	mapboxTransform1.p.mapboxCamera.setNode(mapboxCamera1);
 
 	const element = document.createElement('div');
 	// defined size should help predict the plane dimensions
 	element.style.maxWidth = '200px';
 	element.style.maxHeight = '200px';
 	document.body.append(element);
-	const viewer = mapbox_camera1.createViewer(element);
+	const viewer = mapboxCamera1.createViewer(element);
 
 	await viewer.waitForMapLoaded();
-	let container = await mapbox_transform1.compute();
+	let container = await mapboxTransform1.compute();
 	let center = container.center();
 	assert.in_delta(center.x, 0, 0.01);
 	assert.in_delta(center.y, 0, 0.01);
@@ -31,14 +32,14 @@ QUnit.test('mapbox_transform simple', async (assert) => {
 
 	// change the position in world space and check it's updated correctly in mapbox space
 	transform1.p.t.set([-0.07956000001661323, 0, 51.8]);
-	container = await mapbox_transform1.compute();
+	container = await mapboxTransform1.compute();
 	center = container.center();
 	assert.in_delta(center.x, 0, 0.01);
 	assert.in_delta(center.y, 0, 0.01);
 	assert.in_delta(center.z, -23000, 1000);
 
 	transform1.p.t.set([-0.1, 0, 51.8]);
-	container = await mapbox_transform1.compute();
+	container = await mapboxTransform1.compute();
 	center = container.center();
 	assert.in_delta(center.x, -1050, 100);
 	assert.in_delta(center.y, 0, 0.01);

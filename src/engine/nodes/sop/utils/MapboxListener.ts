@@ -4,7 +4,7 @@ import {MapboxCameraObjNode} from '../../../nodes/obj/MapboxCamera';
 import {TypedSopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/sop/_Base';
 import {NodeParamsConfig, ParamConfig} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/params/ParamsConfig';
 import {BaseNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/_Base';
-import {PerspectiveCamera} from 'three/src/cameras/PerspectiveCamera';
+import {PerspectiveCamera} from 'three';
 import {Constructor} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 export function MapboxListenerParamConfig<TBase extends Constructor>(Base: TBase) {
 	return class Mixin extends Base {

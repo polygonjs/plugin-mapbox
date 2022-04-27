@@ -1,16 +1,16 @@
-import {BufferGeometry} from 'three/src/core/BufferGeometry';
-import {Vector2} from 'three/src/math/Vector2';
-import {Vector3} from 'three/src/math/Vector3';
-import {Triangle} from 'three/src/math/Triangle';
+import {BufferGeometry} from 'three';
+import {Vector2} from 'three';
+import {Vector3} from 'three';
+import {Triangle} from 'three';
 import {MapboxPlaneSopNode} from '../../MapboxPlane';
 import {MapboxCameraObjNode} from '../../../obj/MapboxCamera';
 import {CoreMapboxTransform} from '../../../../../core/mapbox/Transform';
 import mapboxgl from 'mapbox-gl';
 import {CoreGeometry} from '@polygonjs/polygonjs/dist/src/core/geometry/Geometry';
 import {CoreMath} from '@polygonjs/polygonjs/dist/src/core/math/_Module';
-import {ObjectType} from '@polygonjs/polygonjs/dist/src/core/geometry/Constant';
 import {CorePoint} from '@polygonjs/polygonjs/dist/src/core/geometry/Point';
 import {Vector2Like} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
+import {CoreGeometryBuilderMesh} from '@polygonjs/polygonjs/dist/src/core/geometry/builders/Mesh';
 
 export class MapboxPlaneFrustumController {
 	// private _core_transform = new CoreTransform();
@@ -81,6 +81,7 @@ export class MapboxPlaneFrustumController {
 				kept_points.push(point);
 			}
 		}
-		return CoreGeometry.geometryFromPoints(kept_points, ObjectType.MESH);
+
+		return new CoreGeometryBuilderMesh().from_points(kept_points);
 	}
 }

@@ -1,8 +1,8 @@
-import {PerspectiveCamera} from 'three/src/cameras/PerspectiveCamera';
-import {Raycaster} from 'three/src/core/Raycaster';
-import {Vector2} from 'three/src/math/Vector2';
-import {Vector3} from 'three/src/math/Vector3';
-import {Matrix4} from 'three/src/math/Matrix4';
+import {PerspectiveCamera} from 'three';
+import {Raycaster} from 'three';
+import {Vector2} from 'three';
+import {Vector3} from 'three';
+import {Matrix4} from 'three';
 import {
 	TypedCameraObjNode,
 	CameraMainCameraParamConfig,

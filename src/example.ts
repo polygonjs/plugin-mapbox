@@ -4,8 +4,34 @@ import {ExtendedGeoObjNode} from './engine/nodes/obj/ExtendedGeo';
 import {ExtendedRootManagerNode} from './engine/nodes/manager/ExtendedRoot';
 
 // register all nodes
-import {AllRegister} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/All';
-AllRegister.run();
+// import {AllRegister} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/All';
+// AllRegister.run();
+
+import {AllCamerasRegister} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/cameras/All';
+import {AllExpressionsRegister} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/expressions/All';
+AllCamerasRegister.run(Poly);
+AllExpressionsRegister.run(Poly);
+import {GeoObjNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/Geo';
+import {AddSopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/sop/Add';
+import {MaterialSopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/sop/Material';
+import {TextSopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/sop/Text';
+import {TransformSopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/sop/Transform';
+import {CopySopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/sop/Copy';
+import {MaterialsNetworkObjNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/MaterialsNetwork';
+import {MaterialsNetworkSopNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/sop/MaterialsNetwork';
+import {MeshLambertMatNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/mat/MeshLambert';
+import {HemisphereLightObjNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/HemisphereLight';
+Poly.registerNode(GeoObjNode);
+Poly.registerNode(AddSopNode);
+Poly.registerNode(MaterialSopNode);
+Poly.registerNode(TextSopNode);
+Poly.registerNode(TransformSopNode);
+Poly.registerNode(CopySopNode);
+Poly.registerNode(MaterialsNetworkObjNode);
+Poly.registerNode(MaterialsNetworkSopNode);
+Poly.registerNode(MeshLambertMatNode);
+Poly.registerNode(HemisphereLightObjNode);
+
 // register nodes for this plugin
 import {polyPluginMapbox} from './index';
 import {token} from './ExampleData';

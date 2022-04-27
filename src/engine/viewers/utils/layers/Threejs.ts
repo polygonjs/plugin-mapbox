@@ -1,16 +1,16 @@
 import {CoreMapboxTransform} from '../../../../core/mapbox/Transform';
 import {MapboxCameraObjNode} from '../../../nodes/obj/MapboxCamera';
 import {MapboxViewer} from '../../Mapbox';
-import {WebGLRenderer} from 'three/src/renderers/WebGLRenderer';
-import {Vector3} from 'three/src/math/Vector3';
-import {Scene} from 'three/src/scenes/Scene';
-import {Matrix4} from 'three/src/math/Matrix4';
-import {Camera} from 'three/src/cameras/Camera';
+import {WebGLRenderer} from 'three';
+import {Vector3} from 'three';
+import {Scene} from 'three';
+import {Matrix4} from 'three';
+import {Camera} from 'three';
 import mapboxgl from 'mapbox-gl';
 import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
-import {Mesh} from 'three/src/objects/Mesh';
-import {PlaneBufferGeometry} from 'three/src/geometries/PlaneGeometry';
-import {Clock} from 'three/src/core/Clock';
+import {Mesh} from 'three';
+import {PlaneBufferGeometry} from 'three';
+import {TIME_CONTROLLER_UPDATE_TIME_OPTIONS_DEFAULT} from '@polygonjs/polygonjs/dist/src/engine/scene/utils/TimeController';
 
 const ID = 'threejs_layer';
 
@@ -23,8 +23,6 @@ export class ThreejsLayer {
 	private _renderer: WebGLRenderer | undefined;
 	private _map: mapboxgl.Map | undefined;
 	private _gl: WebGLRenderingContext | undefined;
-	private _clock = new Clock();
-	private _delta: number = 0;
 
 	constructor(
 		private _camera_node: MapboxCameraObjNode,
@@ -79,9 +77,8 @@ export class ThreejsLayer {
 			return;
 		}
 
-		const delta = this._clock.getDelta();
-		this._delta = delta;
-		this._scene.timeController.incrementTimeIfPlaying(this._delta);
+		this._scene.timeController.updateClockDelta();
+		this._scene.timeController.incrementTimeIfPlaying(TIME_CONTROLLER_UPDATE_TIME_OPTIONS_DEFAULT);
 
 		this._updateCameraMatrix(matrix);
 

@@ -5,7 +5,7 @@
  * This is best used with the Mapbox camera.
  * Note that you will need a mapbox key to use this node.
  */
-import {Object3D} from 'three/src/core/Object3D';
+import {Object3D} from 'three';
 import {CoreString} from '@polygonjs/polygonjs/dist/src/core/String';
 import {FeatureConverter} from '../../../core/mapbox/FeatureConverter';
 

@@ -1,6 +1,6 @@
 import {Number3} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 import 'qunit';
-import {Vector3} from 'three/src/math/Vector3';
+import {Vector3} from 'three';
 // https://qunitjs.com/cookbook/#custom-assertions
 
 declare global {

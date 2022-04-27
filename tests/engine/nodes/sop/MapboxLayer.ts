@@ -19,6 +19,7 @@ QUnit.test('mapbox_layer simple', async (assert) => {
 	await viewer.waitForMapLoaded();
 
 	const mapboxLayer1 = geo1.createNode('mapboxLayer');
+	mapboxLayer1.p.mapboxCamera.setNode(mapboxCamera1);
 	mapboxLayer1.flags.display.set(true);
 
 	// await CoreSleep.sleep(5000);
