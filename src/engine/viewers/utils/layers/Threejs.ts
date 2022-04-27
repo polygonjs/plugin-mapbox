@@ -77,6 +77,10 @@ export class ThreejsLayer {
 			return;
 		}
 
+		if (this._display_scene.background) {
+			console.warn('scene background is not null, this will cover the map and prevent it from being seen');
+		}
+
 		this._scene.timeController.updateClockDelta();
 		this._scene.timeController.incrementTimeIfPlaying(TIME_CONTROLLER_UPDATE_TIME_OPTIONS_DEFAULT);
 
