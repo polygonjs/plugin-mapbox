@@ -1,21 +1,23 @@
-import {PerspectiveCamera} from 'three';
-import {Raycaster} from 'three';
-import {Vector2} from 'three';
-import {Vector3} from 'three';
-import {Matrix4} from 'three';
 import {
 	TypedCameraObjNode,
 	CameraMainCameraParamConfig,
 	BaseViewerOptions,
 } from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/_BaseCamera';
 import mapboxgl from 'mapbox-gl';
-import {MapboxViewer} from '../../viewers/Mapbox';
 import {CoreMapboxClient} from '../../../core/mapbox/Client';
 import {ParamConfig, NodeParamsConfig} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/params/ParamsConfig';
 import {BaseNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/_Base';
 import {BaseParamType} from '@polygonjs/polygonjs/dist/src/engine/params/_Base';
 import {Number2} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 import {isBooleanTrue} from '@polygonjs/polygonjs/dist/src/core/Type';
+import {Poly} from '@polygonjs/polygonjs';
+import {MapboxPerspectiveCamera} from '../../../core/mapbox/MapboxPerspectiveCamera';
+import {
+	MapboxCameraObjNodeType,
+	MAPBOX_CAMERA_OBJ_NODE_TYPE,
+	registerMapboxCamera,
+} from '../../../core/mapbox/registerMapboxCamera';
+import {MapboxViewer} from '../../viewers/Mapbox';
 
 const PRESETS = {
 	LONDON: {
@@ -58,7 +60,7 @@ class MapboxCameraObjParamConfig extends CameraMainCameraParamConfig(NodeParamsC
 		},
 	});
 	pitch = ParamConfig.FLOAT(60, {
-		range: [0, 60],
+		range: [0, 85],
 		rangeLocked: [true, true],
 		callback: (node: BaseNodeType) => {
 			MapboxCameraObjNode.PARAM_CALLBACK_update_nav(node as MapboxCameraObjNode);
@@ -93,11 +95,12 @@ class MapboxCameraObjParamConfig extends CameraMainCameraParamConfig(NodeParamsC
 }
 const ParamsConfig = new MapboxCameraObjParamConfig();
 
-export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, MapboxCameraObjParamConfig> {
+export class MapboxCameraObjNode extends TypedCameraObjNode<MapboxPerspectiveCamera, MapboxCameraObjParamConfig> {
 	override paramsConfig = ParamsConfig;
-	static override type(): Readonly<'mapboxCamera'> {
-		return 'mapboxCamera';
+	static override type(): Readonly<MapboxCameraObjNodeType> {
+		return MAPBOX_CAMERA_OBJ_NODE_TYPE;
 	}
+	static override onRegister = registerMapboxCamera;
 	public integration_data() {
 		return CoreMapboxClient.integration_data();
 	}
@@ -109,7 +112,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	private _moving_maps = false;
 
 	override createObject() {
-		return new PerspectiveCamera(); // I use a PerspectiveCamera to have the picker working
+		return new MapboxPerspectiveCamera(); // I use a PerspectiveCamera to have the picker working
 	}
 
 	override async cook() {
@@ -117,28 +120,28 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 		this.cookController.endCook();
 	}
 
-	private _inverse_proj_mat = new Matrix4();
-	private _cam_pos = new Vector3();
-	private _mouse_pos = new Vector3();
-	private _view_dir = new Vector3();
-	override prepareRaycaster(mouse: Vector2, raycaster: Raycaster) {
-		// adapted from https://github.com/mapbox/mapbox-gl-js/issues/7395
-		// const camInverseProjection = this._inverse_proj_mat.getInverse(this._object.projectionMatrix);
-		// this._cam_pos.set(0, 0, 0);
-		// this._cam_pos.applyMatrix4(camInverseProjection);
-		// this._mouse_pos.set(mouse.x, mouse.y, 1);
-		// this._mouse_pos.applyMatrix4(camInverseProjection);
-		// this._view_dir.copy(this._mouse_pos).sub(this._cam_pos).normalize();
-		// raycaster.set(this._cam_pos, this._view_dir);
-		this._inverse_proj_mat.copy(this._object.projectionMatrix);
-		this._inverse_proj_mat.invert();
-		this._cam_pos.set(0, 0, 0);
-		this._cam_pos.applyMatrix4(this._inverse_proj_mat);
-		this._mouse_pos.set(mouse.x, mouse.y, 1);
-		this._mouse_pos.applyMatrix4(this._inverse_proj_mat);
-		this._view_dir.copy(this._mouse_pos).sub(this._cam_pos).normalize();
-		raycaster.set(this._cam_pos, this._view_dir);
-	}
+	// private _inverse_proj_mat = new Matrix4();
+	// private _cam_pos = new Vector3();
+	// private _mouse_pos = new Vector3();
+	// private _view_dir = new Vector3();
+	// override prepareRaycaster(mouse: Vector2, raycaster: Raycaster) {
+	// 	// adapted from https://github.com/mapbox/mapbox-gl-js/issues/7395
+	// 	// const camInverseProjection = this._inverse_proj_mat.getInverse(this._object.projectionMatrix);
+	// 	// this._cam_pos.set(0, 0, 0);
+	// 	// this._cam_pos.applyMatrix4(camInverseProjection);
+	// 	// this._mouse_pos.set(mouse.x, mouse.y, 1);
+	// 	// this._mouse_pos.applyMatrix4(camInverseProjection);
+	// 	// this._view_dir.copy(this._mouse_pos).sub(this._cam_pos).normalize();
+	// 	// raycaster.set(this._cam_pos, this._view_dir);
+	// 	this._inverse_proj_mat.copy(this._object.projectionMatrix);
+	// 	this._inverse_proj_mat.invert();
+	// 	this._cam_pos.set(0, 0, 0);
+	// 	this._cam_pos.applyMatrix4(this._inverse_proj_mat);
+	// 	this._mouse_pos.set(mouse.x, mouse.y, 1);
+	// 	this._mouse_pos.applyMatrix4(this._inverse_proj_mat);
+	// 	this._view_dir.copy(this._mouse_pos).sub(this._cam_pos).normalize();
+	// 	raycaster.set(this._cam_pos, this._view_dir);
+	// }
 
 	createMap(container: HTMLElement) {
 		const map = new mapboxgl.Map({
@@ -464,18 +467,20 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<PerspectiveCamera, M
 	}
 
 	createViewer(options: BaseViewerOptions | HTMLElement) {
-		const viewer = new MapboxViewer(this);
+		const viewer = Poly.camerasRegister.createViewer<MapboxPerspectiveCamera>({
+			camera: this.object,
+			scene: this.scene() as any,
+		}) as MapboxViewer | undefined;
 		let element: HTMLElement | undefined;
 		if (options && options instanceof HTMLElement) {
 			element = options;
 		} else {
 			element = options?.element;
 		}
-		if (element) {
+		if (viewer && element) {
 			viewer.mount(element);
 		}
 
-		this.scene().viewersRegister.registerViewer(viewer);
 		return viewer;
 	}
 }

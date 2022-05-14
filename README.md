@@ -2,7 +2,7 @@
 
 This adds several nodes to work with Mapbox with the [Polygonjs webgl engine](https://polygonjs.com).
 
-See [example scene](https://github.com/polygonjs/example-plugin-mapbox):
+See [Live Demo](https://polygonjs-mapbox-example.netlify.app/) or [example repo](https://github.com/polygonjs/example-plugin-mapbox):
 
 ![example scene with mapbox camera](https://github.com/polygonjs/example-plugin-mapbox/blob/main/doc/mapbox_examples.jpg?raw=true)
 

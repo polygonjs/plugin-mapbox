@@ -12,8 +12,6 @@ function PolygonjsPluginMapbox(poly: PolyEngine) {
 	poly.registerNode(MapboxLayerSopNode, 'mapbox');
 	poly.registerNode(MapboxPlaneSopNode, 'mapbox');
 	poly.registerNode(MapboxTransformSopNode, 'mapbox');
-
-	poly.registerCamera(MapboxCameraObjNode);
 }
 export const polyPluginMapbox = new PolyPluginMapbox('mapbox', PolygonjsPluginMapbox, {
 	libraryName: '@polygonjs/plugin-mapbox',

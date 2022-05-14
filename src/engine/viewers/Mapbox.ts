@@ -1,31 +1,42 @@
 import mapboxgl from 'mapbox-gl';
 import {MapboxCameraObjNode} from '../nodes/obj/MapboxCamera';
-import {TypedViewer} from '@polygonjs/polygonjs/dist/src/engine/viewers/_Base';
+import {TypedViewer, TypedViewerOptions} from '@polygonjs/polygonjs/dist/src/engine/viewers/_Base';
 import {MapboxViewerEventsController} from './utils/controllers/Event';
 import {MapboxViewerStylesheetController} from './utils/controllers/Stylesheet';
 import {MapboxViewerLayersController} from './utils/controllers/Layers';
 import {MapsRegister} from '../../core/mapbox/MapsRegister';
+import {MapboxPerspectiveCamera} from '../../core/mapbox/MapboxPerspectiveCamera';
+import {MapboxRaycaster} from '../../core/mapbox/MapboxRaycaster';
 const CSS_CLASS = 'CoreMapboxViewer';
 
-export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
+export interface MapboxViewerOptions extends TypedViewerOptions<MapboxPerspectiveCamera> {
+	cameraNode: MapboxCameraObjNode;
+}
+
+export class MapboxViewer extends TypedViewer<MapboxPerspectiveCamera> {
 	private _canvasContainer: HTMLElement;
 	// private _canvas: HTMLCanvasElement | undefined;
 	// private _camera_node: MapboxCameraObjNode | undefined;
 
 	private _map: mapboxgl.Map;
 	private _mapLoaded: boolean = false;
+	private _cameraNode: MapboxCameraObjNode;
 
 	// controllers
 	public readonly layers_controller = new MapboxViewerLayersController(this);
 	public readonly mapbox_events_controller = new MapboxViewerEventsController(this);
 
-	constructor(protected override _cameraNode: MapboxCameraObjNode) {
-		super(_cameraNode);
+	constructor(options: MapboxViewerOptions) {
+		super(options);
+		this._cameraNode = options.cameraNode;
 		this._canvasContainer = document.createElement('div');
 		this._canvasContainer.id = `mapbox_container_id_${Math.random()}`.replace('.', '_');
 		this._canvasContainer.style.height = '100%';
 		MapboxViewerStylesheetController.load();
 		this._map = this._cameraNode.createMap(this._canvasContainer);
+	}
+	cameraNode() {
+		return this._cameraNode;
 	}
 	override async mount(element: HTMLElement) {
 		super.mount(element);
@@ -55,6 +66,9 @@ export class MapboxViewer extends TypedViewer<MapboxCameraObjNode> {
 	}
 	canvasContainer() {
 		return this._canvasContainer;
+	}
+	override createRaycaster() {
+		return new MapboxRaycaster();
 	}
 
 	onResize() {
