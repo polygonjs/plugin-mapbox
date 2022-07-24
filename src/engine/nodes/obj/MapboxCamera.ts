@@ -18,6 +18,9 @@ import {
 	registerMapboxCamera,
 } from '../../../core/mapbox/registerMapboxCamera';
 import {MapboxViewer} from '../../viewers/Mapbox';
+import {NodeContext} from '@polygonjs/polygonjs/dist/src/engine/poly/NodeContext';
+import {RopType} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/nodes/types/Rop';
+import {CameraCSSRendererSopOperation} from '@polygonjs/polygonjs/dist/src/engine/operations/sop/CameraCSSRenderer';
 
 const PRESETS = {
 	LONDON: {
@@ -92,6 +95,24 @@ class MapboxCameraObjParamConfig extends CameraMainCameraParamConfig(NodeParamsC
 	tlayerBuildings = ParamConfig.BOOLEAN(0);
 	tlayer3D = ParamConfig.BOOLEAN(0);
 	tlayerSky = ParamConfig.BOOLEAN(0);
+	/** @param toggle on to add a CSSRenderer to have html elements on top of the 3D objects */
+	setCSSRenderer = ParamConfig.BOOLEAN(0, {
+		callback: (node: BaseNodeType) => {
+			MapboxCameraObjNode.PARAM_CALLBACK_updateCameraAttributes(node as MapboxCameraObjNode);
+		},
+	});
+	/** @param add a css renderer */
+	CSSRenderer = ParamConfig.NODE_PATH('', {
+		visibleIf: {setCSSRenderer: 1},
+		nodeSelection: {
+			context: NodeContext.ROP,
+			types: [RopType.CSS2D, RopType.CSS3D],
+		},
+		dependentOnFoundNode: true,
+		callback: (node: BaseNodeType) => {
+			MapboxCameraObjNode.PARAM_CALLBACK_updateCameraAttributes(node as MapboxCameraObjNode);
+		},
+	});
 }
 const ParamsConfig = new MapboxCameraObjParamConfig();
 
@@ -117,7 +138,25 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<MapboxPerspectiveCam
 
 	override async cook() {
 		this.updateMaps();
+
+		this._updateCameraAttributes();
+
 		this.cookController.endCook();
+	}
+
+	static PARAM_CALLBACK_updateCameraAttributes(node: MapboxCameraObjNode) {
+		node._updateCameraAttributes();
+	}
+
+	private _updateCameraAttributes() {
+		const objects = [this._object];
+		const node = this;
+		CameraCSSRendererSopOperation.updateObject({
+			objects,
+			params: {node: this.pv.CSSRenderer},
+			node,
+			active: this.pv.setCSSRenderer,
+		});
 	}
 
 	// private _inverse_proj_mat = new Matrix4();
@@ -144,6 +183,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<MapboxPerspectiveCam
 	// }
 
 	createMap(container: HTMLElement) {
+		this._updateCameraAttributes();
 		const map = new mapboxgl.Map({
 			style: this.pv.style,
 			container,
@@ -201,6 +241,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<MapboxPerspectiveCam
 		this._maps_by_container_id.forEach((map, container_id) => {
 			this.updateMapFromContainerId(container_id);
 		});
+		this._updateCameraAttributes();
 	}
 
 	//this.object().dispatchEvent('change')
@@ -466,7 +507,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<MapboxPerspectiveCam
 		});
 	}
 
-	createViewer(options: BaseViewerOptions | HTMLElement) {
+	async createViewer(options?: BaseViewerOptions | HTMLElement): Promise<MapboxViewer | undefined> {
 		const viewer = Poly.camerasRegister.createViewer<MapboxPerspectiveCamera>({
 			camera: this.object,
 			scene: this.scene() as any,

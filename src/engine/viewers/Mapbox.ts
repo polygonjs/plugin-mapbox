@@ -1,3 +1,4 @@
+import {Vector2} from 'three';
 import mapboxgl from 'mapbox-gl';
 import {MapboxCameraObjNode} from '../nodes/obj/MapboxCamera';
 import {TypedViewer, TypedViewerOptions} from '@polygonjs/polygonjs/dist/src/engine/viewers/_Base';
@@ -23,8 +24,8 @@ export class MapboxViewer extends TypedViewer<MapboxPerspectiveCamera> {
 	private _cameraNode: MapboxCameraObjNode;
 
 	// controllers
-	public readonly layers_controller = new MapboxViewerLayersController(this);
-	public readonly mapbox_events_controller = new MapboxViewerEventsController(this);
+	private readonly layersController = new MapboxViewerLayersController(this);
+	private readonly mapboxEventController = new MapboxViewerEventsController(this);
 
 	constructor(options: MapboxViewerOptions) {
 		super(options);
@@ -43,7 +44,7 @@ export class MapboxViewer extends TypedViewer<MapboxPerspectiveCamera> {
 		this._domElement?.appendChild(this._canvasContainer);
 		this._domElement?.classList.add(CSS_CLASS);
 
-		this.mapbox_events_controller.init_events();
+		this.mapboxEventController.init_events();
 		this._map.on('load', () => {
 			if (this._map) {
 				this._mapLoaded = true;
@@ -51,11 +52,16 @@ export class MapboxViewer extends TypedViewer<MapboxPerspectiveCamera> {
 				this._canvas = this._findCanvas();
 				this.eventsController().init();
 				MapsRegister.instance().registerMap(this._canvasContainer.id, this._map);
-				this.layers_controller.addLayers();
-				this.mapbox_events_controller.camera_node_move_end(); // to update mapbox planes
+				this.layersController.addLayers();
+				this.mapboxEventController.camera_node_move_end(); // to update mapbox planes
 				window.dispatchEvent(new Event('resize')); // helps making sure it is resized correctly
 			}
 		});
+
+		this._map.on('resize', () => {
+			this.onResize();
+		});
+		// window.addEventListener('resize', )
 	}
 
 	mapLoaded() {
@@ -72,11 +78,13 @@ export class MapboxViewer extends TypedViewer<MapboxPerspectiveCamera> {
 	}
 
 	onResize() {
-		if (this._map) {
-			this._map.resize();
-		}
-		this.layers_controller.resize();
-		this.mapbox_events_controller.camera_node_move_end(); // to update mapbox planes
+		// if (this._map) {
+		// 	this._map.resize();
+		// }
+		const rect = this._map.getCanvas().getBoundingClientRect();
+		const size = new Vector2(rect.width, rect.height);
+		this.layersController.resize(size);
+		this.mapboxEventController.camera_node_move_end(); // to update mapbox planes
 	}
 	override dispose() {
 		MapsRegister.instance().deregisterMap(this._canvasContainer.id);

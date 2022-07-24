@@ -35,6 +35,9 @@ module.exports = (env) => {
 		);
 	}
 
+	// https://github.com/johnagan/clean-webpack-plugin/issues/194
+	common_options.output.clean = true;
+	common_options.output.path = path.resolve(__dirname, '../../dist');
 	// currently not using contenthash since we will fetch the generated file with a version anyway
 	// ie: https://unpkg.com/polygonjs-engine@1.1.23/dist/polygonjs-engine.js
 	common_options.output.chunkFilename = '[name].js'; //'[name].[contenthash].js';
@@ -42,11 +45,19 @@ module.exports = (env) => {
 	if (env.PUBLIC_PATH) {
 		common_options.output.publicPath = env.PUBLIC_PATH; // this may be crucial to update depending on the build
 	}
-	common_options.output.libraryTarget = 'commonjs2';
+	// common_options.output.libraryTarget = 'commonjs2';
+	common_options.output.library = {
+		// name: 'POLY',
+		type: 'module',
+		// export: 'PolyScene',
+	};
 
 	const config = merge(common_options, {
 		mode: 'production',
 		devtool: 'source-map',
+		experiments: {
+			outputModule: true,
+		},
 		optimization: {
 			chunkIds: 'named',
 			// { automaticNameDelimiter?, automaticNameMaxLength?, cacheGroups?, chunks?, enforceSizeThreshold?, fallbackCacheGroup?, filename?, hidePathInfo?, maxAsyncRequests?, maxInitialRequests?, maxSize?, minChunks?, minSize?, name? }

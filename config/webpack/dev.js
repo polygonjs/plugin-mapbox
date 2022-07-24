@@ -48,7 +48,7 @@ module.exports = (env) => {
 		mode: 'development',
 		devtool: 'inline-source-map', // 'cheap-module-eval-source-map',
 		devServer: {
-			contentBase: path.join(__dirname, '../public'),
+			static: path.join(__dirname, '../public'),
 			hot: true,
 		},
 	});

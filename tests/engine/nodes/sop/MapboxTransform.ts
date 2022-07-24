@@ -21,7 +21,7 @@ QUnit.test('mapbox_transform simple', async (assert) => {
 	element.style.maxWidth = '200px';
 	element.style.maxHeight = '200px';
 	document.body.append(element);
-	const viewer = mapboxCamera1.createViewer(element);
+	const viewer = (await mapboxCamera1.createViewer(element))!;
 
 	await viewer.waitForMapLoaded();
 	let container = await mapboxTransform1.compute();

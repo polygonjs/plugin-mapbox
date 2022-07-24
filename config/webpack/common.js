@@ -4,14 +4,14 @@ const TYPESCRIPT_TRANSPILE_ONLY = FAST_COMPILE;
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+// const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 // loaders
 const ts = require('./loaders/ts');
 
 const plugins = [
-	new CleanWebpackPlugin(),
+	// new CleanWebpackPlugin(),
 	new HtmlWebpackPlugin({
 		title: 'Index',
 		// filename: 'index.html',
@@ -29,8 +29,8 @@ module.exports = (env = {}) => {
 		},
 		plugins: plugins,
 		output: {
-			filename: '[name].js',
-			library: 'PolyPluginMapbox',
+			// filename: '[name].js',
+			// library: 'PolyPluginMapbox',
 		},
 		resolve: {
 			extensions: ['.ts', '.js'],

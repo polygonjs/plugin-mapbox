@@ -2,6 +2,7 @@ import {MapboxViewer} from '../../Mapbox';
 import {ThreejsLayer} from '../layers/Threejs';
 import {BuildingsLayer} from '../layers/Buildings';
 import {MapboxCameraObjNode} from '../../../nodes/obj/MapboxCamera';
+import {Vector2} from 'three';
 
 export class MapboxViewerLayersController {
 	public _threejsLayer: ThreejsLayer | undefined;
@@ -41,10 +42,8 @@ export class MapboxViewerLayersController {
 		this._addLayer3D(map, cameraNode);
 		this._addLayerSky(map, cameraNode);
 	}
-	resize() {
-		if (this._threejsLayer) {
-			this._threejsLayer.resize();
-		}
+	resize(size: Vector2) {
+		this._threejsLayer?.resize(size);
 	}
 	private _addLayer3D(map: mapboxgl.Map, cameraNode: MapboxCameraObjNode) {
 		if (!cameraNode.pv.tlayer3D) {
@@ -88,7 +87,7 @@ export class MapboxViewerLayersController {
 		if (!cameraNode.pv.tlayerBuildings) {
 			return;
 		}
-		if (this._has_layer_id(BuildingsLayer.id)) {
+		if (this._hasLayerId(BuildingsLayer.id)) {
 			return;
 		}
 		map.addLayer(BuildingsLayer, label_layer_id);
@@ -98,19 +97,18 @@ export class MapboxViewerLayersController {
 		if (!map) {
 			return;
 		}
-		const camera_node = this._viewer.cameraNode();
-		if (!camera_node) {
-			console.log('no camera_node found');
+		const cameraNode = this._viewer.cameraNode();
+		if (!cameraNode) {
+			console.warn('no cameraNode found');
 			return;
 		}
-		this._threejsLayer = new ThreejsLayer(camera_node, camera_node.scene().threejsScene(), this._viewer);
+		this._threejsLayer = new ThreejsLayer(cameraNode, cameraNode.scene().threejsScene(), this._viewer);
 		map.addLayer(this._threejsLayer, label_layer_id);
 		// const threejsScene = camera_node.scene().threejsScene();
-		// console.log(Threejs3LayerBuilder);
 		// const layer = Threejs3LayerBuilder(threejsScene);
 		// map.addLayer(layer, label_layer_id);
 	}
-	_has_layer_id(layer_id: string): boolean {
+	private _hasLayerId(layer_id: string): boolean {
 		const map = this._viewer.map();
 		if (map) {
 			const current_style = map.getStyle();

@@ -1,7 +1,7 @@
 import {CoreMapboxTransform} from '../../../../core/mapbox/Transform';
 import {MapboxCameraObjNode} from '../../../nodes/obj/MapboxCamera';
 import {MapboxViewer} from '../../Mapbox';
-import {WebGLRenderer} from 'three';
+import {WebGLRenderer, Vector2} from 'three';
 import {Vector3} from 'three';
 import {Scene} from 'three';
 import {Matrix4} from 'three';
@@ -11,8 +11,13 @@ import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
 import {Mesh} from 'three';
 import {PlaneBufferGeometry} from 'three';
 import {TIME_CONTROLLER_UPDATE_TIME_OPTIONS_DEFAULT} from '@polygonjs/polygonjs/dist/src/engine/scene/utils/TimeController';
+import {
+	CoreCameraCSSRendererController,
+	CSSRendererConfig,
+} from '@polygonjs/polygonjs/dist/src/core/camera/CoreCameraCSSRendererController';
 
 const ID = 'threejs_layer';
+type RenderFunc = () => void;
 
 export class ThreejsLayer {
 	public readonly id: string = ID;
@@ -23,14 +28,12 @@ export class ThreejsLayer {
 	private _renderer: WebGLRenderer | undefined;
 	private _map: mapboxgl.Map | undefined;
 	private _gl: WebGLRenderingContext | undefined;
+	private _renderCSSFunc: RenderFunc | undefined;
+	private _cssRendererConfig: CSSRendererConfig | undefined;
 
-	constructor(
-		private _camera_node: MapboxCameraObjNode,
-		private _display_scene: Scene,
-		private _viewer: MapboxViewer
-	) {
-		this._camera = this._camera_node.object;
-		this._scene = this._camera_node.scene();
+	constructor(private _cameraNode: MapboxCameraObjNode, private _displayScene: Scene, private _viewer: MapboxViewer) {
+		this._camera = this._cameraNode.object;
+		this._scene = this._cameraNode.scene();
 	}
 
 	onAdd(map: mapboxgl.Map, gl: WebGLRenderingContext) {
@@ -63,13 +66,27 @@ export class ThreejsLayer {
 		this._renderer.autoClear = false;
 		this._renderer.shadowMap.enabled = true;
 
+		this._cssRendererConfig = CoreCameraCSSRendererController.cssRendererConfig({
+			scene: this._scene,
+			camera: this._camera,
+			canvas: this._viewer.canvas(),
+		});
+		const cssRendererNode = this._cssRendererConfig?.cssRendererNode;
+		if (cssRendererNode) {
+			cssRendererNode.mountRenderer(this._viewer.canvas());
+		}
+		const cssRenderer = this._cssRendererConfig?.cssRenderer;
+		if (cssRenderer) {
+			cssRenderer.domElement.style.zIndex = '99999';
+		}
+		this._renderCSSFunc = cssRenderer ? () => cssRenderer.render(this._displayScene, this._camera) : undefined;
+
 		this._hack();
 	}
 
-	resize() {
-		// TODO: resize is currently broken, as it seems to never be triggered
-		// re-creating a renderer is the only way I found to reliably resize
-		this.createRenderer();
+	resize(size: Vector2) {
+		this._renderer?.setSize(size.x, size.y);
+		this._cssRendererConfig?.cssRenderer.setSize(size.x, size.y);
 	}
 
 	async render(gl: WebGLRenderingContext, matrix: number[]) {
@@ -77,7 +94,7 @@ export class ThreejsLayer {
 			return;
 		}
 
-		if (this._display_scene.background) {
+		if (this._displayScene.background) {
 			console.warn('scene background is not null, this will cover the map and prevent it from being seen');
 		}
 
@@ -87,8 +104,12 @@ export class ThreejsLayer {
 		this._updateCameraMatrix(matrix);
 
 		this._renderer.state.reset();
-		this._renderer.render(this._display_scene, this._camera);
+		this._renderer.render(this._displayScene, this._camera);
 		this._map.triggerRepaint();
+
+		if (this._renderCSSFunc) {
+			this._renderCSSFunc();
+		}
 	}
 
 	// from https://docs.mapbox.com/mapbox-gl-js/example/add-3d-model/

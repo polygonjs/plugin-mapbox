@@ -19,7 +19,7 @@ QUnit.test('mapbox_plane simple', async (assert) => {
 	element.style.maxWidth = '200px';
 	element.style.maxHeight = '200px';
 	document.body.append(element);
-	const viewer = mapboxCamera1.createViewer(element);
+	const viewer = (await mapboxCamera1.createViewer(element))!;
 
 	await viewer.waitForMapLoaded();
 	// await CoreSleep.sleep(5000);

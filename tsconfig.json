@@ -8,7 +8,6 @@
 		"noImplicitOverride": true,
 		"strict": true,
 
-		// decorators
 		"experimentalDecorators": true,
 
 		// output & paths
