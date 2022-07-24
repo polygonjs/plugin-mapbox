@@ -85,7 +85,13 @@ export class ThreejsLayer {
 	}
 
 	resize(size: Vector2) {
-		this._renderer?.setSize(size.x, size.y);
+		// TODO: resize is currently broken.
+		// re-creating a renderer is the only way I found to reliably resize.
+		// It seems that if I only resize,
+		// the render will appear to be the right size (as in no antialiasing issue)
+		// but 3d object end up slipping on the map (as opposed to staying anchored where they are expected to)
+		this.createRenderer();
+		// this._renderer?.setSize(size.x, size.y);
 		this._cssRendererConfig?.cssRenderer.setSize(size.x, size.y);
 	}
 

@@ -24,9 +24,9 @@
 	"main": "./dist/index.js",
 	"scripts": {
 		"start": "webpack-dev-server --env NODE_ENV=development --env production=false --config config/webpack/dev.js",
-		"build": "export NODE_OPTIONS='--max-old-space-size=32768' yarn build_folder_delete && yarn build_with_webpack && yarn renameMJS",
+		"build": "export NODE_OPTIONS='--max-old-space-size=32768' yarn build_folder_delete && yarn build_with_webpack && yarn build_with_esbuild && yarn build_folder_remove_unneeded && yarn cp_types",
 		"build_full": "export NODE_OPTIONS='--max-old-space-size=32768' yarn build_folder_delete && yarn build_with_webpack && yarn build_with_esbuild && yarn build_folder_remove_unneeded && yarn cp_types",
-		"build_with_webpack": "webpack --env NODE_ENV=production --env production --progress --config config/webpack/prod.js",
+		"build_with_webpack": "webpack --env NODE_ENV=production --env production --progress --config config/webpack/prod.js && yarn renameMJS",
 		"build_with_webpack_fast": "webpack --env NODE_ENV=production --env production --progress --env FAST_COMPILE=true --config config/webpack/prod.js",
 		"build_unpkg": "webpack --env NODE_ENV=production --env production --env PUBLIC_PATH='./' --progress --config config/webpack/prod.js",
 		"build_verbose": "webpack --env NODE_ENV=production --env production --progress --display-reasons --display-used-exports --display-provided-exports --display-chunks --display-max-modules 99999 --display-origins --display-entrypoints --config config/webpack/prod.js",
@@ -35,7 +35,8 @@
 		"concat_dts": "./node_modules/typescript/bin/tsc --allowSyntheticDefaultImports --esModuleInterop --moduleResolution node config/webpack/dts_concat.ts; node config/webpack/dts_concat.js",
 		"renameMJS": "mv dist/index.mjs dist/index.js",
 		"tsc_esbuild": "./node_modules/typescript/bin/tsc config/esbuild/esbuild.ts --moduleResolution node",
-		"build_with_esbuild": "yarn tsc_esbuild && node config/esbuild/esbuild.js",
+		"build_with_esbuild": "yarn tsc_esbuild && yarn esbuild",
+		"esbuild": "node config/esbuild/esbuild.js",
 		"build_folder_delete": "rm -rf dist/*",
 		"build_folder_remove_unneeded": "rm -rf dist/config && rm -rf dist/tests",
 		"cp_types": "cp dist/src/index.d.ts dist/"
