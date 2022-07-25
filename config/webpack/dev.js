@@ -15,7 +15,7 @@ module.exports = (env) => {
 		common_options.plugins.push(
 			new HtmlWebpackPlugin({
 				title: 'Example',
-				filename: 'example',
+				filename: 'example.html',
 				template: './src/example.html',
 				chunks: ['example'],
 			})

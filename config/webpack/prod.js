@@ -1,7 +1,7 @@
 const argv = require('yargs').argv;
 const FAST_COMPILE = argv.env.FAST_COMPILE || false;
 const path = require('path');
-const MINIFY = true;
+const MINIFY = false;
 
 const fs = require('fs');
 const {merge} = require('webpack-merge');
@@ -58,51 +58,54 @@ module.exports = (env) => {
 		experiments: {
 			outputModule: true,
 		},
-		optimization: {
-			chunkIds: 'named',
-			// { automaticNameDelimiter?, automaticNameMaxLength?, cacheGroups?, chunks?, enforceSizeThreshold?, fallbackCacheGroup?, filename?, hidePathInfo?, maxAsyncRequests?, maxInitialRequests?, maxSize?, minChunks?, minSize?, name? }
-			splitChunks: {
-				chunks: 'async', // if chunks is 'all', it seems that the first chunks, like vendors, need to be included manually, which isn't great.
-				minSize: 20000,
-				// minRemainingSize: 0,
-				maxSize: 0,
-				minChunks: 1,
-				maxAsyncRequests: 30000,
-				maxInitialRequests: 30000,
-				automaticNameDelimiter: '~',
-				enforceSizeThreshold: 50000,
-				cacheGroups: {
-					mapbox: {
-						test: /[\\/].*mapbox.*[\\/]/,
-						priority: -10,
-						reuseExistingChunk: true,
-					},
-					defaultVendors: {
-						test: /[\\/]node_modules[\\/]/,
-						priority: -20,
-						reuseExistingChunk: true,
-					},
-					default: {
-						minChunks: 2,
-						priority: -20,
-						reuseExistingChunk: true,
-					},
-				},
-			},
-
-			minimize: MINIFY,
-			minimizer: [
-				new TerserPlugin({
-					extractComments: true,
-					parallel: true,
-				}),
-			],
+		externals: {
+			three: 'three',
 		},
+		// optimization: {
+		// 	chunkIds: 'named',
+		// 	// { automaticNameDelimiter?, automaticNameMaxLength?, cacheGroups?, chunks?, enforceSizeThreshold?, fallbackCacheGroup?, filename?, hidePathInfo?, maxAsyncRequests?, maxInitialRequests?, maxSize?, minChunks?, minSize?, name? }
+		// 	splitChunks: {
+		// 		chunks: 'async', // if chunks is 'all', it seems that the first chunks, like vendors, need to be included manually, which isn't great.
+		// 		minSize: 20000,
+		// 		// minRemainingSize: 0,
+		// 		maxSize: 0,
+		// 		minChunks: 1,
+		// 		maxAsyncRequests: 30000,
+		// 		maxInitialRequests: 30000,
+		// 		automaticNameDelimiter: '~',
+		// 		enforceSizeThreshold: 50000,
+		// 		cacheGroups: {
+		// 			mapbox: {
+		// 				test: /[\\/].*mapbox.*[\\/]/,
+		// 				priority: -10,
+		// 				reuseExistingChunk: true,
+		// 			},
+		// 			defaultVendors: {
+		// 				test: /[\\/]node_modules[\\/]/,
+		// 				priority: -20,
+		// 				reuseExistingChunk: true,
+		// 			},
+		// 			default: {
+		// 				minChunks: 2,
+		// 				priority: -20,
+		// 				reuseExistingChunk: true,
+		// 			},
+		// 		},
+		// 	},
+
+		// 	minimize: MINIFY,
+		// 	minimizer: [
+		// 		new TerserPlugin({
+		// 			extractComments: true,
+		// 			parallel: true,
+		// 		}),
+		// 	],
+		// },
 	});
 
-	// console.log('write debug');
-	// const debug_config_path = path.resolve(__dirname, './debug_prod_config.json');
-	// fs.writeFileSync(debug_config_path, JSON.stringify(config, null, 4));
+	console.log('write debug');
+	const debug_config_path = path.resolve(__dirname, './debug_prod_config.json');
+	fs.writeFileSync(debug_config_path, JSON.stringify(config, null, 4));
 
 	return config;
 };

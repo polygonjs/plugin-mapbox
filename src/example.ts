@@ -1,7 +1,7 @@
 import {Poly} from '@polygonjs/polygonjs/dist/src/engine/Poly';
 import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
-import {ExtendedGeoObjNode} from './engine/nodes/obj/ExtendedGeo';
-import {ExtendedRootManagerNode} from './engine/nodes/manager/ExtendedRoot';
+import type {ExtendedGeoObjNode} from './engine/nodes/obj/ExtendedGeo';
+import type {ExtendedRootManagerNode} from './engine/nodes/manager/ExtendedRoot';
 
 // register all nodes
 // import {AllRegister} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/All';

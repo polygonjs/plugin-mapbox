@@ -1,5 +1,5 @@
 import {GeoObjNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/Geo';
-import {ExtendedGeoNodeChildrenMap} from '../../../ExtendedGeoNodeChildrenMap';
+import type {ExtendedGeoNodeChildrenMap} from '../../../ExtendedGeoNodeChildrenMap';
 import {GeoNodeChildrenMap} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/nodes/Sop';
 import {Constructor, valueof} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 import {NodeCreateOptions} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/hierarchy/ChildrenController';

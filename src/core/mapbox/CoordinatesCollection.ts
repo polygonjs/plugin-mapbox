@@ -1,4 +1,4 @@
-import {Vector2} from 'three';
+import type {Vector2} from 'three';
 import {ArrayUtils} from '@polygonjs/polygonjs/dist/src/core/ArrayUtils';
 
 export class CoordinatesCollection {

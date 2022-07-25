@@ -1,22 +1,20 @@
+import type {BaseViewerOptions} from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/_BaseCamera';
 import {
 	TypedCameraObjNode,
 	CameraMainCameraParamConfig,
-	BaseViewerOptions,
 } from '@polygonjs/polygonjs/dist/src/engine/nodes/obj/_BaseCamera';
 import mapboxgl from 'mapbox-gl';
 import {CoreMapboxClient} from '../../../core/mapbox/Client';
 import {ParamConfig, NodeParamsConfig} from '@polygonjs/polygonjs/dist/src/engine/nodes/utils/params/ParamsConfig';
-import {BaseNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/_Base';
-import {BaseParamType} from '@polygonjs/polygonjs/dist/src/engine/params/_Base';
-import {Number2} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
+import type {BaseNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/_Base';
+import type {BaseParamType} from '@polygonjs/polygonjs/dist/src/engine/params/_Base';
+import type {Number2} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 import {isBooleanTrue} from '@polygonjs/polygonjs/dist/src/core/Type';
 import {Poly} from '@polygonjs/polygonjs';
 import {MapboxPerspectiveCamera} from '../../../core/mapbox/MapboxPerspectiveCamera';
-import {
-	MapboxCameraObjNodeType,
-	MAPBOX_CAMERA_OBJ_NODE_TYPE,
-	registerMapboxCamera,
-} from '../../../core/mapbox/registerMapboxCamera';
+import type {MapboxCameraObjNodeType} from '../../../core/mapbox/registerMapboxCamera';
+import {MAPBOX_CAMERA_OBJ_NODE_TYPE, registerMapboxCamera} from '../../../core/mapbox/registerMapboxCamera';
+
 import {MapboxViewer} from '../../viewers/Mapbox';
 import {NodeContext} from '@polygonjs/polygonjs/dist/src/engine/poly/NodeContext';
 import {RopType} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/nodes/types/Rop';
@@ -183,7 +181,6 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<MapboxPerspectiveCam
 	// }
 
 	createMap(container: HTMLElement) {
-		this._updateCameraAttributes();
 		const map = new mapboxgl.Map({
 			style: this.pv.style,
 			container,
@@ -199,6 +196,7 @@ export class MapboxCameraObjNode extends TypedCameraObjNode<MapboxPerspectiveCam
 			antialias: true,
 		});
 
+		this._updateCameraAttributes();
 		this._addRemoveControls(map, container.id);
 
 		this._maps_by_container_id.set(container.id, map);

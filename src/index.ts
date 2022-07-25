@@ -1,4 +1,4 @@
-import {PolyEngine} from '@polygonjs/polygonjs/dist/src/engine/Poly';
+import type {PolyEngine} from '@polygonjs/polygonjs/dist/src/engine/Poly';
 
 import {MapboxTileCopNode} from './engine/nodes/cop/MapboxTile';
 import {MapboxCameraObjNode} from './engine/nodes/obj/MapboxCamera';

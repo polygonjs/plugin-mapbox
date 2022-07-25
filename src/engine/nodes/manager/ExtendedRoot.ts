@@ -1,4 +1,4 @@
-import {ExtendedObjNodeChildrenMap} from '../../../ExtendedGeoNodeChildrenMap';
+import type {ExtendedObjNodeChildrenMap} from '../../../ExtendedGeoNodeChildrenMap';
 import {RootManagerNode} from '@polygonjs/polygonjs/dist/src/engine/nodes/manager/Root';
 import {ObjNodeChildrenMap} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/nodes/Obj';
 import {Constructor, valueof} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
