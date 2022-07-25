@@ -172,10 +172,10 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
-"@polygonjs/polygonjs@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.2.1.tgz#d3295c0cc2e6ca50d138fa6fedc7477eaca26dd4"
-  integrity sha512-vH6WgJCIDLr3SBp7r7H5MVFmb8owZ6U64Vdl4YKInrGh31esuzpzwFPvMlXU4e9iJy5+ef/4ITWzj1O+JrnCnQ==
+"@polygonjs/polygonjs@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.2.2.tgz#8ef14ec610e985d4e51b41678958907904e474d3"
+  integrity sha512-6UxtGl/XzqGSFxtK1rZ8MSbhk1ZRXedVBviRprCxT0IdOSkpggfu7ZwsgpGRjnaTF7TBks7MulPFkQS4iXF1pQ==
   dependencies:
     "@jscad/modeling" "2.9.3"
     "@types/three" "0.139.0"
