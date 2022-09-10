@@ -34,6 +34,9 @@ module.exports = (env = {}) => {
 		},
 		resolve: {
 			extensions: ['.ts', '.js'],
+			fallback: {
+				fs: false, // to attempt bundling opentype
+			},
 		},
 		module: {
 			rules: [ts(env, TYPESCRIPT_TRANSPILE_ONLY)],

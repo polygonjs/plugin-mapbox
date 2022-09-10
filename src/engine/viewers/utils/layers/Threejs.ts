@@ -1,15 +1,9 @@
 import {CoreMapboxTransform} from '../../../../core/mapbox/Transform';
 import {MapboxCameraObjNode} from '../../../nodes/obj/MapboxCamera';
 import {MapboxViewer} from '../../Mapbox';
-import {WebGLRenderer, Vector2} from 'three';
-import {Vector3} from 'three';
-import {Scene} from 'three';
-import {Matrix4} from 'three';
-import {Camera} from 'three';
+import {Mesh, Camera, Matrix4, Scene, Vector3, WebGLRenderer, Vector2, PlaneGeometry} from 'three';
 import mapboxgl from 'mapbox-gl';
 import {PolyScene} from '@polygonjs/polygonjs/dist/src/engine/scene/PolyScene';
-import {Mesh} from 'three';
-import {PlaneBufferGeometry} from 'three';
 import {TIME_CONTROLLER_UPDATE_TIME_OPTIONS_DEFAULT} from '@polygonjs/polygonjs/dist/src/engine/scene/utils/TimeController';
 import {
 	CoreCameraCSSRendererController,
@@ -202,7 +196,7 @@ export class ThreejsLayer {
 	// In short.... WFT?!?!
 	// But for now, with this hack, it seems to work fine.
 	private _hack() {
-		const hackObject = new Mesh(new PlaneBufferGeometry());
+		const hackObject = new Mesh(new PlaneGeometry());
 		hackObject.frustumCulled = false;
 		hackObject.position.z = -1000;
 		hackObject.scale.set(0.01, 0.01, 0.01);

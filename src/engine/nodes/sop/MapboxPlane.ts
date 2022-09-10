@@ -4,12 +4,7 @@
  * @remarks
  * Note that you will need a mapbox key to use this node.
  */
-import {Vector3} from 'three';
-import {Vector2} from 'three';
-import {PlaneBufferGeometry} from 'three';
-import {Matrix4} from 'three';
-import {Box2} from 'three';
-import {BufferGeometry} from 'three';
+import {BufferGeometry, Box2, Matrix4, Vector2, Vector3, PlaneGeometry} from 'three';
 import mapboxgl from 'mapbox-gl';
 import {CoreObject} from '@polygonjs/polygonjs/dist/src/core/geometry/Object';
 import {ObjectType} from '@polygonjs/polygonjs/dist/src/core/geometry/Constant';
@@ -243,12 +238,7 @@ export class MapboxPlaneSopNode extends MapboxListenerSopNode<MapboxPlaneSopPara
 		if (this._asHexagons()) {
 			geometry = this._hexagonsController.geometry(plane_dimensions, segments_counts);
 		} else {
-			geometry = new PlaneBufferGeometry(
-				plane_dimensions.x,
-				plane_dimensions.y,
-				segments_counts.x,
-				segments_counts.y
-			);
+			geometry = new PlaneGeometry(plane_dimensions.x, plane_dimensions.y, segments_counts.x, segments_counts.y);
 		}
 
 		// rotate and translate to expected center
