@@ -9,6 +9,11 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@dimforge/rapier3d@0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@dimforge/rapier3d/-/rapier3d-0.9.0.tgz#6a702e5e65066a13d87f8bccd9fa359a8cbc39eb"
+  integrity sha512-43O4/k5naF/oIwExpcjCMzVUCL39Gz7iutp/uAgRE4ifa7cIckdxSeJaNFv7iYY+57Q7nKDqlzZglPjE0hWM0w==
+
 "@discoveryjs/json-ext@^0.5.0":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
@@ -172,11 +177,12 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
-"@polygonjs/polygonjs@^1.2.16":
-  version "1.2.16"
-  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.2.16.tgz#f24c1f1cefcbff0dee861e41f2965501514311a7"
-  integrity sha512-/KOkRuV6sIFHCnzk0uOEF6hnqag+afwb1BII9zL3RUwlqoAJlNaIYHFF7LrrSDP6+7slr+WW+7if6Rcs9K2Y6g==
+"@polygonjs/polygonjs@^1.2.19":
+  version "1.2.19"
+  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.2.19.tgz#5a66f5aa67c69c7b806d881c1e972baeacddd997"
+  integrity sha512-Qjr8tPdHucl5H1346ryCb+DmoqA8oSAoplkL8dMFnRS2h75uQX77qmD+MeGXKnO1yP8JN+0WGJJYR03TSJDdPw==
   dependencies:
+    "@dimforge/rapier3d" "0.9.0"
     "@jscad/modeling" "2.9.3"
     "@types/three" "0.144.0"
     chromotome "1.20.0"

@@ -10,7 +10,7 @@ import type {BaseNodeType} from '@polygonjs/polygonjs/dist/src/engine/nodes/_Bas
 import type {BaseParamType} from '@polygonjs/polygonjs/dist/src/engine/params/_Base';
 import type {Number2} from '@polygonjs/polygonjs/dist/src/types/GlobalTypes';
 import {isBooleanTrue} from '@polygonjs/polygonjs/dist/src/core/Type';
-import {Poly} from '@polygonjs/polygonjs';
+import {Poly} from '@polygonjs/polygonjs/dist/src/engine/Poly';
 import {MapboxPerspectiveCamera} from '../../../core/mapbox/MapboxPerspectiveCamera';
 import type {MapboxCameraObjNodeType} from '../../../core/mapbox/registerMapboxCamera';
 import {MAPBOX_CAMERA_OBJ_NODE_TYPE, registerMapboxCamera} from '../../../core/mapbox/registerMapboxCamera';
