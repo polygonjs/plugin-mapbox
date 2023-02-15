@@ -1,3 +1,4 @@
+import {CorePath} from '@polygonjs/polygonjs/dist/src/core/geometry/CorePath';
 import {PolyEngine} from '@polygonjs/polygonjs/dist/src/engine/Poly';
 import {OnNodeRegisterCallback} from '@polygonjs/polygonjs/dist/src/engine/poly/registers/nodes/NodesRegister';
 import type {MapboxCameraObjNode} from '../../engine/nodes/obj/MapboxCamera';
@@ -14,7 +15,7 @@ export const registerMapboxCamera: OnNodeRegisterCallback = (poly: PolyEngine) =
 		const {camera, scene} = options;
 		// since the camera is only created via the obj node for now,
 		// we can assume that the path of the camera object and the camera node are the same
-		const cameraPath = scene.objectsController.objectPath(camera);
+		const cameraPath = CorePath.objectPath(camera);
 		const cameraNode = scene.node(cameraPath) as MapboxCameraObjNode;
 
 		const viewer = new MapboxViewer({

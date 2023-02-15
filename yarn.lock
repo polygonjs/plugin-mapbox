@@ -9,10 +9,10 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@dimforge/rapier3d@0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@dimforge/rapier3d/-/rapier3d-0.9.0.tgz#6a702e5e65066a13d87f8bccd9fa359a8cbc39eb"
-  integrity sha512-43O4/k5naF/oIwExpcjCMzVUCL39Gz7iutp/uAgRE4ifa7cIckdxSeJaNFv7iYY+57Q7nKDqlzZglPjE0hWM0w==
+"@dimforge/rapier3d@0.11.1":
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@dimforge/rapier3d/-/rapier3d-0.11.1.tgz#75f94156012dbc76f90c322a72e797d427c91bd0"
+  integrity sha512-rJT944tfEPZ2h+yEe2mqsl6yIsEtriEfpKt6pmuGwC9aodMO+p0sHbUMPC32Kw8aIpDo/Ok+nJopwkeJsUZSZA==
 
 "@discoveryjs/json-ext@^0.5.0":
   version "0.5.7"
@@ -143,6 +143,16 @@
   resolved "https://registry.yarnpkg.com/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz#497c67a1cef50d1a2459ba60f315e448d2ad87fe"
   integrity sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==
 
+"@mediapipe/face_mesh@0.4.1633559619":
+  version "0.4.1633559619"
+  resolved "https://registry.yarnpkg.com/@mediapipe/face_mesh/-/face_mesh-0.4.1633559619.tgz#f917e4448e25bc375a905d1d910f1bca450c5e23"
+  integrity sha512-Vc8cdjxS5+O2gnjWH9KncYpUCVXT0h714KlWAsyqJvJbIgUJBqpppbIx8yWcAzBDxm/5cYSuBI5p5ySIPxzcEg==
+
+"@mediapipe/hands@0.4.1646424915":
+  version "0.4.1646424915"
+  resolved "https://registry.yarnpkg.com/@mediapipe/hands/-/hands-0.4.1646424915.tgz#faaa1798dea931044b09dabd1fa845cadb009554"
+  integrity sha512-R1VM3DRCKTA49nVvkprInYUXx8cKisi86y6/9clvYA0vApmLqTjIHQFibJDHwSdy4Rykn2CjWywQAWw5+mGw8w==
+
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.4.tgz#d4b3549a5db5de2683e0c1071ab4f140904bbf69"
@@ -177,26 +187,29 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
-"@polygonjs/polygonjs@^1.2.19":
-  version "1.2.19"
-  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.2.19.tgz#5a66f5aa67c69c7b806d881c1e972baeacddd997"
-  integrity sha512-Qjr8tPdHucl5H1346ryCb+DmoqA8oSAoplkL8dMFnRS2h75uQX77qmD+MeGXKnO1yP8JN+0WGJJYR03TSJDdPw==
+"@polygonjs/polygonjs@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@polygonjs/polygonjs/-/polygonjs-1.3.4.tgz#45d427c64a2122763b47fbc7795ad28a22a97b8e"
+  integrity sha512-q/3lJHd/2GYtohuyU1E28z3z772CWGQMXI3jeHT+CiMGqN0MAavnxKrOrMYDboQOCdmcvLC1BZgQfc5FMalh/g==
   dependencies:
-    "@dimforge/rapier3d" "0.9.0"
+    "@dimforge/rapier3d" "0.11.1"
     "@jscad/modeling" "2.9.3"
+    "@mediapipe/face_mesh" "0.4.1633559619"
+    "@mediapipe/hands" "0.4.1646424915"
     "@types/three" "0.144.0"
     chromotome "1.20.0"
-    fflate "0.7.3"
     gifuct-js "2.1.2"
     gsap "3.11.1"
     jsep "1.0.3"
     lodash-es "4.17.21"
     opentype.js "1.3.4"
-    postprocessing "6.28.5"
+    postprocessing "6.29.0"
     potpack "1.0.2"
     three "0.144.0"
-    three-mesh-bvh "0.5.15"
-    three-subdivide "^1.1.0"
+    three-good-godrays "0.4.0"
+    three-gpu-pathtracer "0.0.8"
+    three-mesh-bvh "0.5.19"
+    three-subdivide "1.1.0"
     tone "14.7.77"
     xatlas-web "0.1.0"
 
@@ -1758,11 +1771,6 @@ faye-websocket@^0.11.3:
   dependencies:
     websocket-driver ">=0.5.1"
 
-fflate@0.7.3:
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/fflate/-/fflate-0.7.3.tgz#288b034ff0e9c380eaa2feff48c787b8371b7fa5"
-  integrity sha512-0Zz1jOzJWERhyhsimS54VTqOteCNwRtIlh8isdL0AXLo0g7xNTfTL7oWrkmCnPhZGocKIkWHBistBrrpoNH3aw==
-
 file-entry-cache@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/file-entry-cache/-/file-entry-cache-6.0.1.tgz#211b2dd9659cb0394b073e7323ac3c933d522027"
@@ -3034,10 +3042,10 @@ portfinder@^1.0.28:
     debug "^3.1.1"
     mkdirp "^0.5.5"
 
-postprocessing@6.28.5:
-  version "6.28.5"
-  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.28.5.tgz#82363194d366f606cf0f25e32028fd46debca919"
-  integrity sha512-e9aH6T720AiQpStdgqrQSsHzpddFQ7Q8v204sZx4iSTnUuYvkq7mFPOyzhVDlx5NrmXXbwz2PEK2XTq+qEYSMg==
+postprocessing@6.29.0:
+  version "6.29.0"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.29.0.tgz#a489f0215e0402c01484bc37abef8d1aabf17921"
+  integrity sha512-bicnFesmIZu53U0f777US8zwE9QyJGKClUhjmvq8+TKMU1BDdUHPJWpXKe0SChEcTSkqvS3xBdqddMVuosgsVA==
 
 potpack@1.0.2:
   version "1.0.2"
@@ -3705,12 +3713,29 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three-mesh-bvh@0.5.15:
-  version "0.5.15"
-  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.15.tgz#bcf681d784d8988618344a5e11e7ded7e76ee86a"
-  integrity sha512-jxE5iGjcoEMiyxUs7hMeZL6jBXBz9973ilqhXPhKlA1f7eitjIxRTtu7UWVQy+PhxXTsknmPzWmN5c+uAa/anA==
+three-good-godrays@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/three-good-godrays/-/three-good-godrays-0.4.0.tgz#bbddcf7533f9e00b7cac3dc19c46f1ec19e80941"
+  integrity sha512-Hg13zxFXhkmnuPUifgYpg70XBb8v/54P90Hcx8MS1du7FM6UPgaARIsHem9TEOX8jX9gyBrbsdWQNkvJ1dTW9w==
 
-three-subdivide@^1.1.0:
+three-gpu-pathtracer@0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/three-gpu-pathtracer/-/three-gpu-pathtracer-0.0.8.tgz#a44418a83d56d7f582fce507f9d802befb95ce9c"
+  integrity sha512-PdjsPqqy9/axjocQ2KzaSO8QgNDzLA6lD+jIMDMLlwk07MzyUnFlH0t6CFHiAk+xeP756M0e3tOQldfBgaVaHg==
+  dependencies:
+    three-mesh-bvh "^0.5.19"
+
+three-mesh-bvh@0.5.19:
+  version "0.5.19"
+  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.19.tgz#72d489856561d01ef7d4add81f0c82d3fb644d09"
+  integrity sha512-Q8huT0NautyR4afW0oMlOz8a4qm3b1jQ1ccMLF/TZ0rA4i58HljsnBjCLEDLQtIINZyLtZPdw60mrD81V/TZDA==
+
+three-mesh-bvh@^0.5.19:
+  version "0.5.23"
+  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.23.tgz#08e5b629144b48b11acbd433519680e457d398ed"
+  integrity sha512-nyk+MskdyDgECqkxdv57UjazqqhrMi+Al9PxJN6yFtx1CTW4r0eCQ27FtyYKY5gCIWhxjtNfWYDPVy8lzx6LkA==
+
+three-subdivide@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/three-subdivide/-/three-subdivide-1.1.0.tgz#8a5ebdde825a1cb2d8ef0f3cd8be1686a9d2d6c6"
   integrity sha512-0BqTWLzqRHnM4ctKgscxo8oPB4R10mjH1Uycy+/8FIbizhpjEfku3I2wCq/Itt3Qv2IglHUzjc1qHioKAlYeoA==

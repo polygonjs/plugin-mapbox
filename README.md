@@ -1,3 +1,7 @@
+# DEPRECATED
+
+This repository is not used anymore, as the mapbox nodes have been fully integrated into the [core engine](https://polygonjs.com). See [live examples scenes](https://polygonjs.com/docs/examples-category/Maps)
+
 # Polygonjs Mapbox Plugin
 
 This adds several nodes to work with Mapbox with the [Polygonjs webgl engine](https://polygonjs.com).
